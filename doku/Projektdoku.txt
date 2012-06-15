@@ -1,0 +1,4 @@
+Heroku URL: http://radiant-dawn-1264.herokuapp.com/
+
+Github URL: https://github.com/SebastianBaltesObjectCode/AppTemplatePublic.git
+
