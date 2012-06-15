@@ -1,0 +1,17 @@
+.settings/
+.classpath
+.project
+bin/
+target/
+data/
+/db/
+dist/
+logs/
+test-result/
+tmp/
+modules/
+.svn/
+*~
+*.bak
+*.swp
+*.log
