@@ -10,7 +10,7 @@ public class Global extends GlobalSettings {
 	@Override
 	public void onStart(final Application app) {
 		Logger.debug("onStart()");
-		setupLogging(app);
+//		setupLogging(app);
 		
 	}
 

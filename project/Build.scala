@@ -16,11 +16,14 @@ object ApplicationBuild extends Build {
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      // Add your own project settings here      
-        lessEntryPoints <<= baseDirectory(_ / "app" / "assets" / "admin" / "bootstrap" / "less" ** "bootstrap.less"),
-        lessEntryPoints <<= baseDirectory(_ / "app" / "assets" / "site" / "bootstrap" / "less" ** "bootstrap.less")
-// FIXME!!        
-//        lessEntryPoints <<= baseDirectory(_ / "app" / "assets" / "admin" / "bootstrap" / "less" ** "responsive.less")
+ 
+        lessEntryPoints <<= (sourceDirectory in Compile)(base => (
+	          (base / "app" / "assets" / "admin" / "bootstrap" / "less" ** "bootstrap.less") +++
+	          (base / "app" / "assets" / "admin" / "bootstrap" / "less" ** "responsive.less") +++
+	          (base / "app" / "assets" / "site" / "bootstrap" / "less" ** "bootstrap.less") +++
+	          (base / "app" / "assets" / "site" / "bootstrap" / "less" ** "responsive.less")
+        ))
+        
     )
 
 }
