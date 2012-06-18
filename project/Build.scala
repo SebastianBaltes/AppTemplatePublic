@@ -15,15 +15,19 @@ object ApplicationBuild extends Build {
         "org.apache.commons" % "commons-email" % "1.1"
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
- 
-        lessEntryPoints <<= (sourceDirectory in Compile)(base => (
-	          (base / "app" / "assets" / "admin" / "bootstrap" / "less" ** "bootstrap.less") +++
-	          (base / "app" / "assets" / "admin" / "bootstrap" / "less" ** "responsive.less") +++
-	          (base / "app" / "assets" / "site" / "bootstrap" / "less" ** "bootstrap.less") +++
-	          (base / "app" / "assets" / "site" / "bootstrap" / "less" ** "responsive.less")
-        ))
-        
-    )
+    // Only compile the bootstrap bootstrap.less file and any other *.less file in the stylesheets directory 
+	def customLessEntryPoints(base: File): PathFinder = ( 
+	    (base / "app" / "assets" / "admin" / "bootstrap" / "less" * "bootstrap.less") +++
+	    (base / "app" / "assets" / "admin" / "bootstrap" / "less" * "responsive.less") +++ 
+	    (base / "app" / "assets" / "admin" / "stylesheets" * "*.less") +++
+	    (base / "app" / "assets" / "site" / "bootstrap" / "less" * "bootstrap.less") +++
+	    (base / "app" / "assets" / "site" / "bootstrap" / "less" * "responsive.less") +++ 
+	    (base / "app" / "assets" / "site" / "stylesheets" * "*.less")
+	)
+	
+	val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+	  // Add your own project settings here
+	    lessEntryPoints <<= baseDirectory(customLessEntryPoints)
+	)    
 
 }
