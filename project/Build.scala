@@ -12,8 +12,7 @@ object ApplicationBuild extends Build {
         "commons-lang" % "commons-lang" % "2.6",
         "commons-collections" % "commons-collections" % "3.2.1",
         "commons-io" % "commons-io" % "2.3", 
-        "org.apache.commons" % "commons-email" % "1.1",
-        "com.typesafe" %% "play-plugins-mailer" % "2.0.2"
+        "org.apache.commons" % "commons-email" % "1.1"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
