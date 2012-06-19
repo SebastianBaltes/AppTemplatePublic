@@ -2,8 +2,23 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           					controllers.Application.index()
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+# Site
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+GET     /	                         									controllers.site.Application.index()
+
+# FIMXE not working ... :-(
+GET		/assets/site/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
+
+# Map static resources from the /public folder to the /assets URL path
+GET		/assets/site/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
+GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+# Admin
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+GET     /admin                         									controllers.admin.Application.index()
 
 # FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
@@ -11,6 +26,13 @@ GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/publi
 # Map static resources from the /public folder to the /assets URL path
 GET		/assets/admin/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
 GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+# Common
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+
 GET		/assets/javascripts/*file										controllers.Assets.at(path="/public/javascripts", file)
 GET     /assets/images/*file           									controllers.Assets.at(path="/public/images", file)
 GET     /assets/stylesheets/*file				      					controllers.Assets.at(path="/public/stylesheets", file)

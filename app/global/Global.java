@@ -1,3 +1,4 @@
+package global;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,8 @@ import play.Logger;
 import play.Play;
 
 public class Global extends GlobalSettings {
+
+    public final static String APP_NAME = "AppTemplate"; 
 
 	@Override
 	public void onStart(final Application app) {
