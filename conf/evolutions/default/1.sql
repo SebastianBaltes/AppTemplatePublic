@@ -32,8 +32,18 @@ create unique index ix_user_account_email on user_account (email);
 create sequence user_account_seq;
 alter sequence user_account_seq owned by user_account.id;
 
+create table ding (
+	id bigint not null,
+	name varchar(255) not null,
+	description varchar(255) not null,
+	special	boolean not null,
+	price bigint not null,
+	last_update timestamp not null,
+	constraint pk_ding primary key (id)
+);
 
-
+create sequence ding_seq;
+alter sequence ding_seq owned by ding.id;
 
 
 
