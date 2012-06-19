@@ -22,7 +22,11 @@ public class Authenticated {
 	}
 	
 	public static User getAuthenticatedUser() {
-		final Session session = Http.Context.current().session();
+		return getAuthenticatedUser(Http.Context.current().session());
+	}
+	
+	// from some code we cannot get the context by "Http.Context.current()", hence we provide it manually, to be exact: the session 
+	public static User getAuthenticatedUser(final Session session) {
 		final String uuid = session.get(SESSION_KEY_UUID);
 		if (uuid == null) return null;
 
@@ -38,6 +42,7 @@ public class Authenticated {
 		}
 		return auth_user;
 	}
+	
 
 	public static boolean isCorrectPasswordForLogin(final User user, final String password) {
 		final String cipher = Configuration.root().getString("my.passwords.hash.cipher");
