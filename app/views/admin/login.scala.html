@@ -1,4 +1,6 @@
+@import controllers.admin.routes
 @() @main() {
+
 
 <style type="text/css">
 /* Override some defaults */
@@ -48,13 +50,13 @@ h1 small {
 			<div class="row">
 				<div class="span16">
 					<div id="signin">
-						<form action="/signin" method="post">
+						<form action="@routes.LoginController.authenticate()" method="post">
 							<input type="hidden" name="next" value="/">
 							<fieldset>
 								<div class="clearfix">
 									<label for="iusername"><span>Username:</span></label>
 									<div class="input">
-										<input tabindex="1" id="iusername" name="username"
+										<input tabindex="1" id="iusername" name="userName"
 											label="Username" value="" type="text">
 									</div>
 								</div>
