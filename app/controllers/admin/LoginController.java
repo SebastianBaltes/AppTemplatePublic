@@ -27,7 +27,7 @@ public class LoginController extends Controller {
 		
 		if (bindForm.hasErrors()) {
 			flash(ERROR, "Fehler beim Ausfüllen des Formulars!");
-			return redirect(routes.LoginController.index());
+			return badRequest(views.html.admin.login.render(bindForm));
 		}
 		
 		final LoginForm myForm = bindForm.get();
@@ -38,20 +38,20 @@ public class LoginController extends Controller {
 		if (loginUser == null) {
 			Logger.info("LoginController:: user not found for loginName=" + myForm.getUserName());
 			flash(WARN, "Benutzer oder Passwort falsch!");
-			return redirect(routes.LoginController.index());
+			return badRequest(views.html.admin.login.render(bindForm));
 		}
 		
 		// password matches ? 
 		if ( ! Authenticated.isCorrectPasswordForLogin(loginUser, myForm.getPassword())) {
 			Logger.info("LoginController:: invalid password for user=" + loginUser);
 			flash(WARN, "Benutzer oder Passwort falsch!");
-			return redirect(routes.LoginController.index());
+			return badRequest(views.html.admin.login.render(bindForm));
 		}
 
 		if (! loginUser.getRole().isAdminRole()) {
 			Logger.info("LoginController:: login denied for non-admin user=" + loginUser);
 			flash(WARN, "Benutzer oder Passwort falsch!");
-			return redirect(routes.LoginController.index());
+			return badRequest(views.html.admin.login.render(bindForm));
 		}
 		
 		Authenticated.loginUser(loginUser);
