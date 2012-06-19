@@ -4,6 +4,7 @@ import static controllers.forms.FlashScope.ERROR;
 import static controllers.forms.FlashScope.WARN;
 import models.User;
 import authenticate.Authenticated;
+import controllers.admin.routes;
 import controllers.forms.LoginForm;
 import play.Logger;
 import play.api.templates.Html;
@@ -56,5 +57,6 @@ public class DefaultLoginController extends Controller {
 
 		return redirect(newPath);
 	}
+	
 
 }
