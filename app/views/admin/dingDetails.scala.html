@@ -1,9 +1,10 @@
-@(form: Form[Ding])(implicit viewType: controllers.ViewType)
+@(f: Form[Ding])(implicit viewType: controllers.ViewType)
 
 @import views.html.helper._
 @import scala.collection.JavaConversions._
+@import controllers.admin.routes
 
-@main() {
+@loggedin_main() {
     
   <article class="entity">
 		<div class="folder" data-folder-id="0">
@@ -18,33 +19,33 @@
 	    case ViewType.update => routes.DingController.update
 	}) {
    		<fieldset>
-	  	  @hiddenField(form("id"))
-	  	  @hiddenField(form("lastUpdate"))
+	  	  @hiddenField(f("id"))
+	  	  @hiddenField(f("lastUpdate"))
 		  <ul class="list">
 				<li>
 			      @inputText(
-			          form("name"), 
+			          f("name"), 
 			          '_label -> "Name",
 			          disabledOrNot()
 			      )
 				</li>
 				<li>
 			      @inputText(
-			          form("description"), 
+			          f("description"), 
 			          '_label -> "Beschreibung",
 		              disabledOrNot()
 			      )
 				</li>
 				<li>
 			      @checkbox(
-			          form("special"), 
+			          f("special"), 
 			          '_label -> "Spezial",
 		              disabledOrNot()
 			      )
 				</li>
 				<li>
 			      @inputText(
-			          form("price"), 
+			          f("price"), 
 			          '_label -> "Preis",
 		              disabledOrNot()
 			      )
@@ -54,8 +55,8 @@
 	    <div class="actions">
 			@viewType match {
 				case ViewType.view => {
-					<a class="button" href="@routes.DingController.delete(asLong(form("id")))" onclick="return confirmDelete()">Löschen</a> 
-					<a class="button" href="@routes.DingController.edit(asLong(form("id")))">Editieren</a> 
+					<a class="button" href="@routes.DingController.delete(asLong(f("id")))" onclick="return confirmDelete()">Löschen</a> 
+					<a class="button" href="@routes.DingController.edit(asLong(f("id")))">Editieren</a> 
 				}
 			    case ViewType.create => { 
 			    	<input type="submit" class="button" value="Erstellen"> 
@@ -64,7 +65,7 @@
 			    	<input type="submit" class="button" value="Speichern"> 
 			    }
 			}
-	      	<a href="@routes.DingController.users" class="button">Zurück</a>
+	      	<a href="@routes.DingController.listAll" class="button">Zurück</a>
 	    </div>
 	  }
 	  </div>

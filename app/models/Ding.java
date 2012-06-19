@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import com.avaje.ebean.Page;
+
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -30,6 +32,18 @@ public class Ding extends Model implements HasLabel {
     @Version
     public Timestamp lastUpdate;
 
+    public void saveOrUpdate() {
+        if (id == null) {
+            save();
+        } else {
+            update();
+        }
+    }
+    
+    public static Page<Ding> page(final int page, final int pageSize, final String sortBy, final String order, final String filter) {
+        return finder.where().ilike("name", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }    
+    
     public static List<Ding> findAll() {
         return finder.all();
     }

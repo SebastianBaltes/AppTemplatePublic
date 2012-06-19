@@ -1,5 +1,7 @@
 @(currentPage: Page[Ding], rowsToShow: Integer, currentSortBy: String, currentOrder: String, currentFilter: String)
 
+@import controllers.admin.routes
+
 @****************************************
 * Helper generating navigation links    *
 ****************************************@
@@ -32,7 +34,7 @@
     </th>
 }
 
-@main() {
+@loggedin_main() {
     
   <article class="users">
 		<div class="folder">
@@ -40,18 +42,18 @@
 				<table width="100%">
 					<tr>
 						<td width="40%">
-			    		<h3>@currentPage.getTotalRowCount Benutzer</h3>
+			    		<h3>@currentPage.getTotalRowCount Dings</h3>
 						</td>
 						<td width="40%">
 						  <div id="actions">
 					      <form action="@link(0, "name")" method="GET">
-					          <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter Benutzername">
+					          <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter Name">
 					          <input type="submit" id="searchsubmit" value="Filter" class="">
 					      </form>
 						  </div>
 						</td>
 						<td width="20%">
-							<a class="button" href="@routes.admin.DingController.create()">Neues Ding</a>
+							<a class="button" href="@routes.DingController.create()">Neues Ding</a>
 						</td>
 					</tr>
 				</table>
@@ -64,10 +66,10 @@
 	          @header("special", "Spezial")
 	          @header("price", "Preis")
 	    	</tr>
-		    @for(user <- currentPage.getList) {
+		    @for(ding <- currentPage.getList) {
 			<tr data-task-id="@ding.id">
 				<td>
-					<a class="name" href="@routes.DingController.view(ding.getId)">@ding.name</a>
+					<a class="name" href="@routes.DingController.view(ding.id)">@ding.name</a>
 				</td>
 				<td>
 			        @ding.description

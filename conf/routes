@@ -29,18 +29,14 @@ GET     /admin/dummy													controllers.admin.Application.dummy()
 GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 
-<<<<<<< HEAD
-GET     /listAll														controllers.admin.DingController.listAll()
-GET     /ding/list    													controllers.admin.DingController.list(a:Int ?= 0, b:Int ?= 20, c ?= "name", d ?= "asc", e ?= "")
-GET     /ding/create													controllers.admin.DingController.create()
-GET     /ding/:id	          											controllers.admin.DingController.view(id: Long)  
-GET     /ding/:id/edit     												controllers.admin.DingController.edit(id: Long)  
-POST    /ding/update   													controllers.admin.DingController.update()  
-POST    /ding/save    													controllers.admin.DingController.save()  
-GET     /ding/:id/delete      	 		    							controllers.admin.DingController.delete(id: Long)
-
-=======
->>>>>>> 145ad67a50143ed101a5ec4b9e4756d10dfce6c6
+GET     /admin/ding/listAll													controllers.admin.DingController.listAll()
+GET     /admin/ding/list    													controllers.admin.DingController.list(a:Int ?= 0, b:Int ?= 20, c ?= "name", d ?= "asc", e ?= "")
+GET     /admin/ding/create													controllers.admin.DingController.create()
+GET     /admin/ding/:id	          											controllers.admin.DingController.view(id: Long)  
+GET     /admin/ding/:id/edit     												controllers.admin.DingController.edit(id: Long)  
+POST    /admin/ding/update   													controllers.admin.DingController.update()  
+POST    /admin/ding/save    													controllers.admin.DingController.save()  
+GET     /admin/ding/:id/delete      	 		    							controllers.admin.DingController.delete(id: Long)
 
 # FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)

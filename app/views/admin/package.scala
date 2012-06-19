@@ -1,4 +1,4 @@
-package views;
+package views.html;
 
 import play.api.Logger
 import play.api.templates._
@@ -13,7 +13,7 @@ import models.User
 /**
  * Contains template helpers, for example for generating HTML forms.
  */
-package object helper {
+package object admin {
 
   def disabledOrNot()(implicit viewType: ViewType) = {
     if (viewType == ViewType.view) 'disabled -> "disabled" else '_dummy -> null
