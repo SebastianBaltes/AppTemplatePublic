@@ -17,6 +17,11 @@ public class Role extends Model {
 	private Long id;
 	private String name;
 
+	
+	public boolean isAdminRole() {
+		return id != null && id.equals(1L); 
+	}
+	
 	public static List<Role> findAll() {
 		return finder.all();
 	}

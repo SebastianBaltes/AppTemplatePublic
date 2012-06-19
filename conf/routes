@@ -14,16 +14,22 @@ GET		/assets/site/bootstrap/img/*file								controllers.Assets.at(path="/public
 GET		/assets/site/bootstrap/js/*file									controllers.Assets.at(path="/public/site/bootstrap/js", file)
 GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/site/bootstrap/less", file)
 
+GET 	/login															controllers.site.LoginController.index()
+POST 	/login															controllers.site.LoginController.authenticate()
 
+# only for testing login stuff => 
+GET 	/dummy															controllers.site.Application.dummy()
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Admin
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
 GET     /admin/	                   										controllers.admin.Application.index()
+GET     /admin/dummy													controllers.admin.Application.dummy()
 GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 
+<<<<<<< HEAD
 GET     /listAll														controllers.admin.DingController.listAll()
 GET     /ding/list    													controllers.admin.DingController.list(a:Int ?= 0, b:Int ?= 20, c ?= "name", d ?= "asc", e ?= "")
 GET     /ding/create													controllers.admin.DingController.create()
@@ -33,6 +39,8 @@ POST    /ding/update   													controllers.admin.DingController.update()
 POST    /ding/save    													controllers.admin.DingController.save()  
 GET     /ding/:id/delete      	 		    							controllers.admin.DingController.delete(id: Long)
 
+=======
+>>>>>>> 145ad67a50143ed101a5ec4b9e4756d10dfce6c6
 
 # FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
