@@ -36,5 +36,10 @@ public class LoginController extends DefaultLoginController {
 		};
 		return authenticate(c);
 	}
+	
+	public static Result signOut() {
+		session().clear();
+		return redirect(routes.Application.index());
+	}
 
 }

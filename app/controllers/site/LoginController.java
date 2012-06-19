@@ -2,6 +2,7 @@ package controllers.site;
 
 import models.User;
 import controllers.DefaultLoginController;
+import controllers.site.routes;
 import controllers.forms.LoginForm;
 import play.api.templates.Html;
 import play.data.Form;
@@ -28,5 +29,10 @@ public class LoginController extends DefaultLoginController {
 			}
 		};
 		return authenticate(c);
+	}
+	
+	public static Result signOut() {
+		session().clear();
+		return redirect(routes.Application.index());
 	}
 }
