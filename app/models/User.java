@@ -35,11 +35,15 @@ public class User extends Model {
 		return finder.all();
 	}
 
-	public User findById(Long id) {
+	public static User findById(final Long id) {
 		return finder.byId(id);
 	}
 
-	public void deleteById(Long id) {
+	public static User findByEmail(final String email) {
+		return finder.where().eq("email", email).findUnique();
+	}
+
+	public static void deleteById(final Long id) {
 		finder.ref(id).delete();
 	}
 
