@@ -9,18 +9,20 @@ import models.User;
 public class Authenticated {
 
 	public static final String CACHE_USER = "_User";
-	public static final String KEY_UUID = "uuid";
+	public static final String SESSION_KEY_UUID = "uuid";
 
 	public static User getAuthenticatedUser() {
 		final Session session = Http.Context.current().session();
-		final String uuid = session.get(KEY_UUID);
+		final String uuid = session.get(SESSION_KEY_UUID);
 		if (uuid == null) return null;
 
 		final String uuidKey = uuid + CACHE_USER;
 		User auth_user = (User) Cache.get(uuidKey);
 
 		if (auth_user == null) {
-			auth_user = User.findByEmail(session.get("email"));
+			auth_user = User.findById(Long.valueOf(uuid));
+			if (auth_user == null) return null;
+			
 			Cache.set(uuidKey, auth_user);
 			Logger.debug("reloaded User entity from persistence due to inexistance in cache for user=" + auth_user);
 		}
