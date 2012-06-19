@@ -6,7 +6,6 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public class LoginForm {
 
 	@Required
-	@MinLength(1)
 	private String userName;
 	@Required
 	@MinLength(4)

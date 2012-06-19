@@ -1,6 +1,10 @@
-@import controllers.admin.routes
-@() @main() {
+@(loginForm : Form[controllers.forms.LoginForm])
 
+@import controllers.admin.routes
+@import views.html.helper._
+@import scala.collection.JavaConversions._
+
+@main() {
 
 <style type="text/css">
 /* Override some defaults */
@@ -61,8 +65,7 @@ fieldset {
 								<div class="clearfix">
 									<label for="iusername"><span>Username:</span></label>
 									<div class="input">
-										<input tabindex="1" id="iusername" name="userName"
-											label="Username" value="" type="text">
+										<input tabindex="1" id="iusername" name="userName" label="Username" value="" type="text">
 									</div>
 								</div>
 								<div class="clearfix">

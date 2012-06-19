@@ -17,7 +17,7 @@ public class LoginController extends Controller {
 	private static Form<LoginForm> loginForm = form(LoginForm.class); 
 	
 	public static Result index() {
-		return  ok(views.html.admin.login.render());
+		return  ok(views.html.admin.login.render(loginForm));
 	}
 	
 	public static Result authenticate() {
@@ -41,7 +41,6 @@ public class LoginController extends Controller {
 			return redirect(routes.LoginController.index());
 		}
 		
-		// FIXME: implement me !! 
 		// password matches ? 
 		if ( ! Authenticated.isCorrectPasswordForLogin(loginUser, myForm.getPassword())) {
 			Logger.info("LoginController:: invalid password for user=" + loginUser);
@@ -49,6 +48,12 @@ public class LoginController extends Controller {
 			return redirect(routes.LoginController.index());
 		}
 
+		if (! loginUser.getRole().isAdminRole()) {
+			Logger.info("LoginController:: login denied for non-admin user=" + loginUser);
+			flash(WARN, "Benutzer oder Passwort falsch!");
+			return redirect(routes.LoginController.index());
+		}
+		
 		Authenticated.loginUser(loginUser);
 		
 		final String newPath = Authenticated.getOrgRequestPathOnUnauthorized() != null ?
@@ -56,6 +61,8 @@ public class LoginController extends Controller {
 				
 		return redirect(newPath);
 	}
+	
+
 	
 	
 }

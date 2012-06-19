@@ -2,8 +2,8 @@ package controllers.forms;
 
 
 public class FlashScope {
-	public static final String SUCCESS = "SUCCESS";
-	public static final String WARN = "WARNING"; 
-	public static final String ERROR = "ERROR"; 
+	public static final String SUCCESS = "success";
+	public static final String WARN = "warning"; 
+	public static final String ERROR = "error"; 
 	
 }
