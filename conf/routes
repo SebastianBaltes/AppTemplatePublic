@@ -15,11 +15,13 @@ GET		/assets/site/bootstrap/js/*file									controllers.Assets.at(path="/public
 GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/site/bootstrap/less", file)
 
 
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Admin
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
-GET     /admin/	                   										controllers.admin.LoginController.index()
+GET     /admin/	                   										controllers.admin.Application.index()
+GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 
 # FIMXE not working ... :-(

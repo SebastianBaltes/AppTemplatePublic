@@ -39,7 +39,15 @@
 
   <body>
 
-        @content
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success fade in">@flash.get("success")</div>
+	} @if(flash.containsKey("warning")) {
+		<div class="alert alert-warning fade in">@flash.get("warning")</div>
+	} @if(flash.containsKey("error")) {
+		<div class="alert alert-error fade in">@flash.get("error")</div>
+	} 
+
+    @content
 
 
     <!-- Le javascript
