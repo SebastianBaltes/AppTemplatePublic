@@ -6,11 +6,13 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import play.db.ebean.Model;
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name="user_account")
 public class User extends Model {
 
 	private static final Finder<Long, User> finder = new Finder<Long, User>(Long.class, User.class);

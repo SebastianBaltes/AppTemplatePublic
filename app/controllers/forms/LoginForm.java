@@ -9,7 +9,7 @@ public class LoginForm {
 	@MinLength(1)
 	private String userName;
 	@Required
-	@MinLength(6)
+	@MinLength(4)
 	private String password;
 
 	public String getUserName() {

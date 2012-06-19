@@ -1,7 +1,7 @@
 package controllers.admin;
 
 import static controllers.forms.FlashScope.ERROR;
-import static controllers.forms.FlashScope.WARNING;;
+import static controllers.forms.FlashScope.WARN;
 import authenticate.Authenticated;
 import models.User;
 
@@ -37,19 +37,20 @@ public class LoginController extends Controller {
 		final User loginUser = User.findByEmail(myForm.getUserName());
 		if (loginUser == null) {
 			Logger.info("LoginController:: user not found for loginName=" + myForm.getUserName());
-			flash(WARNING, "Benutzer oder Passwort falsch!");
+			flash(WARN, "Benutzer oder Passwort falsch!");
 			return redirect(routes.LoginController.index());
 		}
 		
 		// FIXME: implement me !! 
 		// password matches ? 
-		if ( ! myForm.getPassword().equals("123456")) {
-			Logger.info("LoginController:: invalid password=" + myForm.getPassword()+ " for user=" + loginUser);
-			flash(WARNING, "Benutzer oder Passwort falsch!");
+		if ( ! Authenticated.isCorrectPasswordForLogin(loginUser, myForm.getPassword())) {
+			Logger.info("LoginController:: invalid password for user=" + loginUser);
+			flash(WARN, "Benutzer oder Passwort falsch!");
 			return redirect(routes.LoginController.index());
 		}
+
+		Authenticated.loginUser(loginUser);
 		
-		// find original request path. 
 		final String newPath = Authenticated.getOrgRequestPathOnUnauthorized() != null ?
 				Authenticated.getOrgRequestPathOnUnauthorized() : "/admin";
 				
