@@ -1,4 +1,4 @@
-package controllers.helper;
+package controllers;
 
 import java.util.Collection;
 import java.util.HashSet;

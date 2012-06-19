@@ -24,6 +24,16 @@ GET     /admin/	                   										controllers.admin.Application.index
 GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 
+GET     /listAll														controllers.admin.DingController.listAll()
+GET     /ding/list    													controllers.admin.DingController.list(a:Int ?= 0, b:Int ?= 20, c ?= "name", d ?= "asc", e ?= "")
+GET     /ding/create													controllers.admin.DingController.create()
+GET     /ding/:id	          											controllers.admin.DingController.view(id: Long)  
+GET     /ding/:id/edit     												controllers.admin.DingController.edit(id: Long)  
+POST    /ding/update   													controllers.admin.DingController.update()  
+POST    /ding/save    													controllers.admin.DingController.save()  
+GET     /ding/:id/delete      	 		    							controllers.admin.DingController.delete(id: Long)
+
+
 # FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
 

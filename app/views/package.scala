@@ -4,11 +4,11 @@ import play.api.Logger
 import play.api.templates._
 import play.api.data._
 import scala.collection.JavaConverters._
+import controllers.ViewType
 import java.lang.Boolean
 import views.html.helper._
 import scala.xml._
 import models.User
-import controllers.helper.ViewType
 
 /**
  * Contains template helpers, for example for generating HTML forms.

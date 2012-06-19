@@ -1,10 +1,12 @@
 package models;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints;
@@ -12,59 +14,21 @@ import play.db.ebean.Model;
 
 @SuppressWarnings("serial")
 @Entity
-public class Ding extends Model {
+public class Ding extends Model implements HasLabel {
 
     private static final Finder<Long, Ding> finder = new Finder<Long, Ding>(Long.class, Ding.class);
 
     @Id
-    private Long id;
+    public Long id;
     @Constraints.Required
     @NonEmpty
-    private String name;
-    private String description;
-    private boolean special;
+    public String name;
+    public String description;
+    public boolean special;
     @Constraints.Required
-    private BigDecimal price;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isSpecial() {
-        return special;
-    }
-
-    public void setSpecial(boolean special) {
-        this.special = special;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+    public BigDecimal price;
+    @Version
+    public Timestamp lastUpdate;
 
     public static List<Ding> findAll() {
         return finder.all();
@@ -85,7 +49,7 @@ public class Ding extends Model {
     @Override
     public String toString() {
         return "Ding [id=" + id + ", name=" + name + ", description=" + description + ", special=" + special
-                + ", price=" + price + "]";
+                + ", price=" + price + ", lastUpdate=" + lastUpdate + "]";
     }
 
     @Override
@@ -111,6 +75,11 @@ public class Ding extends Model {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String getLabel() {
+        return name;
     }
 
 }

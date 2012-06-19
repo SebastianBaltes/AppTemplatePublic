@@ -1,0 +1,73 @@
+@(form: Form[Ding])(implicit viewType: controllers.ViewType)
+
+@import views.html.helper._
+@import scala.collection.JavaConversions._
+
+@main() {
+    
+  <article class="entity">
+		<div class="folder" data-folder-id="0">
+	    <header>
+	    	<h3>
+	    		Ding @headline()
+	    	</h3>
+	    </header>
+	@helper.form(action = viewType match {
+		case ViewType.view => routes.DingController.update
+	    case ViewType.create => routes.DingController.save
+	    case ViewType.update => routes.DingController.update
+	}) {
+   		<fieldset>
+	  	  @hiddenField(form("id"))
+	  	  @hiddenField(form("lastUpdate"))
+		  <ul class="list">
+				<li>
+			      @inputText(
+			          form("name"), 
+			          '_label -> "Name",
+			          disabledOrNot()
+			      )
+				</li>
+				<li>
+			      @inputText(
+			          form("description"), 
+			          '_label -> "Beschreibung",
+		              disabledOrNot()
+			      )
+				</li>
+				<li>
+			      @checkbox(
+			          form("special"), 
+			          '_label -> "Spezial",
+		              disabledOrNot()
+			      )
+				</li>
+				<li>
+			      @inputText(
+			          form("price"), 
+			          '_label -> "Preis",
+		              disabledOrNot()
+			      )
+				</li>
+		  </ul>
+    	</fieldset>
+	    <div class="actions">
+			@viewType match {
+				case ViewType.view => {
+					<a class="button" href="@routes.DingController.delete(asLong(form("id")))" onclick="return confirmDelete()">Löschen</a> 
+					<a class="button" href="@routes.DingController.edit(asLong(form("id")))">Editieren</a> 
+				}
+			    case ViewType.create => { 
+			    	<input type="submit" class="button" value="Erstellen"> 
+			    }
+			    case ViewType.update => { 
+			    	<input type="submit" class="button" value="Speichern"> 
+			    }
+			}
+	      	<a href="@routes.DingController.users" class="button">Zurück</a>
+	    </div>
+	  }
+	  </div>
+  </article>
+
+}
