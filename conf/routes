@@ -19,6 +19,7 @@ GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/publi
 # Admin
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
+GET     /admin/login                   									controllers.admin.Application.login()
 
 # FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)

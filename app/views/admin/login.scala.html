@@ -1,0 +1,90 @@
+@()
+
+@main() {
+
+<style type="text/css">
+      /* Override some defaults */
+      html, body {
+        background-color: #eee;
+      }
+      body {
+        padding-top: 40px; 
+      }
+      .container {
+        width: 30em;
+      }
+
+      /* The white background content wrapper */
+      .container > .content {
+        background-color: #fff;
+        padding: 20px;
+        margin: 0 -20px; 
+        -webkit-border-radius: 10px 10px 10px 10px;
+           -moz-border-radius: 10px 10px 10px 10px;
+                border-radius: 10px 10px 10px 10px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+                box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      }
+
+    .login-form {
+      margin-left: 65px;
+    }
+  
+    legend {
+      margin-right: -50px;
+      font-weight: bold;
+      color: #404040;
+    }
+    
+    h1 small {
+      color: #BFBFBF
+    } 
+</style>
+
+    
+<!-- SEE https://wrapbootstrap.com/signin -->    
+    
+	<div id="page_signin">
+                        <div class="page-header-top">
+                                <div class="container">
+                                        <h1>@global.Global.APP_NAME<small> Admin Login</small></h1>
+                                </div>
+                        </div>
+                        <div class="container">
+                                <div class="content">
+                                        <div class="row">
+                                                <div class="span16">
+                                                        <div id="signin">
+                                                                <form action="/signin" method="post">
+                                                                        <input type="hidden" name="next" value="/">
+                                                                        <fieldset>
+                                                                                            <div class="clearfix">
+                                                                                        <label for="iusername"><span>Username:</span></label>
+                                                                                        <div class="input">
+                                                                                                <input tabindex="1" id="iusername" name="username" label="Username" value="" type="text">
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class="clearfix">
+                                                                                        <label for="ipassword"><span>Password:</span></label>
+                                                                                        <div class="input">
+                                                                                                <input tabindex="2" id="ipassword" name="password" label="Password" value="" type="password">
+                                                                                        </div>
+                                                                                </div>
+<br/>
+                                                                                <div class="actions">
+                                                                                        <input tabindex="3" class="btn primary large" type="submit" value="Sign into your account">
+<br/>                                                                                        
+                                                                                        <p class="reset">Recover your <a tabindex="4" href="/signin/reset" title="Recover your username or password">username or password</a></p>
+                                                                                </div>
+                                                                        </fieldset>
+                                                                </form>
+                                                                
+                                                        </div>
+                                                    <script>$("#iusername").focus();</script>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>    
+}
