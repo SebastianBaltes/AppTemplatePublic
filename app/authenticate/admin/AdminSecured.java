@@ -10,8 +10,8 @@ public class AdminSecured extends AbstractSecured {
 	
 	@Override
 	public Result onUnauthorized(final Context _ctx) {
-		//FIXME: redirect to admin login
-		return redirect("/pleaselogin");
+		super.onUnauthorized(_ctx);
+		return redirect(routes.LoginController.index());
 	}
 	
 }
