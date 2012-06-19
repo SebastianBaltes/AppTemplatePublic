@@ -14,7 +14,11 @@ GET		/assets/site/bootstrap/img/*file								controllers.Assets.at(path="/public
 GET		/assets/site/bootstrap/js/*file									controllers.Assets.at(path="/public/site/bootstrap/js", file)
 GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/site/bootstrap/less", file)
 
+GET 	/login															controllers.site.LoginController.index()
+POST 	/login															controllers.site.LoginController.authenticate()
 
+# only for testing login stuff => 
+GET 	/dummy															controllers.site.Application.dummy()
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Admin
