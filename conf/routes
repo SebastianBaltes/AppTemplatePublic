@@ -3,7 +3,14 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           					controllers.Application.index()
+
+# FIMXE not working :-(
+GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET		/assets/admin/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
+GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
+GET		/assets/javascripts/*file										controllers.Assets.at(path="/public/javascripts", file)
+GET     /assets/images/*file           									controllers.Assets.at(path="/public/images", file)
+GET     /assets/stylesheets/*file				      					controllers.Assets.at(path="/public/stylesheets", file)

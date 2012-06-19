@@ -8,6 +8,8 @@ data/
 dist/
 logs/
 test-result/
+project/project
+project/target
 tmp/
 modules/
 .svn/
