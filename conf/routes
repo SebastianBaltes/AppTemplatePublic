@@ -5,7 +5,7 @@
 # Home page
 GET     /                           					controllers.Application.index()
 
-# FIMXE not working :-(
+# FIMXE not working ... :-(
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
 
 # Map static resources from the /public folder to the /assets URL path
