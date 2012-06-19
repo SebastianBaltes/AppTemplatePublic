@@ -19,7 +19,7 @@ GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/publi
 # Admin
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
-GET     /admin/login                   									controllers.admin.LoginController.index()
+GET     /admin/	                   										controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 
 # FIMXE not working ... :-(
