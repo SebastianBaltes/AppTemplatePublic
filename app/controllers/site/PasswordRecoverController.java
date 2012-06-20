@@ -1,11 +1,14 @@
 package controllers.site;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 import global.AppConfigResolver;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.mail.SimpleEmail;
 
 import models.User;
@@ -29,7 +32,6 @@ public class PasswordRecoverController extends Controller {
 		return ok(views.html.site.pwrecover.render(emailForm.fill(new EMailForm(email))));
 	}
 
-	//FIXME: watch TX awareness !! 
 	public static Result recover() {
 		final Form<EMailForm> requestForm = emailForm.bindFromRequest();
 		if (requestForm.hasErrors()) {
@@ -38,13 +40,11 @@ public class PasswordRecoverController extends Controller {
 		}
 
 		final EMailForm myForm = requestForm.get();
-		final User user = User.findByEmail(myForm.getEmail());
-		
-		// ok message in all cases!
-		flash().put(FlashScope.SUCCESS, "Bitte überprüfen Sie Ihr Emailpostfach !");
+		final User user = User.findByEmail(myForm.getEmail());		
 		
 		if (user == null) {
 			Logger.info("PasswordRecoverController: recovery attempt for unknown email address=" + myForm);
+			flash().put(FlashScope.SUCCESS, "Bitte überprüfen Sie Ihr Emailpostfach !");
 			return redirect(routes.PasswordRecoverController.index(myForm.getEmail()));
 		}
 
@@ -60,22 +60,27 @@ public class PasswordRecoverController extends Controller {
 		final Html mailTemplate = views.html.email.recoverPassword_text.render(user);
 		
 		//FIXME: where to configure stuff ? 
-		//FIXME: TX handling
 		try {
 			final SimpleEmail mail = new SimpleEmail();
 			mail.setHostName(AppConfigResolver.get(AppConfigResolver.SMTP_HOST).toString());
 			mail.setSmtpPort(AppConfigResolver.get(AppConfigResolver.SMTP_PORT).asInt());
-
-			mail.setFrom("linux@localhost");
-			mail.setTo(Collections.singletonList(user.getEmail()));
+			
+			mail.setFrom("someuser@test.test");
+			mail.addTo(user.getEmail());
 			mail.setSubject("Password wiederhestellen");
 			mail.setMsg(mailTemplate.toString());
+			mail.setCharset("UTF-8");
+			
+			Logger.info("About to send mail=" + ReflectionToStringBuilder.toString(mail));
 			mail.send();
+			
 		} catch (final org.apache.commons.mail.EmailException e) {
 			Logger.error("PasswordRecoverController:: could not send password recovery mail due to =" +e, e);
-			//FIXME: make TX FAIL 
+			flash().put(FlashScope.ERROR, "Es ist ein Fehler beim Mailversand aufgetreten, bitte versuchen Sie es später erneut !");
+			return redirect(routes.PasswordRecoverController.index(user.getEmail()));
 		}
-
+		
+		flash().put(FlashScope.SUCCESS, "Eine Bestätigungsmail wurde an Sie versandt, bitte überprüfen Sie Ihr Postfach !");
 		return redirect(routes.PasswordRecoverController.index(user.getEmail()));
 	}
 	
