@@ -20,7 +20,8 @@ GET		/signout														controllers.site.LoginController.signOut()
 GET 	/recover/:email													controllers.site.PasswordRecoverController.index(email: java.lang.String)
 GET 	/recover														controllers.site.PasswordRecoverController.indexDefault()
 POST 	/recover														controllers.site.PasswordRecoverController.recover()
-GET		/recover/:email/:uuid											controllers.site.PasswordRecoverController.changePassword(email: java.lang.String, uuid: String)
+GET		/recover/:email/:uuid											controllers.site.PasswordRecoverController.showChangePassword(email: java.lang.String, uuid: String)
+POST	/recover/change/:uuid											controllers.site.PasswordRecoverController.performChangePassword(uuid: String)
 
 # only for testing login stuff => 
 GET 	/dummy															controllers.site.Application.dummy()
