@@ -3,6 +3,7 @@
 @import controllers.admin.routes
 @import views.html.helper._
 @import scala.collection.JavaConversions._
+@import helper.noLabels._
 
 @main() {
 
@@ -63,24 +64,24 @@ fieldset {
 							<input type="hidden" name="next" value="/">
 							<fieldset>
 								<div class="clearfix">
-									<label for="iusername"><span>Username:</span></label>
 									<div class="input">
 						 			  @inputText(
 								          loginForm("userName"), 
 								          '_label -> "", 
 								          '_help -> "",
-								          '_showConstraints -> false
+								          '_showConstraints -> false,
+								          'placeholder -> "E-Mail"
 								      )										
 									</div>
 								</div>
 								<div class="clearfix">
-									<label for="ipassword"><span>Password:</span></label>
 									<div class="input">
 						 			  @inputPassword(
 								          loginForm("password"), 
 								          '_label -> "", 
 								          '_help -> "",
-								          '_showConstraints -> false
+								          '_showConstraints -> false,
+								          'placeholder -> "Passwort"
 								      )	
 									</div>
 								</div>
