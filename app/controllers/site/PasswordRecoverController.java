@@ -64,15 +64,10 @@ public class PasswordRecoverController extends Controller {
 
 		// FIXME: where to configure stuff ?
 		try {
-			final SimpleEmail mail = new SimpleEmail();
-			mail.setHostName(AppConfigResolver.get(AppConfigResolver.SMTP_HOST).toString());
-			mail.setSmtpPort(AppConfigResolver.get(AppConfigResolver.SMTP_PORT).asInt());
-
-			mail.setFrom("someuser@test.test");
+			final SimpleEmail mail = createSimpleEmail();
 			mail.addTo(user.getEmail());
 			mail.setSubject("Password wiederhestellen");
 			mail.setMsg(mailTemplate.toString());
-			mail.setCharset("UTF-8");
 
 			Logger.info("About to send mail=" + ReflectionToStringBuilder.toString(mail));
 			mail.send();
@@ -124,7 +119,23 @@ public class PasswordRecoverController extends Controller {
 		user.setRandomPasswordRecoveryString(null);
 		user.save();
 		
-		//FIXME: notify user by mail about pw change !! best practice. 
+		//notify user by mail about pw change !! best practice.
+		final Html mailTemplate = views.html.email.notificationOnPasswordChanged_text.render(user);
+		try {
+			final SimpleEmail mail = createSimpleEmail();
+			mail.addTo(user.getEmail());
+			mail.setSubject("Password wiederhergestellt");
+			mail.setMsg(mailTemplate.toString());
+
+			Logger.info("About to send mail=" + ReflectionToStringBuilder.toString(mail));
+			mail.send();
+
+		} catch (final org.apache.commons.mail.EmailException e) {
+			Logger.error("PasswordRecoverController:: could not send password recovery mail due to =" + e, e);
+			flash().put(FlashScope.ERROR,
+					"Es ist ein Fehler beim Mailversand aufgetreten, bitte versuchen Sie es später erneut !");
+			return redirect(routes.PasswordRecoverController.index(user.getEmail()));
+		}		
 		
 		flash().put(FlashScope.SUCCESS,"Passwort erfolgreich geändert! Sie können sich nun wieder einloggen");
 		return ok(views.html.site.pwchange.render(passwordChangeForm, _randomPasswordRecoveryString));
@@ -148,6 +159,16 @@ public class PasswordRecoverController extends Controller {
 			return null;
 		}
 		return user; 
+	}
+	
+	private static SimpleEmail createSimpleEmail() throws org.apache.commons.mail.EmailException {
+		final SimpleEmail mail = new SimpleEmail();
+		mail.setHostName(AppConfigResolver.get(AppConfigResolver.SMTP_HOST).toString());
+		mail.setSmtpPort(AppConfigResolver.get(AppConfigResolver.SMTP_PORT).asInt());
+		mail.setFrom("someuser@test.test");
+		mail.setCharset("UTF-8");
+		
+		return mail;
 	}
 
 }
