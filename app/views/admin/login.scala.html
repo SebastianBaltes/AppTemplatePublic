@@ -27,8 +27,8 @@
 						<fieldset>
 
 							@inputText(
-								loginForm("userName"), 
-								'_label -> "", 
+								loginForm("email"), 
+								'_label -> "E-Mail", 
 								'_help -> "",
 								'_showConstraints -> false, 
 								'placeholder -> "E-Mail", 
@@ -38,7 +38,7 @@
 							
 							@inputPassword(
 								loginForm("password"), 
-								'_label -> "", 
+								'_label -> "Passwort", 
 								'_help -> "",
 								'_showConstraints -> false, 
 								'placeholder -> "Passwort", 
@@ -47,11 +47,10 @@
 							)
 
 							<div class="form-actions">
-								<input class="btn btn-primary btn-large" type="submit" value="Anmelden"> <a class="btn btn-large" href="#">Passwort vergessen?</a>
+								<input class="btn btn-primary btn-large" type="submit" value="Anmelden"> <a class="btn btn-large" href="/signin/reset">Passwort vergessen?</a>
 							</div>
 						</fieldset>
 					</form>
-
 				</div>
 				<script>
 					$(document).ready(function() {

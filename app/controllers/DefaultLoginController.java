@@ -34,9 +34,9 @@ public class DefaultLoginController extends Controller {
 		Logger.info("DefaultLoginController: got valid form binding=" + myForm);
 
 		// find user by email.
-		final User loginUser = User.findByEmail(myForm.getUserName());
+		final User loginUser = User.findByEmail(myForm.getEmail());
 		if (loginUser == null) {
-			Logger.info("DefaultLoginController:: user not found for loginName=" + myForm.getUserName());
+			Logger.info("DefaultLoginController:: user not found for loginName=" + myForm.getEmail());
 			flash(WARN, "Benutzer oder Passwort falsch!");
 			return badRequest(loginLogicCallback.getErrorHtml(bindForm));
 		}

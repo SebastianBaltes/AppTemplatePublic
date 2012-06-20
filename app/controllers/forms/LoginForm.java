@@ -6,17 +6,18 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public class LoginForm {
 
 	@Required
-	private String userName;
+	@Email
+	private String email;
 	@Required
 	@MinLength(4)
 	private String password;
 
-	public String getUserName() {
-		return userName;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserName(String _userName) {
-		userName = _userName;
+	public void setEmail(String _email) {
+		email = _email;
 	}
 
 	public String getPassword() {

@@ -3,6 +3,7 @@ package controllers.site;
 import models.User;
 import controllers.DefaultLoginController;
 import controllers.site.routes;
+import controllers.forms.FlashScope;
 import controllers.forms.LoginForm;
 import play.api.templates.Html;
 import play.data.Form;
@@ -33,6 +34,7 @@ public class LoginController extends DefaultLoginController {
 	
 	public static Result signOut() {
 		session().clear();
+		flash().put(FlashScope.SUCCESS, "Sie wurden ausgeloggt.");
 		return redirect(routes.Application.index());
 	}
 }

@@ -4,6 +4,7 @@ import static controllers.forms.FlashScope.WARN;
 import models.User;
 
 import controllers.DefaultLoginController;
+import controllers.forms.FlashScope;
 import controllers.forms.LoginForm;
 import play.Logger;
 import play.mvc.Result;
@@ -39,6 +40,7 @@ public class LoginController extends DefaultLoginController {
 	
 	public static Result signOut() {
 		session().clear();
+		flash().put(FlashScope.SUCCESS, "Sie wurden ausgeloggt.");
 		return redirect(routes.Application.index());
 	}
 
