@@ -12,9 +12,7 @@
 		<div class="row">
 			<div class="span6 offset3">
 				<div class="form-horizontal">
-					<form class="form-horizontal"
-						action="@routes.LoginController.authenticate()" method="post">
-						<input type="hidden" name="next" value="/">
+					<form class="form-horizontal" action="@routes.LoginController.authenticate()" method="post">
 
 						<div class="page-header">
 							<div class="container">
@@ -32,8 +30,8 @@
 								'_help -> "",
 								'_showConstraints -> false, 
 								'placeholder -> "E-Mail", 
-								'class -> "span2",
-								'icon -> "icon-envelope"
+								'_icon -> "icon-envelope",
+								'class -> "span2"
 							)
 							
 							@inputPassword(
@@ -42,8 +40,8 @@
 								'_help -> "",
 								'_showConstraints -> false, 
 								'placeholder -> "Passwort", 
-								'class -> "span2",
-								'icon -> "icon-lock"
+								'_icon -> "icon-lock",
+								'class -> "span2"
 							)
 
 							<div class="form-actions">
