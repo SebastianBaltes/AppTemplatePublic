@@ -3,6 +3,7 @@ package models;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,7 +13,7 @@ import play.db.ebean.Model;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="user_account")
+@Table(name = "user_account")
 public class User extends Model {
 
 	private static final Finder<Long, User> finder = new Finder<Long, User>(Long.class, User.class);
@@ -32,6 +33,11 @@ public class User extends Model {
 	private String street;
 	private String address;
 	private String country;
+
+	@Column(name="random_pwrecover")
+	private String randomPasswordRecoveryString;
+	@Column(name="pwrecover_triggered")
+	private Timestamp randomPasswordRecoveryTriggerDate;
 
 	public static List<User> findAll() {
 		return finder.all();
@@ -137,6 +143,22 @@ public class User extends Model {
 		country = _country;
 	}
 
+	public String getRandomPasswordRecoveryString() {
+		return randomPasswordRecoveryString;
+	}
+
+	public void setRandomPasswordRecoveryString(String _randomPasswordRecoveryString) {
+		randomPasswordRecoveryString = _randomPasswordRecoveryString;
+	}
+
+	public Timestamp getRandomPasswordRecoveryTriggerDate() {
+		return randomPasswordRecoveryTriggerDate;
+	}
+
+	public void setRandomPasswordRecoveryTriggerDate(Timestamp _randomPasswordRecoveryTriggerDate) {
+		randomPasswordRecoveryTriggerDate = _randomPasswordRecoveryTriggerDate;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -159,9 +181,10 @@ public class User extends Model {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", role=" + role
-				+ ", timezone=" + timezone + ", lastModified=" + lastModified + ", firstname=" + firstname
-				+ ", surname=" + surname + ", street=" + street + ", address=" + address + ", country=" + country + "]";
+		return "User [id=" + id + ", email=" + email + ", role=" + role + ", timezone=" + timezone + ", lastModified="
+				+ lastModified + ", firstname=" + firstname + ", surname=" + surname + ", street=" + street
+				+ ", address=" + address + ", country=" + country + ", randomPasswordRecoveryTriggerDate="
+				+ randomPasswordRecoveryTriggerDate + "]";
 	}
 
 }

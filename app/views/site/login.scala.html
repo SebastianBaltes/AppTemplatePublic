@@ -48,8 +48,6 @@
 
 							<div class="form-actions">
 								<input class="btn btn-primary btn-large" type="submit" value="Anmelden" /> 
-								<a class="btn btn-large" href="@routes.PasswordRecoverController.index(loginForm.field("email").value)">Passwort vergessen?</a>
-								
 								<a class="btn btn-large" href="@{
 											loginForm.field("email").valueOr(null) match {
 												case email if (email != null) => routes.PasswordRecoverController.index(email)
