@@ -1,110 +1,67 @@
-@(loginForm : Form[controllers.forms.LoginForm])
+@(loginForm : Form[controllers.forms.LoginForm]) 
 
-@import controllers.admin.routes
-@import views.html.helper._
-@import scala.collection.JavaConversions._
-@import helper.noLabels._
+@import controllers.admin.routes 
+@import views.html.helper._ 
+@import scala.collection.JavaConversions._ 
+@import helper.bootstrap2._ 
 
 @main() {
 
-<style type="text/css">
-/* Override some defaults */
-html,body {
-	background-color: #eee;
-}
+<div class="container">
+	<section id="login">
+		<div class="row">
+			<div class="span6 offset3">
+				<div class="form-horizontal">
+					<form class="form-horizontal"
+						action="@routes.LoginController.authenticate()" method="post">
+						<input type="hidden" name="next" value="/">
 
-body {
-	padding-top: 40px;
-}
+						<div class="page-header">
+							<div class="container">
+								<h1>
+									@global.Global.APP_NAME<small> Admin Login</small>
+								</h1>
+							</div>
+						</div>
 
-.container {
-	width: 30em;
-}
+						<fieldset>
 
-/* The white background content wrapper */
-.container>.content {
-	background-color: #fff;
-	padding: 20px;
-	margin: 0 -20px;
-	-webkit-border-radius: 10px 10px 10px 10px;
-	-moz-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-}
+							@inputText(
+								loginForm("userName"), 
+								'_label -> "", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "E-Mail", 
+								'class -> "span2",
+								'icon -> "icon-envelope"
+							)
+							
+							@inputPassword(
+								loginForm("password"), 
+								'_label -> "", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "Passwort", 
+								'class -> "span2",
+								'icon -> "icon-lock"
+							)
 
-h1 small {
-	color: #BFBFBF
-}
+							<div class="form-actions">
+								<input class="btn btn-primary btn-large" type="submit" value="Anmelden"> <a class="btn btn-large" href="#">Passwort vergessen?</a>
+							</div>
+						</fieldset>
+					</form>
 
-fieldset {
-	margin-left: 5em;
-}
-
-</style>
-
-
-<!-- SEE https://wrapbootstrap.com/signin -->
-
-<div id="page_signin">
-	<div class="page-header-top">
-		<div class="container">
-			<h1>
-				@global.Global.APP_NAME<small> Admin Login</small>
-			</h1>
-		</div>
-	</div>
-	<div class="container">
-		<div class="content">
-			<div class="row">
-				<div class="span16">
-					<div id="signin">
-						<form action="@routes.LoginController.authenticate()" method="post">
-							<input type="hidden" name="next" value="/">
-							<fieldset>
-								<div class="clearfix">
-									<div class="input">
-						 			  @inputText(
-								          loginForm("userName"), 
-								          '_label -> "", 
-								          '_help -> "",
-								          '_showConstraints -> false,
-								          'placeholder -> "E-Mail"
-								      )										
-									</div>
-								</div>
-								<div class="clearfix">
-									<div class="input">
-						 			  @inputPassword(
-								          loginForm("password"), 
-								          '_label -> "", 
-								          '_help -> "",
-								          '_showConstraints -> false,
-								          'placeholder -> "Passwort"
-								      )	
-									</div>
-								</div>
-								<br />
-								<div class="actions">
-									<input tabindex="3" class="btn primary large" type="submit"
-										value="Sign into your account"> <br />
-									<p class="reset">
-										Recover your <a tabindex="4" href="/signin/reset"
-											title="Recover your username or password">username or
-											password</a>
-									</p>
-								</div>
-							</fieldset>
-						</form>
-
-					</div>
-					<script>
-						$("#iusername").focus();
-					</script>
 				</div>
+				<script>
+					$(document).ready(function() {
+						$("#userName").focus();
+					});
+				</script>
 			</div>
 		</div>
-	</div>
+	</section>
+
 </div>
+
 }

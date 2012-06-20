@@ -1,7 +1,5 @@
 @()(content: Html)
-
 @import controllers.forms.FlashScope
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,24 +36,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-  </head>
 
-  <body>
-  
-	@if(flash.containsKey(FlashScope.SUCCESS)) {
-		<div class="alert alert-success fade in">@flash.get(FlashScope.SUCCESS)</div>
-	} @if(flash.containsKey(FlashScope.WARN)) {
-		<div class="alert alert-warning fade in">@flash.get(FlashScope.WARN)</div>
-	} @if(flash.containsKey(FlashScope.ERROR)) {
-		<div class="alert alert-error fade in">@flash.get(FlashScope.ERROR)</div>
-	} 
-	
-	@content
-
-	<!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
     <script src="/assets/javascripts/jquery-1.7.2.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-transition.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-alert.js"></script>
@@ -69,6 +50,19 @@
     <script src="/assets/admin/bootstrap/js/bootstrap-collapse.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-carousel.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-typeahead.js"></script>
+  </head>
+
+  <body>
+  
+	@if(flash.containsKey(FlashScope.SUCCESS)) {
+		<div class="alert alert-success fade in">@flash.get(FlashScope.SUCCESS)</div>
+	} @if(flash.containsKey(FlashScope.WARN)) {
+		<div class="alert alert-warning fade in">@flash.get(FlashScope.WARN)</div>
+	} @if(flash.containsKey(FlashScope.ERROR)) {
+		<div class="alert alert-error fade in">@flash.get(FlashScope.ERROR)</div>
+	} 
+	
+	@content
 
   </body>
 </html>
