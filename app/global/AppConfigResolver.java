@@ -4,7 +4,8 @@ import play.Configuration;
 
 public class AppConfigResolver {
 
-	public static final String PARA_MY_PROFILE_NAME = "my.profile.name";
+	public static final String PARA_MY_SCOPE = "my";
+	public static final String PARA_MY_PROFILE_NAME = PARA_MY_SCOPE + ".profile.name";
 	
 	public static final String SMTP_HOST = "smtp.host";
 	public static final String SMTP_PORT = "smtp.port"; 
@@ -17,7 +18,7 @@ public class AppConfigResolver {
 
 	public static String get(final String key, final String scope) {
 		final StringBuilder b = new StringBuilder(32);
-		b.append("my.").append(scope).append(".").append(key);
+		b.append(PARA_MY_SCOPE).append(".").append(scope).append(".").append(key);
 		return Configuration.root().getString(b.toString());
 	}
 
