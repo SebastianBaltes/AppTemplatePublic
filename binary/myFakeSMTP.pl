@@ -32,7 +32,7 @@ use strict;
 my $bindAddress = shift || 'localhost';
 my $bindPort    = shift || 2525;
 my $domain      = shift || "linux.local";
-my $logDir      = shift || "/tmp/FAKE_SMTP";
+my $logDir      = shift || "/tmp/FAKE_SMTP/new";
 my $alarm       = shift || 3;
 my $tarPitMult  = shift || 0;   #multiplicator for tarPit-Sleep
 my $reportSleep = shift || 0;
