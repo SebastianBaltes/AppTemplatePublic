@@ -1,4 +1,4 @@
-@(title: String, crudBaseRoute: String, f: Form[_ <: Any])(content: Html)(implicit viewType: controllers.ViewType)
+@(title: String, crudBaseUrl: String, f: Form[_ <: Any])(content: Html)(implicit viewType: controllers.ViewType)
 
 @import scala.collection.JavaConversions._ 
 @import controllers.admin.routes 
@@ -9,11 +9,11 @@
 <div class="row-fluid">
   <div class="span12">
     @crudHeadline(title)
-    <form class="form-horizontal" action="@crudFormTarget(crudBaseRoute)" method="post">
+    <form class="form-horizontal" action="@crudFormTarget(crudBaseUrl)" method="post">
       <fieldset>
         @content
         <div class="form-actions">
-          @crudFormActions(crudBaseRoute,f)
+          @crudFormActions(crudBaseUrl,f)
         </div>
       </fieldset>
     </form>

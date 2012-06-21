@@ -41,13 +41,13 @@ POST    /admin/login													controllers.admin.LoginController.authenticate(
 GET		/admin/signout													controllers.admin.LoginController.signOut()
 
 GET     /admin/ding/listAll												controllers.admin.DingController.listAll()
-GET     /admin/ding/list    											controllers.admin.DingController.list(a:Int ?= 0, b:Int ?= 20, c ?= "name", d ?= "asc", e ?= "")
+GET     /admin/ding/list    											controllers.admin.DingController.list(newPage:Int ?= 0, rowsToShow:Int ?= 20, sortBy ?= "name", order ?= "asc", filter ?= "")
 GET     /admin/ding/create											    controllers.admin.DingController.create()
 POST    /admin/ding/update   											controllers.admin.DingController.update()  
 POST    /admin/ding/save    											controllers.admin.DingController.save()  
 GET     /admin/ding/edit/:id     										controllers.admin.DingController.edit(id: Long)  
 GET     /admin/ding/delete/:id      	 		    					controllers.admin.DingController.delete(id: Long)
-GET     /admin/ding/:id	          										controllers.admin.DingController.view(id: Long)  
+GET     /admin/ding/:id	   												controllers.admin.DingController.view(id: Long)  
 
 # Map static resources from the /public folder to the /assets URL path
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
