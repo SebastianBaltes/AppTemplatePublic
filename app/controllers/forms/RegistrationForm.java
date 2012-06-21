@@ -1,7 +1,5 @@
 package controllers.forms;
 
-import java.sql.Timestamp;
-
 import javax.validation.Valid;
 
 import models.User;
@@ -42,7 +40,6 @@ public class RegistrationForm {
 		u.setStreet(street);
 		u.setAddress(address);
 		u.setCountry(countryListIndex == null ? null : CountryHelper.countryList.get(countryListIndex));
-		u.setLastModified(new Timestamp(System.currentTimeMillis()));
 		return u;
 	}
 	

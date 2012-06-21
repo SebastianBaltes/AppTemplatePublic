@@ -9,36 +9,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.avaje.ebean.Page;
+
 import play.db.ebean.Model;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "user_account")
-public class User extends Model {
+public class User extends Model implements HasLabel {
 
 	private static final Finder<Long, User> finder = new Finder<Long, User>(Long.class, User.class);
 
 	@Id
-	private Long id;
-	private String email;
-	private String passwordHash;
-	private String role;
-	private String timezone = "Europe/Berlin";
+	public Long id;
+	public String email;
+	public String passwordHash;
+	public String role;
+	public String timezone = "Europe/Berlin";
     @Version
-    private Timestamp lastUpdate;
-	private boolean validated;
+    public Timestamp lastUpdate;
+	public boolean validated;
 
 	// optional fields
-	private String firstname;
-	private String surname;
-	private String street;
-	private String address;
-	private String country;
+	public String firstname;
+	public String surname;
+	public String street;
+	public String address;
+	public String country;
 
 	@Column(name="random_pwrecover")
-	private String randomPasswordRecoveryString;
+	public String randomPasswordRecoveryString;
 	@Column(name="pwrecover_triggered")
-	private Timestamp randomPasswordRecoveryTriggerDate;
+	public Timestamp randomPasswordRecoveryTriggerDate;
 
 	public static List<User> findAll() {
 		return finder.all();
@@ -55,6 +57,18 @@ public class User extends Model {
 	public static void deleteById(final Long id) {
 		finder.ref(id).delete();
 	}
+	
+    public void saveOrUpdate() {
+        if (id == null) {
+            save();
+        } else {
+            update();
+        }
+    }
+    
+    public static Page<User> page(final int page, final int pageSize, final String sortBy, final String order, final String filter) {
+        return finder.where().ilike("email", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    }    
 
 	public Long getId() {
 		return id;
@@ -190,10 +204,15 @@ public class User extends Model {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", role=" + role + ", timezone=" + timezone + ", lastModified="
-				+ lastModified + ", firstname=" + firstname + ", surname=" + surname + ", street=" + street
+		return "User [id=" + id + ", email=" + email + ", role=" + role + ", timezone=" + timezone + ", lastUpdate="
+				+ lastUpdate + ", firstname=" + firstname + ", surname=" + surname + ", street=" + street
 				+ ", address=" + address + ", country=" + country + ", randomPasswordRecoveryTriggerDate="
 				+ randomPasswordRecoveryTriggerDate + "]";
 	}
+
+    @Override
+    public String getLabel() {
+        return email;
+    }
 
 }
