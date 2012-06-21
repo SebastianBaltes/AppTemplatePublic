@@ -1,6 +1,9 @@
 @()(content: Html)
 
 @import controllers.site.routes
+@import views.html.helper._ 
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
 
 @main() {
     
@@ -60,6 +63,10 @@
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
+
+        <div class="span9">
+        	@flashmessages()
+        </div>
 
      	@content
 

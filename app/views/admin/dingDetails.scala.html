@@ -1,74 +1,35 @@
-@(f: Form[Ding])(implicit viewType: controllers.ViewType)
+@(f: Form[Ding])(implicit viewType: controllers.ViewType) 
 
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
 @import views.html.helper._
-@import scala.collection.JavaConversions._
-@import controllers.admin.routes
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+ 
+
+@crudBaseRoute = @{ "/admin/ding" }
 
 @loggedin_main() {
-    
-  <article class="entity">
-		<div class="folder" data-folder-id="0">
-	    <header>
-	    	<h3>
-	    		Ding @headline()
-	    	</h3>
-	    </header>
-	@helper.form(action = viewType match {
-		case ViewType.view => routes.DingController.update
-	    case ViewType.create => routes.DingController.save
-	    case ViewType.update => routes.DingController.update
-	}) {
-   		<fieldset>
-	  	  @hiddenField(f("id"))
-	  	  @hiddenField(f("lastUpdate"))
-		  <ul class="list">
-				<li>
-			      @inputText(
-			          f("name"), 
-			          '_label -> "Name",
-			          disabledOrNot()
-			      )
-				</li>
-				<li>
-			      @inputText(
-			          f("description"), 
-			          '_label -> "Beschreibung",
-		              disabledOrNot()
-			      )
-				</li>
-				<li>
-			      @checkbox(
-			          f("special"), 
-			          '_label -> "Spezial",
-		              disabledOrNot()
-			      )
-				</li>
-				<li>
-			      @inputText(
-			          f("price"), 
-			          '_label -> "Preis",
-		              disabledOrNot()
-			      )
-				</li>
-		  </ul>
-    	</fieldset>
-	    <div class="actions">
-			@viewType match {
-				case ViewType.view => {
-					<a class="button" href="@routes.DingController.delete(asLong(f("id")))" onclick="return confirmDelete()">Löschen</a> 
-					<a class="button" href="@routes.DingController.edit(asLong(f("id")))">Editieren</a> 
-				}
-			    case ViewType.create => { 
-			    	<input type="submit" class="button" value="Erstellen"> 
-			    }
-			    case ViewType.update => { 
-			    	<input type="submit" class="button" value="Speichern"> 
-			    }
-			}
-	      	<a href="@routes.DingController.listAll" class="button">Zurück</a>
-	    </div>
-	  }
-	  </div>
-  </article>
+
+<div class="container">
+  <div class="row">
+    <div class="span10">
+      @crudHeadline("Ding")
+      <form class="form-horizontal" action="@crudFormTarget(crudBaseRoute)" method="post">
+        <fieldset>
+          @hiddenField( f("id") ) 
+          @hiddenField( f("lastUpdate") ) 
+          @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
+          @inputText( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
+          @checkbox( f("special"), '_label -> "Spezial", disabledOrNot() )  
+          @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
+          <div class="form-actions">
+            @crudFormActions(crudBaseRoute,f)
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
 
 }

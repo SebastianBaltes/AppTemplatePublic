@@ -1,30 +1,28 @@
 package views.html;
 
-import play.api.Logger
-import play.api.templates._
-import play.api.data._
-import scala.collection.JavaConverters._
-import controllers.ViewType
-import java.lang.Boolean
-import views.html.helper._
-import scala.xml._
-import models.User
-
 /**
  * Contains template helpers, for example for generating HTML forms.
  */
-package object admin {
+package object oc_helper {
+
+    import play.api.Logger
+    import play.api.templates._
+    import play.api.data._
+    import scala.collection.JavaConverters._
+    import controllers.ViewType
+    import java.lang.Boolean
+    import scala.xml._
+    import views.html.helper._
 
   def disabledOrNot()(implicit viewType: ViewType) = {
     if (viewType == ViewType.view) 'disabled -> "disabled" else '_dummy -> null
   }
 
-  def headline()(implicit viewType: ViewType) = {
-    viewType match {
-      case ViewType.view => "Anzeigen"
-      case ViewType.create => "Erstellen"
-      case ViewType.update => "Bearbeiten"
-    }
+  def crudFormTarget(crudBaseRoute: String)(implicit viewType: ViewType) = {
+    crudBaseRoute + (viewType match {
+        case ViewType.create => "/save"
+        case ViewType.update => "/update"
+    })
   }
 
   def asBoolean(field: Field): Boolean = {
