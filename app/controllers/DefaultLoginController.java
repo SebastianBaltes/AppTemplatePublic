@@ -47,6 +47,12 @@ public class DefaultLoginController extends Controller {
 			flash(WARN, "Benutzer oder Passwort falsch!");
 			return badRequest(loginLogicCallback.getErrorHtml(bindForm));
 		}
+		
+		if (! loginUser.isValidated()) {
+			Logger.info("DefaultLoginController:: user not validated for user=" + loginUser);
+			flash(WARN, "Benutzer oder Passwort falsch!");
+			return badRequest(loginLogicCallback.getErrorHtml(bindForm));
+		}		
 
 		final Result logicResult = loginLogicCallback.perform(loginUser, bindForm);
 		if (logicResult != null) return logicResult;

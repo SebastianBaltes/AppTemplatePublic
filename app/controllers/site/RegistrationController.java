@@ -49,7 +49,7 @@ public class RegistrationController extends Controller {
 			flash().put(FlashScope.ERROR, "Die Email-Adresse ist schon vergeben!");
 			return badRequest(views.html.site.registration.render(requestForm));
 //			flash().put(FlashScope.SUCCESS, "Registrierung erflogreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
-//			return ok(views.html.site.registration.render(requestForm));			
+//			return ok(views.html.site.registration.render(requestForm));
 		}
 
 		if (!myForm.getMandatory().isPasswordMatching()) {
@@ -57,7 +57,6 @@ public class RegistrationController extends Controller {
 			return badRequest(views.html.site.registration.render(requestForm));
 		}
 
-		
 		final String activationHash = generateActivationHash(myForm.getMandatory().getEmail());
 		Logger.debug("activationHash=" + activationHash + " for user=" + myForm.getMandatory().getEmail());
 
@@ -120,7 +119,7 @@ public class RegistrationController extends Controller {
 		user.update();
 		
 		flash().put(FlashScope.SUCCESS, "Ihr Account wurde erfolgreich aktiviert, Sie können sich nun einloggen");
-		return redirect(routes.Application.index());
+		return redirect(routes.LoginController.index());
 	}
 	
 	private static String generateActivationHash(final String _email) {
