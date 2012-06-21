@@ -1,0 +1,19 @@
+@(crudBaseRoute: String, f: Form[_ <: Any])(implicit viewType: ViewType)
+
+@import views.html.helper._ 
+
+@crudActionId(action: String) = @{ crudBaseRoute+"/"+action+"/"+asLong(f("id")) }
+
+@viewType match { 
+  case ViewType.view => { 
+    <a class="btn" href="@crudActionId("delete")" onclick="return confirmDelete()">Löschen</a> 
+    <a class="btn" href="@crudActionId("edit")">Editieren</a> 
+  } 
+  case ViewType.create => { 
+    <input type="submit" class="btn" value="Erstellen"/> 
+  } 
+  case ViewType.update => { 
+    <input type="submit" class="btn" value="Speichern"> 
+  } 
+} 
+<a href="@{crudBaseRoute+"/listAll"}" class="button">Zurück</a>

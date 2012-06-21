@@ -1,6 +1,8 @@
 @(currentPage: Page[Ding], rowsToShow: Integer, currentSortBy: String, currentOrder: String, currentFilter: String)
 
 @import controllers.admin.routes
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
 
 @****************************************
 * Helper generating navigation links    *
@@ -36,80 +38,147 @@
 
 @loggedin_main() {
     
-  <article class="users">
-		<div class="folder">
-	    <header>
-				<table width="100%">
-					<tr>
-						<td width="40%">
-			    		<h3>@currentPage.getTotalRowCount Dings</h3>
-						</td>
-						<td width="40%">
-						  <div id="actions">
-					      <form action="@link(0, "name")" method="GET">
-					          <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter Name">
-					          <input type="submit" id="searchsubmit" value="Filter" class="">
-					      </form>
-						  </div>
-						</td>
-						<td width="20%">
-							<a class="button" href="@routes.DingController.create()">Neues Ding</a>
-						</td>
-					</tr>
-				</table>
-	    </header>
-	    
-	    <table class="list-table">
-	    	<tr>
-    	      @header("name", "Name")
-	          @header("description", "Beschreibung")
-	          @header("special", "Spezial")
-	          @header("price", "Preis")
-	    	</tr>
-		    @for(ding <- currentPage.getList) {
-			<tr data-task-id="@ding.id">
-				<td>
-					<a class="name" href="@routes.DingController.view(ding.id)">@ding.name</a>
-				</td>
-				<td>
-			        @ding.description
-				</td>
-				<td>
-			        @ding.special
-				</td>
-				<td>
-			        @ding.price
-				</td>
-			</tr>
-	        }
-	    </table>
-	    
-    </div>
-    <div id="pagination" class="pagination">
-      <ul>
-        @if(currentPage.hasPrev) {
-            <li class="prev">
-                <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
-            </li>
-        } else {
-            <li class="prev disabled">
-                <a>&larr; Previous</a>
-            </li>
-        }
-        <li class="current">
-            <a>@currentPage.getDisplayXtoYofZ(" bis "," von ")</a>
-        </li>
-        @if(currentPage.hasNext) {
-            <li class="next">
-                <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
-            </li>
-        } else {
-            <li class="next disabled">
-                <a>Next &rarr;</a>
-            </li>
-        }
-      </ul>
-    </div>
-  </article>
+<div class="container">
+	<div id="example_wrapper" class="dataTables_wrapper" role="grid">
+		<div class="row">
+			<div class="span10">
+				<div class="page-header">
+				  <h1>Ding</h1>
+				</div>
+			</div>
+			<div class="span10">
+				<div id="example_length" class="dataTables_length">
+					<label>
+						<select size="1" name="example_length" aria-controls="example">
+							<option value="10" selected="selected">10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select> 
+						records per page
+					</label>
+				</div>
+			</div>
+			<div class="span10">
+				<a class="button" href="@routes.DingController.create()" aria-controls="example">Neues Ding</a>
+			</div>
+			<div class="span10">
+				<div class="dataTables_filter" id="example_filter">
+			      <form action="@link(0, "name")" method="GET">
+			          <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter Name" aria-controls="example">
+			          <input type="submit" id="searchsubmit" value="Filter" aria-controls="example">
+			      </form>
+				</div>
+			</div>
+		</div>
+		<table cellpadding="0" cellspacing="0" border="0" class="bordered-table zebra-striped dataTable" id="example" aria-describedby="example_info">
+			<thead>
+				<tr role="row">
+				
+		    	      @header("name", "Name")
+			          @header("description", "Beschreibung")
+			          @header("special", "Spezial")
+			          @header("price", "Preis")
+				
+<!-- 				
+					<th class="header headerSortDown" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1"
+						style="width: 161px;" aria-sort="ascending"
+						aria-label="Rendering engine: activate to sort column descending">Rendering
+						engine</th>
+					<th class="header" role="columnheader" tabindex="0"
+						aria-controls="example" rowspan="1" colspan="1"
+						style="width: 221px;"
+						aria-label="Browser: activate to sort column ascending">Browser</th>
+					<th class="header" role="columnheader" tabindex="0"
+						aria-controls="example" rowspan="1" colspan="1"
+						style="width: 206px;"
+						aria-label="Platform(s): activate to sort column ascending">Platform(s)</th>
+					<th class="header" role="columnheader" tabindex="0"
+						aria-controls="example" rowspan="1" colspan="1"
+						style="width: 141px;"
+						aria-label="Engine version: activate to sort column ascending">Engine
+						version</th>
+					<th class="header" role="columnheader" tabindex="0"
+						aria-controls="example" rowspan="1" colspan="1"
+						style="width: 105px;"
+						aria-label="CSS grade: activate to sort column ascending">CSS
+						grade</th>
+						
+ -->						
+				</tr>
+			</thead>
+
+			<tbody role="alert" aria-live="polite" aria-relevant="all">
+			
+			    @for(ding <- currentPage.getList) {
+				<tr>
+					<td>
+						<a class="name" href="@routes.DingController.view(ding.id)">@ding.name</a>
+					</td>
+					<td>
+				        @ding.description
+					</td>
+					<td>
+				        @ding.special
+					</td>
+					<td>
+				        @ding.price
+					</td>
+				</tr>
+		        }
+			
+<!-- 			
+			
+				<tr class="gradeA odd">
+					<td class="  sorting_1">Gecko</td>
+					<td class=" ">Firefox 1.0</td>
+					<td class=" ">Win 98+ / OSX.2+</td>
+					<td class="center ">1.7</td>
+					<td class="center ">A</td>
+				</tr>
+				<tr class="gradeA even">
+					<td class="  sorting_1">Gecko</td>
+					<td class=" ">Firefox 1.5</td>
+					<td class=" ">Win 98+ / OSX.2+</td>
+					<td class="center ">1.8</td>
+					<td class="center ">A</td>
+				</tr>
+ -->				
+			</tbody>
+		</table>
+		<div class="row">
+			<div class="span10">
+				<div class="dataTables_info" id="example_info">Showing 1 to 10 of @currentPage.getTotalRowCount entries</div>
+			</div>
+			<div class="span10">
+				<div class="dataTables_paginate paging_bootstrap pagination">
+			      <ul>
+			        @if(currentPage.hasPrev) {
+			            <li class="prev">
+			                <a href="@link(currentPage.getPageIndex - 1, null)">← Previous</a>
+			            </li>
+			        } else {
+			            <li class="prev disabled">
+			                <a>← Previous</a>
+			            </li>
+			        }
+			        <li class="current">
+			            <a>@currentPage.getDisplayXtoYofZ(" bis "," von ")</a>
+			        </li>
+			        @if(currentPage.hasNext) {
+			            <li class="next">
+			                <a href="@link(currentPage.getPageIndex + 1, null)">Next →</a>
+			            </li>
+			        } else {
+			            <li class="next disabled">
+			                <a>Next →</a>
+			            </li>
+			        }
+			      </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
   
 }

@@ -1,0 +1,11 @@
+@()
+@import controllers.forms.FlashScope
+@import views.html.helper._ 
+
+@if(flash.containsKey(FlashScope.SUCCESS)) {
+	<div class="alert alert-success fade in">@flash.get(FlashScope.SUCCESS)</div>
+} @if(flash.containsKey(FlashScope.WARN)) {
+	<div class="alert alert-warning fade in">@flash.get(FlashScope.WARN)</div>
+} @if(flash.containsKey(FlashScope.ERROR)) {
+	<div class="alert alert-error fade in">@flash.get(FlashScope.ERROR)</div>
+} 
