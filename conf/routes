@@ -23,6 +23,10 @@ POST 	/recover														controllers.site.PasswordRecoverController.recover()
 GET		/recover/:email/:uuid											controllers.site.PasswordRecoverController.showChangePassword(email: java.lang.String, uuid: String)
 POST	/recover/change/:uuid											controllers.site.PasswordRecoverController.performChangePassword(uuid: String)
 
+GET 	/register														controllers.site.RegistrationController.index()
+POST 	/register														controllers.site.RegistrationController.register()
+GET 	/register/activate/:email/:hash											controllers.site.RegistrationController.activate(email: String, hash: String)
+
 # only for testing login stuff => 
 GET 	/dummy															controllers.site.Application.dummy()
 

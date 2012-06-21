@@ -1,4 +1,4 @@
-@(emailForm : Form[controllers.forms.EMailForm])
+@(regForm : Form[controllers.forms.RegistrationForm])
 
 @import controllers.site.routes
 @import views.html.helper._
@@ -13,34 +13,25 @@
 		<div class="row">
 			<div class="span6 offset3">
 				<div class="form-horizontal">
-					<form class="form-horizontal"
-						action="@routes.PasswordRecoverController.recover()" method="post">
+					<form class="form-horizontal" action="@routes.RegistrationController.register()" method="post">
+
 						<div class="page-header">
 							<div class="container">
 								<h1>
-									@global.Global.APP_NAME<small> Passwort vergessen ?</small>
+									@global.Global.APP_NAME<small> Registrierung</small>
 								</h1>
 							</div>
 						</div>
-
-						@flashmessages()	
+						
+						@flashmessages()					
 
 						<fieldset>
-
-							@inputText(
-								emailForm("email"), 
-								'_label -> "E-Mail", 
-								'_help -> "",
-								'_showConstraints -> false, 
-								'placeholder -> "E-Mail", 
-								'class -> "span2",
-								'_icon -> "icon-envelope"
-							)
-
+							@views.html.site.inner._registrationData.render(regForm);
 							<div class="form-actions">
-								<input class="btn btn-primary btn-large" type="submit" value="Passwort wiederherstellen" />
-							</div>
+								<input class="btn btn-primary btn-large" type="submit" value="Registrieren">
+							</div>						
 						</fieldset>
+
 					</form>
 				</div>
 				<script>
