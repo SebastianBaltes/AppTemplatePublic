@@ -40,8 +40,8 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
+      
         <div class="span2">
-        
           <div class="well sidebar-nav">
 	        <ul class="nav nav-list">
 	          <li class="nav-header">Menü</li>
@@ -49,14 +49,15 @@
 	          <li><a href="@routes.DingController.listAll"><i class="icon-pencil"></i> Ding</a></li>
 	        </ul>
 	      </div>        
-
         </div><!--/span-->
     
         <div class="span10">
         	@flashmessages()
         </div>
      
-     	@content
+        <div class="span10">
+       	  @content
+        </div>
 		
       </div><!--/row-->
 

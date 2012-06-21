@@ -20,6 +20,7 @@ package object oc_helper {
 
   def crudFormTarget(crudBaseRoute: String)(implicit viewType: ViewType) = {
     crudBaseRoute + (viewType match {
+        case ViewType.view => "/view"
         case ViewType.create => "/save"
         case ViewType.update => "/update"
     })
