@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -23,8 +22,7 @@ public class User extends Model {
 	private Long id;
 	private String email;
 	private String passwordHash;
-	@ManyToOne
-	private Role role;
+	private String role;
 	private String timezone = "Europe/Berlin";
     @Version
     private Timestamp lastUpdate;
@@ -83,11 +81,11 @@ public class User extends Model {
 	}
 
 	public Role getRole() {
-		return role;
+		return Role.valueOf(role);
 	}
 
 	public void setRole(Role _role) {
-		role = _role;
+		role = _role.name();
 	}
 
 	public String getTimezone() {

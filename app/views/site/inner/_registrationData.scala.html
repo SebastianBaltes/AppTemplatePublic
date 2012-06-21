@@ -89,7 +89,7 @@
 							
 							@select(
 								regForm("countryListIndex"), 
-								options = for((c,i) <- play.libs.Scala.toSeq(utils.CountryHelper.countryList).zipWithIndex) yield (String.valueOf(i),c),
+								options = for((c,i) <- utils.CountryHelper.countryList.zipWithIndex) yield (String.valueOf(i),c),
 								'_label -> "Land", 
 								'_help -> "",
 								'_showConstraints -> false, 

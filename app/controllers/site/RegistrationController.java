@@ -67,14 +67,9 @@ public class RegistrationController extends Controller {
 
 				@Override
 				public void run() {
-
-					// FIXME: resolve role stuff
-					final Role role = new Role();
-					role.setId(2L);
-
 					final User newUser = myForm.buildUser();
 					newUser.setPasswordHash(Authenticated.createHash(myForm.getMandatory().getPassword1()));
-					newUser.setRole(role);
+					newUser.setRole(Role.user);
 					newUser.save();
 
 					// FIXME: configure where ?
