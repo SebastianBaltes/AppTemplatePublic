@@ -1,25 +1,16 @@
 package controllers.admin;
 
-import java.util.Collection;
-
 import models.Ding;
-
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
-
 import play.Logger;
 import play.data.Form;
 import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Security;
-
-import com.avaje.ebean.Page;
-
+import views.html.admin.dingDetails;
+import views.html.admin.dingList;
 import controllers.ControllerHelper;
+import controllers.CrudListState;
 import controllers.ViewType;
-
-import views.html.admin.*;
 
 //@Security.Authenticated(Secured.class)
 public class DingController extends Controller {
@@ -30,9 +21,8 @@ public class DingController extends Controller {
 		return redirect("/admin/ding/list");
 	}
  
-	public static Result list(final int page, final int rowsToShow, final String sortBy,
-			final String order, final String filter) {
-		return ok(dingList.render(Ding.page(page, rowsToShow, sortBy, order, filter), rowsToShow, sortBy, order, filter));
+	public static Result list(final int page, final int rowsToShow, final String sortBy, final String order, final String filter) {
+		return ok(dingList.render(Ding.page(page, rowsToShow, sortBy, order, filter), new CrudListState("/admin/ding",rowsToShow, sortBy, order, filter)));
 	}
 
 	public static Result create() {

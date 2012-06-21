@@ -3,9 +3,12 @@
 @import views.html.helper._
 
 @boxValue = @{ args.toMap.get('value).getOrElse("true") }
+@withHidden = @{ args.toMap.get('_withHidden).getOrElse("false") }
 
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
     <input type="checkbox" id="@id" name="@name" value="@boxValue" @(if(value == Some(boxValue)) "checked" else "") @toHtmlArgs(htmlArgs)>
-    <input type="hidden" id="@id" name="@name" value="false">
+    @if(withHidden=="true") {
+      <input type="hidden" id="@id" name="@name" value="false">
+    }
 	@****** https://groups.google.com/forum/?fromgroups#!topic/play-framework/HygQuYF3a8E *******@
 }

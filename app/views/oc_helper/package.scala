@@ -1,18 +1,19 @@
 package views.html;
 
+import play.api.Logger
+import play.api.templates._
+import play.api.data._
+import scala.collection.JavaConverters._
+import controllers._
+import java.lang.Boolean
+import scala.xml._
+import views.html.helper._
+
 /**
  * Contains template helpers, for example for generating HTML forms.
  */
 package object oc_helper {
 
-    import play.api.Logger
-    import play.api.templates._
-    import play.api.data._
-    import scala.collection.JavaConverters._
-    import controllers.ViewType
-    import java.lang.Boolean
-    import scala.xml._
-    import views.html.helper._
 
   def disabledOrNot()(implicit viewType: ViewType) = {
     if (viewType == ViewType.view) 'disabled -> "disabled" else '_dummy -> null
@@ -26,6 +27,36 @@ package object oc_helper {
     })
   }
 
+    def link(newPage:Int, newSortBy:String)(implicit clist: CrudListState) : String = {
+        var sortBy = clist.currentSortBy
+        var order = clist.currentOrder
+        if(newSortBy != null) {
+            sortBy = newSortBy
+            if(clist.currentSortBy == newSortBy) {
+                if(clist.currentOrder == "asc") {
+                    order = "desc"
+                } else {
+                    order = "asc"
+                }
+            } else {
+                order = "asc"
+            }
+        }
+        clist.crudBaseUrl+"/list?newPage="+newPage+"&sortBy="+sortBy+"&order="+order+"&filter="+clist.currentFilter+"&rowsToShow="+clist.rowsToShow
+    }
+    
+    def sortByCss(key:String)(implicit clist: CrudListState) : String = { 
+      if (clist.currentSortBy == key) {
+        if (clist.currentOrder == "asc") "sorting_asc" else "sorting_desc"
+      } else {
+        "sorting"
+      }
+    }
+    
+    def header(key:String, title:String)(implicit clist: CrudListState) : Html = {
+      new Html("<th class='"+sortByCss(key)+"'> <a href='"+link(0, key)+"'>"+title+"</a> </th>")
+    }
+      
   def asBoolean(field: Field): Boolean = {
     field.value.getOrElse("false").toBoolean
   }
