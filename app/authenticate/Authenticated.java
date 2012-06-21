@@ -44,14 +44,14 @@ public class Authenticated {
 	}
 	
 
-	public static boolean isCorrectPasswordForLogin(final User user, final String password) {
+	public static String createHash(final String input) {
 		final String cipher = Configuration.root().getString("my.passwords.hash.cipher");
 		final String salt = Configuration.root().getString("my.password.hash.salt");
 
 		try {
 			final MessageDigest digest = MessageDigest.getInstance(cipher);
 			digest.update(salt.getBytes());
-			digest.update(password.getBytes());
+			digest.update(input.getBytes());
 			digest.update(salt.getBytes()); // paranoia mode ;-)
 
 			final StringBuilder b = new StringBuilder(64);
@@ -60,12 +60,16 @@ public class Authenticated {
 			for (int i = 0; i < hashBytes.length; i++) {
 				b.append(Integer.toString((hashBytes[i] & 0xff) + 0x100, 16).substring(1));
 			}
-			return b.toString().equals(user.getPasswordHash());
+			return b.toString();
 
 		} catch (NoSuchAlgorithmException e) {
 			Logger.error("Authenticated:: did not find " + cipher + " message digest=" + e, e);
-			return false;
+			return null;
 		}
+	}
+	
+	public static boolean isCorrectPasswordForLogin(final User user, final String password) {
+		return createHash(password).equals(user.getPasswordHash());
 	}
 
 	public static void setOrgRequestPathOnUnauthorized(final String url, final Session session) {
