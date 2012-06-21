@@ -3,12 +3,12 @@ package models;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import play.db.ebean.Model;
 
@@ -26,7 +26,8 @@ public class User extends Model {
 	@ManyToOne
 	private Role role;
 	private String timezone = "Europe/Berlin";
-	private Timestamp lastModified;
+    @Version
+    private Timestamp lastUpdate;
 	private boolean validated;
 
 	// optional fields
@@ -96,16 +97,16 @@ public class User extends Model {
 	public void setTimezone(String _timezone) {
 		timezone = _timezone;
 	}
-
-	public Timestamp getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(Timestamp _lastModified) {
-		lastModified = _lastModified;
-	}
 	
-	public void setValidated(boolean validated) {
+	public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public void setValidated(boolean validated) {
 		this.validated = validated;
 	}
 

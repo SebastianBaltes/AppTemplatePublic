@@ -1,0 +1,25 @@
+@(f: Form[User])(implicit viewType: controllers.ViewType) 
+
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
+@import views.html.helper._
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+
+@loggedin_main() {
+
+  @crudForm("User","/admin/user",f) {
+  
+    @hiddenField( f("id") ) 
+    @hiddenField( f("lastUpdate") ) 
+    @inputText( f("email"), '_label -> "E-Mail", disabledOrNot() ) 
+    @inputText( f("timezone"), '_label -> "Zeitzone", disabledOrNot() ) 
+    @checkboxField( f("validated"), '_label -> "E-Mail validiert", disabledOrNot() ) 
+    @inputText( f("firstname"), '_label -> "Vorname", disabledOrNot() ) 
+    @inputText( f("surname"), '_label -> "Nachname", disabledOrNot() ) 
+    @inputText( f("street"), '_label -> "Straße", disabledOrNot() ) 
+    @inputText( f("address"), '_label -> "Adresse", disabledOrNot() ) 
+    @inputText( f("country"), '_label -> "Land", disabledOrNot() ) 
+  
+  }
+}
