@@ -16,17 +16,9 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">@global.Global.APP_NAME Admin</a>
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> Username
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="@routes.LoginController.signOut()">Sign Out</a></li>
-            </ul>
-          </div>
+
+			@views.html.site.inner._userOrLoginDropdown.render()
+		
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
