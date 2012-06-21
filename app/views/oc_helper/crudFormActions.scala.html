@@ -10,10 +10,10 @@
     <a class="btn" href="@crudActionId("edit")">Editieren</a> 
   } 
   case ViewType.create => { 
-    <input type="submit" class="btn" value="Erstellen"/> 
+    <input type="submit" class="btn btn-primary" value="Erstellen"/> 
   } 
   case ViewType.update => { 
-    <input type="submit" class="btn" value="Speichern"> 
+    <input type="submit" class="btn btn-primary" value="Speichern"> 
   } 
 } 
-<a href="@{crudBaseRoute+"/listAll"}" class="button">Zurück</a>
+<a href="@{crudBaseRoute+"/listAll"}" class="btn">Zurück</a>
