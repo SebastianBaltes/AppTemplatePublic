@@ -8,6 +8,8 @@ import models.User;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import utils.CountryHelper;
+
 public class RegistrationForm {
 
 	@Valid
@@ -18,7 +20,19 @@ public class RegistrationForm {
 	private String surname;
 	private String street;
 	private String address;
-	private String country;
+	private Integer countryListIndex;
+	
+	public String validate() {
+		if (countryListIndex != null) {
+			try {
+				CountryHelper.countryList.get(countryListIndex);
+			}
+			catch(final IndexOutOfBoundsException e) {
+				return "Ungültiges Land";
+			}
+		}
+		return null;
+	}
 
 	public User buildUser() {
 		final User u = new User(); 
@@ -27,7 +41,7 @@ public class RegistrationForm {
 		u.setSurname(surname);
 		u.setStreet(street);
 		u.setAddress(address);
-		u.setCountry(country);
+		u.setCountry(countryListIndex == null ? null : CountryHelper.countryList.get(countryListIndex));
 		u.setLastModified(new Timestamp(System.currentTimeMillis()));
 		return u;
 	}
@@ -72,12 +86,12 @@ public class RegistrationForm {
 		address = _address;
 	}
 
-	public String getCountry() {
-		return country;
+	public Integer getCountryListIndex() {
+		return countryListIndex;
 	}
 
-	public void setCountry(String _country) {
-		country = _country;
+	public void setCountryListIndex(Integer _countryListIndex) {
+		countryListIndex = _countryListIndex;
 	}
 	
 	@Override
