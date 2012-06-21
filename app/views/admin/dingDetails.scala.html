@@ -5,31 +5,17 @@
 @import views.html.helper._
 @import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._ 
- 
-
-@crudBaseRoute = @{ "/admin/ding" }
 
 @loggedin_main() {
 
-<div class="container">
-  <div class="row">
-    <div class="span10">
-      @crudHeadline("Ding")
-      <form class="form-horizontal" action="@crudFormTarget(crudBaseRoute)" method="post">
-        <fieldset>
-          @hiddenField( f("id") ) 
-          @hiddenField( f("lastUpdate") ) 
-          @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
-          @inputText( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
-          @checkbox( f("special"), '_label -> "Spezial", disabledOrNot() )  
-          @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
-          <div class="form-actions">
-            @crudFormActions(crudBaseRoute,f)
-          </div>
-        </fieldset>
-      </form>
-    </div>
-  </div>
-</div>
-
+  @crudForm("Ding","/admin/ding",f) {
+  
+    @hiddenField( f("id") ) 
+    @hiddenField( f("lastUpdate") ) 
+    @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
+    @inputText( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
+    @checkboxField( f("special"), '_label -> "Spezial", disabledOrNot() )  
+    @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
+  
+  }
 }

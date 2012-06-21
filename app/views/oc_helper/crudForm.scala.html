@@ -1,0 +1,21 @@
+@(title: String, crudBaseRoute: String, f: Form[_ <: Any])(content: Html)(implicit viewType: controllers.ViewType)
+
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
+@import views.html.helper._
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+ 
+<div class="row-fluid">
+  <div class="span12">
+    @crudHeadline(title)
+    <form class="form-horizontal" action="@crudFormTarget(crudBaseRoute)" method="post">
+      <fieldset>
+        @content
+        <div class="form-actions">
+          @crudFormActions(crudBaseRoute,f)
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
