@@ -3,6 +3,7 @@ package models;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,8 +25,9 @@ public class User extends Model {
 	private String passwordHash;
 	@ManyToOne
 	private Role role;
-	private String timezone;
+	private String timezone = "Europe/Berlin";
 	private Timestamp lastModified;
+	private boolean validated;
 
 	// optional fields
 	private String firstname;
@@ -102,6 +104,14 @@ public class User extends Model {
 	public void setLastModified(Timestamp _lastModified) {
 		lastModified = _lastModified;
 	}
+	
+	public void setValidated(boolean validated) {
+		this.validated = validated;
+	}
+
+	public boolean isValidated() {
+		return validated;
+	}	
 
 	public String getFirstname() {
 		return firstname;

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import global.AppConfigResolver;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
 import authenticate.Authenticated;
@@ -15,6 +16,7 @@ import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.MailHelper;
 import controllers.forms.EMailForm;
 import controllers.forms.FlashScope;
 import controllers.forms.PasswordChangeForm;
@@ -64,7 +66,7 @@ public class PasswordRecoverController extends Controller {
 
 		// FIXME: where to configure stuff ?
 		try {
-			final SimpleEmail mail = createSimpleEmail();
+			final Email mail = MailHelper.createSimpleMail();
 			mail.addTo(user.getEmail());
 			mail.setSubject("Password wiederhestellen");
 			mail.setMsg(mailTemplate.toString());
@@ -122,7 +124,7 @@ public class PasswordRecoverController extends Controller {
 		//notify user by mail about pw change !! best practice.
 		final Html mailTemplate = views.html.email.notificationOnPasswordChanged_text.render(user);
 		try {
-			final SimpleEmail mail = createSimpleEmail();
+			final Email mail = MailHelper.createSimpleMail();
 			mail.addTo(user.getEmail());
 			mail.setSubject("Password wiederhergestellt");
 			mail.setMsg(mailTemplate.toString());
@@ -161,14 +163,4 @@ public class PasswordRecoverController extends Controller {
 		return user; 
 	}
 	
-	private static SimpleEmail createSimpleEmail() throws org.apache.commons.mail.EmailException {
-		final SimpleEmail mail = new SimpleEmail();
-		mail.setHostName(AppConfigResolver.get(AppConfigResolver.SMTP_HOST).toString());
-		mail.setSmtpPort(AppConfigResolver.get(AppConfigResolver.SMTP_PORT).asInt());
-		mail.setFrom("someuser@test.test");
-		mail.setCharset("UTF-8");
-		
-		return mail;
-	}
-
 }
