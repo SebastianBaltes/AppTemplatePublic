@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import models.Role;
+import models.User;
 
 import org.apache.commons.io.FileUtils;
 
@@ -33,8 +34,8 @@ public class Global extends GlobalSettings {
 	
 	private void createInitialDatabase(final Application app)  {
 		
-		if (Ebean.find(Role.class).findRowCount() != 0) {
-			Logger.info("found entries in role table, skipping creation of initial database");
+		if (Ebean.find(User.class).findRowCount() != 0) {
+			Logger.info("found entries in user table, skipping creation of initial database");
 			return;
 		}
 		try {

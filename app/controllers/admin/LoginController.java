@@ -1,6 +1,7 @@
 package controllers.admin;
 
 import static controllers.forms.FlashScope.WARN;
+import models.Role;
 import models.User;
 
 import controllers.DefaultLoginController;
@@ -22,7 +23,7 @@ public class LoginController extends DefaultLoginController {
 
 			@Override
 			public Result perform(final User loginUser, final Form<LoginForm> _form) {
-				if (!loginUser.getRole().isAdminRole()) {
+				if (loginUser.getRole() != Role.admin) {
 					Logger.info("admin.LoginController:: login denied for non-admin user=" + loginUser);
 					flash(WARN, "Benutzer oder Passwort falsch!");
 					return badRequest(getErrorHtml(_form));

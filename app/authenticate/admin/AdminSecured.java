@@ -1,5 +1,6 @@
 package authenticate.admin;
 
+import models.Role;
 import models.User;
 import controllers.admin.routes;
 import play.mvc.Result;
@@ -12,7 +13,7 @@ public class AdminSecured extends AbstractSecured {
 	@Override
 	public String getUsername(final Context ctx) {
 		final User loggedinUser = Authenticated.getAuthenticatedUser(ctx.session());
-		if (loggedinUser != null && loggedinUser.getRole().isAdminRole()) return String.valueOf(loggedinUser.getId());
+		if (loggedinUser != null && loggedinUser.getRole() == Role.admin) return String.valueOf(loggedinUser.getId());
 		return null;
 	}
 

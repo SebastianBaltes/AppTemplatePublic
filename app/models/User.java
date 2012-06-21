@@ -3,11 +3,9 @@ package models;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
@@ -23,8 +21,7 @@ public class User extends Model {
 	private Long id;
 	private String email;
 	private String passwordHash;
-	@ManyToOne
-	private Role role;
+	private String role;
 	private String timezone = "Europe/Berlin";
 	private Timestamp lastModified;
 	private boolean validated;
@@ -82,11 +79,11 @@ public class User extends Model {
 	}
 
 	public Role getRole() {
-		return role;
+		return Role.valueOf(role);
 	}
 
 	public void setRole(Role _role) {
-		role = _role;
+		role = _role.name();
 	}
 
 	public String getTimezone() {
