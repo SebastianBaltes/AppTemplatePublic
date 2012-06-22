@@ -49,7 +49,7 @@ public class RegistrationController extends Controller {
 		if (existingUser != null) {
 			try {
 				sendDoubleRegistrationNotificationMail(existingUser);
-				flash().put(FlashScope.SUCCESS, "Registrierung erflogreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
+				flash().put(FlashScope.SUCCESS, "Registrierung erfolgreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
 			} catch (final EmailException e) {
 				Logger.error("Could not send DoubleRegistrationNotificationMail confirmation mail due to =" + e, e);
 				flash().put(FlashScope.ERROR,
