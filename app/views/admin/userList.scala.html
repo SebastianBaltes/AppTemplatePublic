@@ -1,11 +1,11 @@
-@(currentPage: Page[User])(implicit clist: CrudListState)
+@(implicit currentPage: Page[User], clist: CrudListState)
 
 @import controllers.admin.routes 
 @import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._
 
 @loggedin_main() {
-  @crudList("User",currentPage) {
+  @crudList() {
       @header("email", "E-Mail")
       @header("role", "Rolle")
       @header("firstname", "Vorname")
@@ -13,14 +13,12 @@
       @header("validated", "Validiert")
   } {
       @for(user <- currentPage.getList) {
-        <!-- todo odd / even -->
-        <tr class="odd">
-            <!-- sorting_1 -->
-            <td class=""><a href="@clist.crudBaseUrl/@user.id">@user.email</a></td>
-            <td class="">@user.role</td>
-            <td class="">@user.firstname</td>
-            <td class="">@user.surname</td>
-            <td class="">@user.validated</td>
+        <tr>
+	      <td><a href="@clist.crudBaseUrl/@user.id">@user.email</a></td>
+	      <td>@user.role</td>
+	      <td>@user.firstname</td>
+	      <td>@user.surname</td>
+	      <td>@user.validated</td>
         </tr>
       }
   }

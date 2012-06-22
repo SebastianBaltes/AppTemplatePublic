@@ -1,24 +1,23 @@
-@(currentPage: Page[Ding])(implicit clist: CrudListState)
+@(implicit currentPage: Page[Ding], clist: CrudListState)
 
 @import controllers.admin.routes 
 @import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._
 
 @loggedin_main() {
-  @crudList("Ding",currentPage) {
+
+  @crudList() {
       @header("name", "Name")
       @header("description", "Beschreibung")
       @header("special", "Special")
       @header("price", "Preis")
-  } {
+  } { 
       @for(ding <- currentPage.getList) {
-        <!-- todo odd / even -->
-        <tr class="odd">
-            <!-- sorting_1 -->
-            <td class=""><a href="@clist.crudBaseUrl/@ding.id">@ding.name</a></td>
-            <td class="">@ding.description</td>
-            <td class="">@ding.special</td>
-            <td class="">@ding.price</td>
+        <tr>
+	      <td><a href="@clist.crudBaseUrl/@ding.id">@ding.name</a></td>
+	      <td>@ding.description</td>
+	      <td>@ding.special</td>
+	      <td>@ding.price</td>
         </tr>
       }
   }

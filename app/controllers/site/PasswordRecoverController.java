@@ -6,7 +6,6 @@ import global.AppConfigResolver;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.mail.Email;
-import org.apache.commons.mail.SimpleEmail;
 
 import authenticate.Authenticated;
 
@@ -45,7 +44,7 @@ public class PasswordRecoverController extends Controller {
 		}
 
 		final EMailForm myForm = requestForm.get();
-		final User user = User.findByEmail(myForm.getEmail());
+		final User user = User.find.byEmail(myForm.getEmail());
 
 		if (user == null) {
 			Logger.info("PasswordRecoverController: recovery attempt for unknown email address=" + myForm);
@@ -144,7 +143,7 @@ public class PasswordRecoverController extends Controller {
 	}
 
 	private static User isValidRequest(final String _email, final String _randomPasswordRecoveryString) {
-		final User user = User.findByEmail(_email);
+		final User user = User.find.byEmail(_email);
 		if (user == null) {
 			Logger.info("PasswordRecoverController:invalid user for mail=" + _email);
 			return null;

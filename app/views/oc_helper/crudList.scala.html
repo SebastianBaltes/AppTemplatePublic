@@ -1,4 +1,4 @@
-@(title: String, currentPage: Page[_ <: Any])(headers: Html)(rows: Html)(implicit clist: CrudListState)
+@()(headers: Html)(rows: Html)(implicit currentPage: Page[_ <: Any], clist: CrudListState)
 
 @import scala.collection.JavaConversions._ 
 @import views.html.helper._
@@ -7,7 +7,7 @@
 
 <div class="page-header">
     <h1>
-      @title <small> Liste</small>
+      @clist.crudEntityLabel <small> Liste</small>
     </h1>
 </div>
 

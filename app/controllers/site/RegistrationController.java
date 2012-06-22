@@ -44,7 +44,7 @@ public class RegistrationController extends Controller {
 		// FIXME: send success message even in this case and notify the existing
 		// user
 		// by mail about this incident.
-		final User existingUser = User.findByEmail(myForm.getMandatory().getEmail());
+		final User existingUser = User.find.byEmail(myForm.getMandatory().getEmail());
 		if (existingUser != null) {
 			flash().put(FlashScope.ERROR, "Die Email-Adresse ist schon vergeben!");
 			return badRequest(views.html.site.registration.render(requestForm));
@@ -95,7 +95,7 @@ public class RegistrationController extends Controller {
 	}
 	
 	public static Result activate(final String _email, final String _hash) {
-		final User user = User.findByEmail(_email);
+		final User user = User.find.byEmail(_email);
 		if (user == null) {
 			return badRequest("invalid link");
 		}

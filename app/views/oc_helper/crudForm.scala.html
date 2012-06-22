@@ -1,4 +1,4 @@
-@(title: String, crudBaseUrl: String, f: Form[_ <: Any])(content: Html)(implicit viewType: controllers.ViewType)
+@()(content: Html)(implicit cDetails: CrudDetailsState, viewType: controllers.ViewType, f: Form[_ <: Any])
 
 @import scala.collection.JavaConversions._ 
 @import controllers.admin.routes 
@@ -8,12 +8,14 @@
  
 <div class="row-fluid">
   <div class="span12">
-    @crudHeadline(title)
-    <form class="form-horizontal" action="@crudFormTarget(crudBaseUrl)" method="post">
+    @crudHeadline(cDetails.crudEntityLabel)
+    <form class="form-horizontal" action="@crudFormTarget(cDetails.crudBaseUrl)" method="post">
       <fieldset>
+	    @hiddenField( f("id") ) 
+	    @hiddenField( f("lastUpdate") ) 
         @content
         <div class="form-actions">
-          @crudFormActions(crudBaseUrl,f)
+          @crudFormActions(cDetails.crudBaseUrl,f)
         </div>
       </fieldset>
     </form>

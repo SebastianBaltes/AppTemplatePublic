@@ -1,33 +1,22 @@
 package models;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
-
-import com.avaje.ebean.Page;
-
-import play.db.ebean.Model;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "user_account")
-public class User extends Model implements HasLabel {
+public class User extends CrudModel<User> {
 
-	private static final Finder<Long, User> finder = new Finder<Long, User>(Long.class, User.class);
+    public static final UserFinder find = new UserFinder();
 
-	@Id
-	public Long id;
 	public String email;
 	public String passwordHash;
 	public String role;
 	public String timezone = "Europe/Berlin";
-    @Version
-    public Timestamp lastUpdate;
 	public boolean validated;
 
 	// optional fields
@@ -42,41 +31,6 @@ public class User extends Model implements HasLabel {
 	@Column(name="pwrecover_triggered")
 	public Timestamp randomPasswordRecoveryTriggerDate;
 
-	public static List<User> findAll() {
-		return finder.all();
-	}
-
-	public static User findById(final Long id) {
-		return finder.byId(id);
-	}
-
-	public static User findByEmail(final String email) {
-		return finder.where().eq("email", email).findUnique();
-	}
-
-	public static void deleteById(final Long id) {
-		finder.ref(id).delete();
-	}
-	
-    public void saveOrUpdate() {
-        if (id == null) {
-            save();
-        } else {
-            update();
-        }
-    }
-    
-    public static Page<User> page(final int page, final int pageSize, final String sortBy, final String order, final String filter) {
-        return finder.where().ilike("email", "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
-    }    
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long _id) {
-		id = _id;
-	}
 
 	public String getEmail() {
 		return email;
@@ -182,37 +136,25 @@ public class User extends Model implements HasLabel {
 		randomPasswordRecoveryTriggerDate = _randomPasswordRecoveryTriggerDate;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (!super.equals(obj)) return false;
-		if (getClass() != obj.getClass()) return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null) return false;
-		} else if (!id.equals(other.id)) return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", role=" + role + ", timezone=" + timezone + ", lastUpdate="
-				+ lastUpdate + ", firstname=" + firstname + ", surname=" + surname + ", street=" + street
-				+ ", address=" + address + ", country=" + country + ", randomPasswordRecoveryTriggerDate="
-				+ randomPasswordRecoveryTriggerDate + "]";
-	}
-
     @Override
-    public String getLabel() {
+    public String label() {
         return email;
     }
 
+	@Override
+	protected CrudFinder<User> getCrudFinder() {
+		return find;
+	}
+
+	public static class UserFinder extends CrudFinder<User> {
+		
+		public UserFinder() {
+			super(new Finder<Long, User>(Long.class, User.class),"email");
+		}
+
+		public User byEmail(String email) {
+			return byLabel(email);
+		}
+	}
+	
 }

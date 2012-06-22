@@ -34,7 +34,7 @@ public class Authenticated {
 		User auth_user = (User) Cache.get(uuidKey);
 
 		if (auth_user == null) {
-			auth_user = User.findById(Long.valueOf(uuid));
+			auth_user = User.find.byId(Long.valueOf(uuid));
 			if (auth_user == null) return null;
 
 			Cache.set(uuidKey, auth_user);

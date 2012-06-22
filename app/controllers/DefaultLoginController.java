@@ -3,14 +3,13 @@ package controllers;
 import static controllers.forms.FlashScope.ERROR;
 import static controllers.forms.FlashScope.WARN;
 import models.User;
-import authenticate.Authenticated;
-import controllers.admin.routes;
-import controllers.forms.LoginForm;
 import play.Logger;
 import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import authenticate.Authenticated;
+import controllers.forms.LoginForm;
 
 public class DefaultLoginController extends Controller {
 
@@ -34,7 +33,7 @@ public class DefaultLoginController extends Controller {
 		Logger.info("DefaultLoginController: got valid form binding=" + myForm);
 
 		// find user by email.
-		final User loginUser = User.findByEmail(myForm.getEmail());
+		final User loginUser = User.find.byLabel(myForm.getEmail());
 		if (loginUser == null) {
 			Logger.info("DefaultLoginController:: user not found for loginName=" + myForm.getEmail());
 			flash(WARN, "Benutzer oder Passwort falsch!");

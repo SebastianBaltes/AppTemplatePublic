@@ -1,4 +1,4 @@
-@(f: Form[Ding])(implicit viewType: controllers.ViewType) 
+@(implicit cDetails: CrudDetailsState, f: Form[Ding], viewType: controllers.ViewType) 
 
 @import scala.collection.JavaConversions._ 
 @import controllers.admin.routes 
@@ -8,10 +8,10 @@
 
 @loggedin_main() {
 
-  @crudForm("Ding","/admin/ding",f) {
+  name=@f("name").value
+
+  @crudForm() {
   
-    @hiddenField( f("id") ) 
-    @hiddenField( f("lastUpdate") ) 
     @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
     @inputText( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
     @checkboxField( f("special"), '_label -> "Spezial", disabledOrNot() )  

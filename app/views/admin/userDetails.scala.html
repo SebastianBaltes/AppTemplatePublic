@@ -1,4 +1,4 @@
-@(f: Form[User])(implicit viewType: controllers.ViewType) 
+@(implicit cDetails: CrudDetailsState, f: Form[User], viewType: controllers.ViewType) 
 
 @import scala.collection.JavaConversions._ 
 @import controllers.admin.routes 
@@ -8,10 +8,8 @@
 
 @loggedin_main() {
 
-  @crudForm("User","/admin/user",f) {
+  @crudForm() {
   
-    @hiddenField( f("id") ) 
-    @hiddenField( f("lastUpdate") ) 
     @inputText( f("email"), '_label -> "E-Mail", disabledOrNot() ) 
     @inputText( f("timezone"), '_label -> "Zeitzone", disabledOrNot() ) 
     @checkboxField( f("validated"), '_label -> "E-Mail validiert", disabledOrNot() ) 

@@ -1,15 +1,14 @@
 package controllers;
 
-public class CrudListState {
+public class CrudListState extends CrudDetailsState {
     
-    public String crudBaseUrl; 
     public Integer rowsToShow;
     public String currentSortBy;
     public String currentOrder;
     public String currentFilter;
     
-    public CrudListState(String crudBaseUrl, Integer rowsToShow, String currentSortBy, String currentOrder, String currentFilter) {
-        this.crudBaseUrl = crudBaseUrl;
+    public CrudListState(String crudBaseUrl, String crudEntityLabel, Integer rowsToShow, String currentSortBy, String currentOrder, String currentFilter) {
+    	super(crudBaseUrl, crudEntityLabel);
         this.rowsToShow = rowsToShow;
         this.currentSortBy = currentSortBy;
         this.currentOrder = currentOrder;
