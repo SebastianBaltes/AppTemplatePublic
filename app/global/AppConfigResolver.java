@@ -8,10 +8,11 @@ public class AppConfigResolver {
 	public static final String PARA_MY_PROFILE_NAME = PARA_MY_SCOPE + ".profile.name";
 	
 	// scoped keys (devel,test,prod)
-	public static final String SMTP_HOST = "smtp.host";
-	public static final String SMTP_PORT = "smtp.port"; 
-	public static final String SMTP_USER = "smtp.user"; 
-	public static final String SMTP_PASS = "smtp.pass"; 
+	public static final String SMTP_HOST 			= "smtp.host";
+	public static final String SMTP_PORT 			= "smtp.port"; 
+	public static final String SMTP_USER 			= "smtp.user"; 
+	public static final String SMTP_PASS 			= "smtp.pass"; 
+	public static final String SMTP_FROM_ADDRESS 	= "smtp.from_address";
 	
 	// plain keys 
 	public static final String PASSWORD_RECOVER_UUID_LENGTH = "my.passwords.recover.uuid.length"; 
