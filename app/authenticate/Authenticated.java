@@ -28,9 +28,8 @@ public class Authenticated {
 	public static void invalidateCachedUser() {
 		final String uuid = Http.Context.current().session().get(SESSION_KEY_UUID);
 		if (uuid == null) return;
-
 		final String uuidKey = uuid + CACHE_USER;
-		Cache.set(uuid, null);
+		Cache.set(uuidKey, null);
 	}
 	
 	// from some code we cannot get the context by "Http.Context.current()", hence we provide it manually, to be exact: the session 

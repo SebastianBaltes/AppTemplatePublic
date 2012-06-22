@@ -1,7 +1,6 @@
 package controllers.site;
 
 import models.User;
-import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -62,7 +61,6 @@ public class UserProfileController extends Controller {
 		}
 		
 		final OptionalUserProfileForm  myForm = requestForm.get();
-		
 		final User u = myForm.buildUser();
 		u.setId(authUser.getId());
 		u.update();
