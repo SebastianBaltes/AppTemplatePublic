@@ -15,8 +15,8 @@ create table user_account (
 	email varchar(255) not null,
 	password_hash varchar(255) not null,
 	role_id	bigint not null,
-	timezone varchar(128) not null DEFAULT 'Europe/Berlin',
-	last_modified timestamp not null DEFAULT CURRENT_TIMESTAMP,
+	timezone varchar(128) not null,
+	last_modified timestamp,
 	
 	firstname varchar(255),
 	surname varchar(255),
@@ -38,7 +38,7 @@ create table ding (
 	description varchar(255) not null,
 	special	boolean not null,
 	price bigint not null,
-	last_update timestamp not null,
+	last_update timestamp,
 	constraint pk_ding primary key (id)
 );
 

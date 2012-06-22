@@ -65,16 +65,6 @@
 							)
 																					
 							@inputText(
-								regForm("optionalUserProfileForm.street"), 
-								'_label -> "Strasse", 
-								'_help -> "",
-								'_showConstraints -> false, 
-								'placeholder -> "Strasse", 
-								'_icon -> "icon-road",
-								'class -> "span2"
-							)
-							
-							@inputText(
 								regForm("optionalUserProfileForm.address"), 
 								'_label -> "Adresse", 
 								'_help -> "",
@@ -84,6 +74,26 @@
 								'class -> "span2"
 							)
 							
+							@inputText(
+								regForm("optionalUserProfileForm.zipCode"), 
+								'_label -> "PLZ", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "PLZ", 
+								'_icon -> "icon-home",
+								'class -> "span2"
+							)
+
+							@inputText(
+								regForm("optionalUserProfileForm.city"), 
+								'_label -> "Stadt", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "Stadt", 
+								'_icon -> "icon-home",
+								'class -> "span2"
+							)
+																					
 							@select(
 								regForm("optionalUserProfileForm.countryListIndex"), 
 								options = for((c,i) <- utils.CountryHelper.countryList.zipWithIndex) yield (String.valueOf(i),c),

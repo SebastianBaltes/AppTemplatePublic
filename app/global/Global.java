@@ -1,6 +1,7 @@
 package global;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import models.Role;
@@ -14,6 +15,7 @@ import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
+import play.data.format.Formatters;
 
 public class Global extends GlobalSettings {
 
@@ -24,6 +26,7 @@ public class Global extends GlobalSettings {
 		Logger.debug("onStart()");
 		setupLogging(app);
 		createInitialDatabase(app);
+		Formatters.register(Timestamp.class, new TimeStampFormatter());
 	}
 
 	private void setupLogging(final Application app) {

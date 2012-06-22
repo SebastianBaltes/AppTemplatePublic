@@ -15,8 +15,9 @@
     @checkboxField( f("validated"), '_label -> "E-Mail validiert", disabledOrNot() ) 
     @inputText( f("firstname"), '_label -> "Vorname", disabledOrNot() ) 
     @inputText( f("surname"), '_label -> "Nachname", disabledOrNot() ) 
-    @inputText( f("street"), '_label -> "Straße", disabledOrNot() ) 
-    @inputText( f("address"), '_label -> "Adresse", disabledOrNot() ) 
+    @textarea( f("address"), '_label -> "Adresse", disabledOrNot() ) 
+    @inputText( f("zipCode"), '_label -> "PLZ", disabledOrNot() ) 
+    @inputText( f("city"), '_label -> "Stadt", disabledOrNot() ) 
     @inputText( f("country"), '_label -> "Land", disabledOrNot() ) 
   
   }

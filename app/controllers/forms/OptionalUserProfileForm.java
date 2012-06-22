@@ -15,6 +15,8 @@ public class OptionalUserProfileForm {
 	private String street;
 	private String address;
 	private Integer countryListIndex;
+	private String zipCode;
+	private String city;
 	
 	public OptionalUserProfileForm() {
 	}
@@ -22,7 +24,8 @@ public class OptionalUserProfileForm {
 	public OptionalUserProfileForm(final User user) {
 		this.firstname = user.getFirstname();
 		this.surname = user.getSurname();
-		this.street = user.getStreet();
+		this.zipCode = user.getZipCode();
+		this.city = user.getCity();
 		this.address = user.getAddress();
 		this.countryListIndex = CountryHelper.countryList.indexOf(user.getCountry());
 	}
@@ -43,7 +46,8 @@ public class OptionalUserProfileForm {
 		final User u = new User(); 
 		u.setFirstname(firstname);
 		u.setSurname(surname);
-		u.setStreet(street);
+		u.setCity(city);
+		u.setZipCode(zipCode);
 		u.setAddress(address);
 		u.setCountry(countryListIndex == null ? null : CountryHelper.countryList.get(countryListIndex));
 		return u;
@@ -89,6 +93,22 @@ public class OptionalUserProfileForm {
 		countryListIndex = _countryListIndex;
 	}
 	
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

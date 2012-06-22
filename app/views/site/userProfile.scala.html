@@ -68,18 +68,8 @@
 								'_icon -> "icon-user",
 								'class -> "span2"
 							)
-																					
-							@inputText(
-								optForm("street"), 
-								'_label -> "Strasse", 
-								'_help -> "",
-								'_showConstraints -> false, 
-								'placeholder -> "Strasse", 
-								'_icon -> "icon-road",
-								'class -> "span2"
-							)
 							
-							@inputText(
+							@textarea(
 								optForm("address"), 
 								'_label -> "Adresse", 
 								'_help -> "",
@@ -89,6 +79,26 @@
 								'class -> "span2"
 							)
 							
+							@inputText(
+								optForm("zipCode"), 
+								'_label -> "PLZ", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "PLZ", 
+								'_icon -> "icon-home",
+								'class -> "span2"
+							)
+
+							@inputText(
+								optForm("city"), 
+								'_label -> "Stadt", 
+								'_help -> "",
+								'_showConstraints -> false, 
+								'placeholder -> "Stadt", 
+								'_icon -> "icon-home",
+								'class -> "span2"
+							)
+																					
 							@select(
 								optForm("countryListIndex"), 
 								options = for((c,i) <- utils.CountryHelper.countryList.zipWithIndex) yield (String.valueOf(i),c),

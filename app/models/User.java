@@ -22,9 +22,10 @@ public class User extends CrudModel<User> {
 	// optional fields
 	public String firstname;
 	public String surname;
-	public String street;
 	public String address;
 	public String country;
+	public String zipCode;
+	public String city;
 
 	@Column(name="random_pwrecover")
 	public String randomPasswordRecoveryString;
@@ -96,12 +97,20 @@ public class User extends CrudModel<User> {
 		surname = _surname;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getCity() {
+		return city;
 	}
 
-	public void setStreet(String _street) {
-		street = _street;
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public String getAddress() {
