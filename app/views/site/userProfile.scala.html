@@ -1,23 +1,22 @@
-@(regForm : Form[controllers.forms.RegistrationForm])
+@(passwordChangeForm : Form[controllers.forms.PasswordChangeForm], optForm : Form[controllers.forms.OptionalUserProfileForm])
 
 @import controllers.site.routes
 @import views.html.helper._
 @import scala.collection.JavaConversions._
 @import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._ 
-						
-							@inputText(
-								regForm("mandatory.email"), 
-								'_label -> "E-Mail", 
-								'_help -> "",
-								'_showConstraints -> false, 
-								'placeholder -> "E-Mail", 
-								'_icon -> "icon-envelope",
-								'class -> "span2"
-							)
+
+@views.html.site.loggedin_main() {
+        <div class="span9">
+          <div class="hero-unit">
+            <h2>Ihre Profileinstellungen</h2>
+            <hr/>
+
+			<form class="form-horizontal" action="@routes.UserProfileController.changePassword()" method="post">
+							<input type="hidden" value="@{passwordChangeForm.field("email").valueOr("")}" name="email" id="email">
 							
 							@inputPassword(
-								regForm("mandatory.password1"), 
+								passwordChangeForm("password1"), 
 								'_label -> "Passwort", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -27,7 +26,7 @@
 							)
 							
 							@inputPassword(
-								regForm("mandatory.password2"), 
+								passwordChangeForm("password2"), 
 								'_label -> "Passwort Wiederholung", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -36,16 +35,22 @@
 								'class -> "span2"
 							)	
 							
-						<div class="page-header">
-							<div class="container">
-								<h4>
-									Freiwillige Angaben
-								</h4>
-							</div>
-						</div>
-							
+					<input class="btn btn-primary btn-large" type="submit" value="Passwort ändern" />
+				</form>
+
+				<hr/>
+				
+				<div class="page-header">
+					<div class="container">
+						<h4>
+							Freiwillige Angaben
+						</h4>
+					</div>
+				</div>				
+				
+				<form class="form-horizontal" action="@routes.UserProfileController.changeData()" method="post">
 							@inputText(
-								regForm("optionalUserProfileForm.firstname"), 
+								optForm("firstname"), 
 								'_label -> "Vorname", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -55,7 +60,7 @@
 							)
 							
 							@inputText(
-								regForm("optionalUserProfileForm.surname"), 
+								optForm("surname"), 
 								'_label -> "Nachname", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -65,7 +70,7 @@
 							)
 																					
 							@inputText(
-								regForm("optionalUserProfileForm.street"), 
+								optForm("street"), 
 								'_label -> "Strasse", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -75,7 +80,7 @@
 							)
 							
 							@inputText(
-								regForm("optionalUserProfileForm.address"), 
+								optForm("address"), 
 								'_label -> "Adresse", 
 								'_help -> "",
 								'_showConstraints -> false, 
@@ -85,7 +90,7 @@
 							)
 							
 							@select(
-								regForm("optionalUserProfileForm.countryListIndex"), 
+								optForm("countryListIndex"), 
 								options = for((c,i) <- utils.CountryHelper.countryList.zipWithIndex) yield (String.valueOf(i),c),
 								'_label -> "Land", 
 								'_help -> "",
@@ -93,5 +98,11 @@
 								'placeholder -> "Land", 
 								'_icon -> "icon-flag",
 								'class -> "span2"
-							)
+							)	
+					<input class="btn btn-primary btn-large" type="submit" value="&Auml;nderungen speichern" />			
+				</form>
+							
 
+          </div>
+        </div><!--/span-->
+}

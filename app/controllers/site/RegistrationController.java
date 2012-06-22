@@ -1,8 +1,12 @@
 package controllers.site;
 
+import javax.swing.JOptionPane;
+
+import global.AppConfigResolver;
 import models.Role;
 import models.User;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 
@@ -23,8 +27,6 @@ import controllers.forms.RegistrationForm;
 
 public class RegistrationController extends Controller {
 
-	//FIXME: move to application.conf
-	private static final String SECRET_ACTIVATE_SALT = "1b062eefc47cfe1daa1d5b2a0ee478d5ecf6eb5456eac9f49601cc127873a1b6";
 	private static Form<RegistrationForm> registrationForm = form(RegistrationForm.class);
 
 	public static Result index() {
@@ -41,15 +43,19 @@ public class RegistrationController extends Controller {
 		final RegistrationForm myForm = requestForm.get();
 		Logger.debug("RegistrationController: got form=" + myForm);
 
-		// FIXME: send success message even in this case and notify the existing
-		// user
-		// by mail about this incident.
+		//send success message even in this case and notify the existing
+		// user by mail about this incident.
 		final User existingUser = User.find.byEmail(myForm.getMandatory().getEmail());
 		if (existingUser != null) {
-			flash().put(FlashScope.ERROR, "Die Email-Adresse ist schon vergeben!");
-			return badRequest(views.html.site.registration.render(requestForm));
-//			flash().put(FlashScope.SUCCESS, "Registrierung erflogreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
-//			return ok(views.html.site.registration.render(requestForm));
+			try {
+				sendDoubleRegistrationNotificationMail(existingUser);
+				flash().put(FlashScope.SUCCESS, "Registrierung erflogreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
+			} catch (final EmailException e) {
+				Logger.error("Could not send DoubleRegistrationNotificationMail confirmation mail due to =" + e, e);
+				flash().put(FlashScope.ERROR,
+						"Es ist ein Fehler bei der Registrierung aufgetreten, bitte versuchen Sie es in wenigen Augenblicken erneut!");
+			}
+			return ok(views.html.site.registration.render(requestForm));
 		}
 
 		if (!myForm.getMandatory().isPasswordMatching()) {
@@ -94,6 +100,16 @@ public class RegistrationController extends Controller {
 		return ok(views.html.site.registration.render(requestForm));
 	}
 	
+	private static void sendDoubleRegistrationNotificationMail(final User user) throws EmailException{
+		final Email mail = MailHelper.createSimpleMail();
+		mail.addTo(user.getEmail());
+		mail.setSubject("Doppelte Anmeldung");
+		mail.setMsg(views.html.email.doubleRegistrationNotificationMail_text.render(user).toString());
+		
+		Logger.info("about to send DoubleRegistrationNotificationMail=" + ReflectionToStringBuilder.toString(mail));
+		mail.send();
+	}
+
 	public static Result activate(final String _email, final String _hash) {
 		final User user = User.find.byEmail(_email);
 		if (user == null) {
@@ -118,7 +134,8 @@ public class RegistrationController extends Controller {
 	}
 	
 	private static String generateActivationHash(final String _email) {
-		return Authenticated.createHash(_email + SECRET_ACTIVATE_SALT);
+		return Authenticated.createHash(_email
+				+ AppConfigResolver.getPlain(AppConfigResolver.ACTIVATE_ACCOUNT_SECRET_SALT));
 	}
 
 }

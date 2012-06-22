@@ -16,6 +16,7 @@ public class AppConfigResolver {
 	// plain keys 
 	public static final String PASSWORD_RECOVER_UUID_LENGTH = "my.passwords.recover.uuid.length"; 
 	public static final String PASSWORD_RECOVER_LINK_VALID_MILLIS = "my.controller.PasswordRecoverController.recoverLinkValidMillis";
+	public static final String ACTIVATE_ACCOUNT_SECRET_SALT = "my.controller.RegistrationController.secret_activate_salt";
 	
 	public static Element getPlain(final String key) {
 		return new Element(Configuration.root().getString(key));

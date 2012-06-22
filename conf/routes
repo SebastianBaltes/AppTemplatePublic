@@ -30,6 +30,11 @@ GET 	/register/activate/:email/:hash									controllers.site.RegistrationContro
 # only for testing login stuff => 
 GET 	/dummy															controllers.site.Application.dummy()
 
+# Only for Logged-In Users: 
+GET 	/profile														controllers.site.UserProfileController.index()
+POST	/profile/passwd													controllers.site.UserProfileController.changePassword()
+POST	/profile/data													controllers.site.UserProfileController.changeData()
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Admin
 #--------------------------------------------------------------------------------------------------------------------------------------------------

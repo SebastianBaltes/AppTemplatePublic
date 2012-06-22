@@ -1,0 +1,16 @@
+@(user : models.User)
+
+Hallo Sie da, ja.... Sie !  
+
+Sie haben versucht, sich auf http://localhost:9000 neu zu registrieren, 
+Ihre Email-Adresse ist aber schon mit einem Konto verknüpft. 
+
+Falls Sie Ihre Zugangsdaten verlegt haben sollten, so können Sie unter
+
+http://localhost:9000/recover/@{user.getEmail}/@user.getRandomPasswordRecoveryString
+
+ein neues Passwort anlegen. 
+
+Grüße
+
+
