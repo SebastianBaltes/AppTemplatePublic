@@ -65,7 +65,8 @@ public abstract class CrudModel<T extends CrudModel<T>> extends Model {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        T other = (T) obj;
+        @SuppressWarnings("unchecked")
+		T other = (T) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

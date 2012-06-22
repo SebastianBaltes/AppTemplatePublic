@@ -13,7 +13,7 @@ import play.mvc.Controller;
 import com.avaje.ebean.Page;
 
 
-public class DynamicCRUDController<T extends CrudModel<T>> extends InnerCRUDController<T> {
+public class DynamicCRUDController<T extends CrudModel<T>> extends AbstractCRUDController<T> {
 
 	private Class<T> entityClass;
 	private Method renderListMethod;
