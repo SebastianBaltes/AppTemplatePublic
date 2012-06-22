@@ -1,5 +1,8 @@
 package controllers.site;
 
+import javax.swing.JOptionPane;
+
+import global.AppConfigResolver;
 import models.Role;
 import models.User;
 
@@ -24,8 +27,6 @@ import controllers.forms.RegistrationForm;
 
 public class RegistrationController extends Controller {
 
-	//FIXME: move to application.conf
-	private static final String SECRET_ACTIVATE_SALT = "1b062eefc47cfe1daa1d5b2a0ee478d5ecf6eb5456eac9f49601cc127873a1b6";
 	private static Form<RegistrationForm> registrationForm = form(RegistrationForm.class);
 
 	public static Result index() {
@@ -133,7 +134,8 @@ public class RegistrationController extends Controller {
 	}
 	
 	private static String generateActivationHash(final String _email) {
-		return Authenticated.createHash(_email + SECRET_ACTIVATE_SALT);
+		return Authenticated.createHash(_email
+				+ AppConfigResolver.getPlain(AppConfigResolver.ACTIVATE_ACCOUNT_SECRET_SALT));
 	}
 
 }
