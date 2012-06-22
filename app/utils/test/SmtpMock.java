@@ -17,9 +17,9 @@ public interface SmtpMock {
 		RSET("RSET"),
 		HELP("HELP"),
 		NOOP("NOOP"),
-		QUIT("QUIT"), 
-		VRFY("VRFY"),
-		EXPN("EXPN");
+		QUIT("QUIT");
+//		VRFY("VRFY"),
+//		EXPN("EXPN");
 		
 		private String printValue;
 		private static Pattern cmdPattern = Pattern.compile("^(" + join() + ")");
