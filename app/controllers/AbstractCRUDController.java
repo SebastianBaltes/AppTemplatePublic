@@ -9,16 +9,17 @@ import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Results.Status;
 
-public abstract class InnerCRUDController<T extends CrudModel<T>> {
+public abstract class AbstractCRUDController<T extends CrudModel<T>> implements ICRUDController<T> {
 
 	protected String crudBaseUrl;
 	protected String entityLabel;
 	protected Form<T> form;
 	protected CrudFinder<T> crudFinder;
 	
-	public InnerCRUDController(String crudBaseUrl, String entityLabel,
+	public AbstractCRUDController(String crudBaseUrl, String entityLabel,
 			CrudFinder<T> crudFinder, Form<T> form) {
 		
 		this.crudBaseUrl = crudBaseUrl;
@@ -36,32 +37,43 @@ public abstract class InnerCRUDController<T extends CrudModel<T>> {
 		return renderDetails(new CrudDetailsState(crudBaseUrl, entityLabel), filledForm, viewType);
 	}
 
+	@Override
+	public String getCrudBaseUrl() {
+		return crudBaseUrl;
+	}
+
 	public String getListUrl() {
 		return crudBaseUrl+"/list";
 	}
 
+	@Override
 	public Result list(final int page, final int rowsToShow, final String sortBy, final String order, final String filter) {
-		return Controller.ok(renderList(crudFinder.page(page, rowsToShow, sortBy, order, filter), new CrudListState(crudBaseUrl, entityLabel, rowsToShow, sortBy, order, filter)));
+		return Results.ok(renderList(crudFinder.page(page, rowsToShow, sortBy, order, filter), new CrudListState(crudBaseUrl, entityLabel, rowsToShow, sortBy, order, filter)));
 	}
 
+	@Override
 	public Result create() {
 		final T entity = createEntity();
 		final Form<T> filledForm = form.fill(entity);
-		return Controller.ok(renderDetailsShortcut(ViewType.create, filledForm));
+		return Results.ok(renderDetailsShortcut(ViewType.create, filledForm));
 	}
 
+	@Override
 	public Result view(final Long id) {
 		return show(id, ViewType.view);
 	}
 
+	@Override
 	public Result edit(final Long id) {
 		return show(id, ViewType.update);
 	}
 
+	@Override
 	public Result update() {
 		return save(ViewType.update);
 	}
 
+	@Override
 	public Result save() {
 		return save(ViewType.create);
 	}
@@ -73,7 +85,7 @@ public abstract class InnerCRUDController<T extends CrudModel<T>> {
 			return notFoundResult();
 		}
 		final Form<T> filledForm = form.fill(entity);
-        return Controller.ok(renderDetailsShortcut(viewType, filledForm));
+        return Results.ok(renderDetailsShortcut(viewType, filledForm));
 	}
 
 	private Result save(final ViewType viewType) {
@@ -81,7 +93,7 @@ public abstract class InnerCRUDController<T extends CrudModel<T>> {
         final Form<T> filledForm = form.bind(ControllerHelper.getRequestMapWithMultiSelectSupport());
         if (filledForm.hasErrors()) {
             Controller.flash("error", "Fehler beim Ausfüllen des Formulars!");
-            return Controller.badRequest(renderDetailsShortcut(viewType, filledForm));
+            return Results.badRequest(renderDetailsShortcut(viewType, filledForm));
         }
         final T entity = filledForm.get();
         entity.saveOrUpdate();
@@ -89,6 +101,7 @@ public abstract class InnerCRUDController<T extends CrudModel<T>> {
         return listAll();
 	}
 
+	@Override
 	public Result delete(final Long id) {
 		Logger.info("delete(" + id + ")");
 		final T entity = crudFinder.byId(id);
@@ -101,11 +114,12 @@ public abstract class InnerCRUDController<T extends CrudModel<T>> {
 	}
 
 	private Status notFoundResult() {
-		return Controller.notFound(entityLabel+" nicht vorhanden!");
+		return Results.notFound(entityLabel+" nicht vorhanden!");
 	}
 
+	@Override
 	public Result listAll() {
-		return Controller.redirect(getListUrl());
+		return Results.redirect(getListUrl());
 	}
     
 }

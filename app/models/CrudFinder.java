@@ -4,7 +4,9 @@ import java.util.List;
 
 import play.db.ebean.Model.Finder;
 
+import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Page;
+import com.avaje.ebean.Query;
 
 public class CrudFinder<T extends CrudModel<T>> {
 	
@@ -17,7 +19,12 @@ public class CrudFinder<T extends CrudModel<T>> {
 	}
 
     public Page<T> page(final int page, final int pageSize, final String sortBy, final String order, final String filter) {
-        return finder.where().ilike(labelDbFieldName, "%" + filter + "%").orderBy(sortBy + " " + order).findPagingList(pageSize).getPage(page);
+    	ExpressionList<T> exp = finder.where();
+    	if (filter!=null) {
+    		exp = exp.ilike(labelDbFieldName, "%" + filter + "%");
+    	}
+    	Query<T> query = (sortBy==null)?exp.query():exp.orderBy(sortBy + " " + order);
+        return query.findPagingList(pageSize).getPage(page);
     }    
     
     public List<T> all() {
