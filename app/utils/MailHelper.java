@@ -12,7 +12,7 @@ public class MailHelper {
 		
 		mail.setHostName(AppConfigResolver.get(AppConfigResolver.SMTP_HOST).toString());
 		mail.setSmtpPort(AppConfigResolver.get(AppConfigResolver.SMTP_PORT).asInt());
-		mail.setFrom("someuser@test.test");
+		mail.setFrom(AppConfigResolver.get(AppConfigResolver.SMTP_FROM_ADDRESS).toString());
 		mail.setCharset("UTF-8");
 		return mail;
 	}
