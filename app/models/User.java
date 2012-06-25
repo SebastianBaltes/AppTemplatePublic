@@ -1,10 +1,18 @@
 package models;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.avaje.ebean.annotation.PrivateOwned;
 
 @SuppressWarnings("serial")
 @Entity
@@ -31,7 +39,10 @@ public class User extends CrudModel<User> {
 	public String randomPasswordRecoveryString;
 	@Column(name="pwrecover_triggered")
 	public Timestamp randomPasswordRecoveryTriggerDate;
-
+	
+	@PrivateOwned
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<Ding> dings; 
 
 	public String getEmail() {
 		return email;
@@ -144,8 +155,16 @@ public class User extends CrudModel<User> {
 	public void setRandomPasswordRecoveryTriggerDate(Timestamp _randomPasswordRecoveryTriggerDate) {
 		randomPasswordRecoveryTriggerDate = _randomPasswordRecoveryTriggerDate;
 	}
+	
+    public Set<Ding> getDings() {
+		return dings;
+	}
 
-    @Override
+	public void setDings(Set<Ding> dings) {
+		this.dings = dings;
+	}
+
+	@Override
     public String label() {
         return email;
     }
