@@ -1,8 +1,8 @@
 @(implicit currentPage: Page[Ding], clist: CrudListState)
 
 @import controllers.admin.routes 
-@import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._
+@import views.html.oc_helper._ 
 
 @loggedin_main() {
 
@@ -11,13 +11,15 @@
       @header("description", "Beschreibung")
       @header("special", "Special")
       @header("price", "Preis")
+      @header("user.email", "Benutzer")
   } { 
       @for(ding <- currentPage.getList) {
         <tr>
 	      <td><a href="@clist.crudBaseUrl/@ding.id">@ding.name</a></td>
 	      <td>@ding.description</td>
 	      <td>@ding.special</td>
-	      <td>@ding.price</td>
+	      <td>@ding.price</td> 
+	      <td>@elvis[User](ding.user,_.getEmail(),"-")</td>
         </tr>
       }
   }

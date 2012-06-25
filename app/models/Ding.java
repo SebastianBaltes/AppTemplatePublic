@@ -3,6 +3,8 @@ package models;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints;
@@ -20,6 +22,8 @@ public class Ding extends CrudModel<Ding> {
     public boolean special;
     @Constraints.Required
     public BigDecimal price;
+	@ManyToOne(fetch=FetchType.EAGER)
+	public User user;
 
     @Override
     public String label() {
@@ -56,6 +60,14 @@ public class Ding extends CrudModel<Ding> {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

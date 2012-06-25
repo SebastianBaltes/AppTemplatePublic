@@ -1,19 +1,22 @@
 @(implicit cDetails: CrudDetailsState, f: Form[Ding], viewType: controllers.ViewType) 
 
+@import play.libs.Scala._ 
 @import scala.collection.JavaConversions._ 
 @import controllers.admin.routes 
 @import views.html.helper._
 @import views.html.oc_helper._ 
 @import views.html.oc_helper.bootstrap2._ 
+@import models._
 
 @loggedin_main() {
 
   @crudForm() {
-  
+
     @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
     @inputText( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
     @checkboxField( f("special"), '_label -> "Spezial", disabledOrNot() )  
     @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
+    @singleselect( f("user.id"), options = User.find.all )('_label -> "User", disabledOrNot())
   
   }
 }

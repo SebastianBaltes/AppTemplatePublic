@@ -11,7 +11,7 @@
   @crudForm() {
   
     @inputText( f("email"), '_label -> "E-Mail", disabledOrNot() ) 
-    @inputText( f("timezone"), '_label -> "Zeitzone", disabledOrNot() ) 
+    @singleselect( f("timezone"), options = java.util.TimeZone.getAvailableIDs())('_label -> "Zeitzone", disabledOrNot())
     @checkboxField( f("validated"), '_label -> "E-Mail validiert", disabledOrNot() ) 
     @inputText( f("firstname"), '_label -> "Vorname", disabledOrNot() ) 
     @inputText( f("surname"), '_label -> "Nachname", disabledOrNot() ) 
