@@ -1,7 +1,5 @@
 package controllers.site;
 
-import javax.swing.JOptionPane;
-
 import global.AppConfigResolver;
 import models.Role;
 import models.User;
@@ -84,6 +82,8 @@ public class RegistrationController extends Controller {
 						mail.addTo(myForm.getMandatory().getEmail());
 						mail.setSubject("Ihre Anmeldung");
 						mail.setMsg(mailTemplate.toString());
+						
+						Logger.info("about to send RegistrationMail=" + ReflectionToStringBuilder.toString(mail));
 						mail.send();
 					} catch (final EmailException e) {
 						throw new RuntimeException("Could not send registration confirmation mail due to =" + e, e);
