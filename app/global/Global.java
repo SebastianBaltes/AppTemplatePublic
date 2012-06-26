@@ -1,11 +1,12 @@
 package global;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.List;
 
-import models.Role;
 import models.User;
+import models.logevents.LogHttpRequest;
 
 import org.apache.commons.io.FileUtils;
 
@@ -16,11 +17,39 @@ import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.data.format.Formatters;
+import play.mvc.Action;
+import play.mvc.Result;
+import play.mvc.Http.Context;
+import play.mvc.Http.Request;
 
 public class Global extends GlobalSettings {
 
     public final static String APP_NAME = "AppTemplate"; 
 
+    //FIXME: add remote IP (from header and response code)
+    @Override
+    public Action onRequest(final Request _request, final Method _actionMethod) {
+        return new Action.Simple() {
+            public Result call(Context ctx) throws Throwable {
+
+            	final LogHttpRequest log = new LogHttpRequest();
+            	log.setStartTime(System.currentTimeMillis());
+            	log.setFromIP(null);
+            	log.setHost(_request.host());
+            	log.setMethod(_request.method());
+            	log.setReferer(_request.getHeader("referer"));
+            	log.setUrl(_request.uri());
+            	log.setUserAgent(_request.getHeader("user-agent"));
+            	
+                final Result result = delegate.call(ctx);
+                
+            	log.setEndTime(System.currentTimeMillis());
+            	log.save();
+                return result; 
+            }
+        };
+    }
+    
 	@Override
 	public void onStart(final Application app) {
 		Logger.debug("onStart()");

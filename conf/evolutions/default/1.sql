@@ -35,6 +35,20 @@ create table ding (
   constraint pk_ding primary key (id))
 ;
 
+create table log_httpRequest (
+  id                        bigint not null,
+  method                    varchar(255),
+  url                       varchar(255),
+  host                      varchar(255),
+  response_code             integer,
+  user_agent                varchar(255),
+  referer                   varchar(255),
+  start_time                bigint,
+  end_time                  bigint,
+  from_ip                   varchar(255),
+  constraint pk_log_httpRequest primary key (id))
+;
+
 create table unter_ding (
   id                        bigint not null,
   name                      varchar(255),
@@ -67,6 +81,8 @@ create sequence db_image_seq;
 
 create sequence ding_seq;
 
+create sequence log_httpRequest_seq;
+
 create sequence unter_ding_seq;
 
 create sequence user_account_seq;
@@ -88,6 +104,8 @@ drop table if exists db_image cascade;
 
 drop table if exists ding cascade;
 
+drop table if exists log_httpRequest cascade;
+
 drop table if exists unter_ding cascade;
 
 drop table if exists user_account cascade;
@@ -95,6 +113,8 @@ drop table if exists user_account cascade;
 drop sequence if exists db_image_seq;
 
 drop sequence if exists ding_seq;
+
+drop sequence if exists log_httpRequest_seq;
 
 drop sequence if exists unter_ding_seq;
 
