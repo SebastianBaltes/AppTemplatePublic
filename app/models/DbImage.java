@@ -1,7 +1,18 @@
 package models;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+
+import net.coobird.thumbnailator.Thumbnails;
+import play.Configuration;
+import play.Play;
 
 @SuppressWarnings("serial")
 @Entity

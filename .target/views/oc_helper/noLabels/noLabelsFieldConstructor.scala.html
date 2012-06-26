@@ -1,0 +1,13 @@
+@(elements: views.html.helper.FieldElements)
+
+@import play.api.i18n._
+@import views.html.helper._
+
+@**************************************************
+* Generate naked input without labels             *
+**************************************************@
+
+@elements.input
+@if(!elements.errors(elements.lang).isEmpty) {
+	<span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
+}

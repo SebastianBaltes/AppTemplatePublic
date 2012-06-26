@@ -1,0 +1,18 @@
+@(name: String)(implicit viewType: ViewType)
+
+@import views.html.helper._ 
+
+@actionName(implicit viewType: ViewType) = @{
+    viewType match {
+      case ViewType.view => "Anzeigen"
+      case ViewType.create => "Erstellen"
+      case ViewType.update => "Bearbeiten"
+    }
+}
+
+<div class="page-header">
+    <h1>
+      @name <small> @actionName</small>
+    </h1>
+</div>
+  

@@ -50,6 +50,11 @@ GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/publi
 GET		/assets/admin/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
 GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
 
+# Generic Images
+GET     /admin/image/:id	 											controllers.admin.DbImageController.image(id: Long)  
+GET     /admin/thumbnail/:id											controllers.admin.DbImageController.thumbnail(id: Long)  
+POST    /admin/image		 											controllers.admin.DbImageController.upload()  
+
 # Generic CRUD
 GET     /admin/:crud/listAll											controllers.admin.GenericCRUDController.listAll(crud)
 GET     /admin/:crud/list   											controllers.admin.GenericCRUDController.list(crud,newPage:Int ?= 0, rowsToShow:Int ?= 20, sortBy ?= null, order ?= "asc", filter ?= "")
@@ -60,10 +65,6 @@ GET     /admin/:crud/edit/:id   										controllers.admin.GenericCRUDControlle
 GET     /admin/:crud/delete/:id    	 		    						controllers.admin.GenericCRUDController.delete(crud,id: Long)
 GET     /admin/:crud/:id	   											controllers.admin.GenericCRUDController.view(crud,id: Long)  
 
-# Generic Images
-GET     /admin/:crud/:id/image 											controllers.admin.GenericImagesController.image(crud,id: Long)  
-GET     /admin/:crud/:id/thumbnail										controllers.admin.GenericImagesController.thumbnail(crud,id: Long)  
-
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Common
 #--------------------------------------------------------------------------------------------------------------------------------------------------
@@ -72,3 +73,4 @@ GET		/assets/javascripts/*file										controllers.Assets.at(path="/public/java
 GET     /assets/images/*file           									controllers.Assets.at(path="/public/images", file)
 GET     /assets/stylesheets/*file				      					controllers.Assets.at(path="/public/stylesheets", file)
 GET     /assets/DataTable/*file				      						controllers.Assets.at(path="/public/DataTable", file)
+GET     /assets/blueimp-jQuery-File-Upload/*file				      	controllers.Assets.at(path="/public/blueimp-jQuery-File-Upload", file)
