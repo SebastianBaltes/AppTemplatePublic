@@ -58,7 +58,6 @@ public class AppConfigResolver {
 		public String toString() {
 			return value;
 		}
-		
 	}
 	
 
