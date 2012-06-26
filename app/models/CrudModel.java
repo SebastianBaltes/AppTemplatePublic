@@ -18,7 +18,7 @@ public abstract class CrudModel<T extends CrudModel<T>> extends Model {
 
     public abstract String label();
 
-    protected abstract CrudFinder<T> getCrudFinder();
+    public abstract CrudFinder<T> getCrudFinder();
     
     public void saveOrUpdate() {
         if (id == null) {

@@ -1,19 +1,26 @@
 package models;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.data.format.Formats.NonEmpty;
 import play.data.validation.Constraints;
+
+import com.avaje.ebean.annotation.PrivateOwned;
 
 @SuppressWarnings("serial")
 @Entity
 public class Ding extends CrudModel<Ding> {
 
-    public static final DingFinder find = new DingFinder();
+    public static final ModelFinder find = new ModelFinder();
 
     @Constraints.Required
     @NonEmpty
@@ -24,6 +31,22 @@ public class Ding extends CrudModel<Ding> {
     public BigDecimal price;
 	@ManyToOne(fetch=FetchType.EAGER)
 	public User user;
+	public Date someDate;
+	public Timestamp someTime;
+	public DingEnum dingEnum;
+	@ManyToOne(fetch=FetchType.EAGER)
+	public DbImage image;
+	
+	// Currently not supported by eBean!
+	//  	@ElementCollection(targetClass=DingEnum.class)
+	//    @Enumerated(EnumType.STRING)
+	//    @CollectionTable(name="ding_dingenums")
+	//    @Column(name="dingenum")
+	//    public Collection<DingEnum> dingEnumSet;	
+
+	@PrivateOwned
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ding")
+	public List<UnterDing> unterDinge;
 
     @Override
     public String label() {
@@ -70,14 +93,54 @@ public class Ding extends CrudModel<Ding> {
 		this.user = user;
 	}
 
+	public Date getSomeDate() {
+		return someDate;
+	}
+
+	public void setSomeDate(Date someDate) {
+		this.someDate = someDate;
+	}
+
+	public Timestamp getSomeTime() {
+		return someTime;
+	}
+
+	public void setSomeTime(Timestamp someTime) {
+		this.someTime = someTime;
+	}
+
+	public DingEnum getDingEnum() {
+		return dingEnum;
+	}
+
+	public void setDingEnum(DingEnum dingEnum) {
+		this.dingEnum = dingEnum;
+	}
+
+	public List<UnterDing> getUnterDinge() {
+		return unterDinge;
+	}
+
+	public void setUnterDinge(List<UnterDing> unterDinge) {
+		this.unterDinge = unterDinge;
+	}
+
+	public DbImage getImage() {
+		return image;
+	}
+
+	public void setImage(DbImage image) {
+		this.image = image;
+	}
+
 	@Override
-	protected CrudFinder<Ding> getCrudFinder() {
+	public CrudFinder<Ding> getCrudFinder() {
 		return find;
 	}
     
-	public static class DingFinder extends CrudFinder<Ding> {
+	public static class ModelFinder extends CrudFinder<Ding> {
 		
-		public DingFinder() {
+		public ModelFinder() {
 			super(new Finder<Long, Ding>(Long.class, Ding.class),"name");
 		}
 

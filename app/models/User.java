@@ -1,14 +1,12 @@
 package models;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,7 +17,7 @@ import com.avaje.ebean.annotation.PrivateOwned;
 @Table(name = "user_account")
 public class User extends CrudModel<User> {
 
-    public static final UserFinder find = new UserFinder();
+    public static final ModelFinder find = new ModelFinder();
 
 	public String email;
 	public String passwordHash;
@@ -170,13 +168,13 @@ public class User extends CrudModel<User> {
     }
 
 	@Override
-	protected CrudFinder<User> getCrudFinder() {
+	public CrudFinder<User> getCrudFinder() {
 		return find;
 	}
 
-	public static class UserFinder extends CrudFinder<User> {
+	public static class ModelFinder extends CrudFinder<User> {
 		
-		public UserFinder() {
+		public ModelFinder() {
 			super(new Finder<Long, User>(Long.class, User.class),"email");
 		}
 

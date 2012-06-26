@@ -84,7 +84,7 @@ public class DynamicCRUDController<T extends CrudModel<T>> extends AbstractCRUDC
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static CrudFinder getCrudFinder(Class entityClass_) {
+	public static CrudFinder getCrudFinder(Class entityClass_) {
 		Field field;
 		try {
 			field = entityClass_.getField("find");

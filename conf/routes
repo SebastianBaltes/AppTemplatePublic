@@ -60,6 +60,10 @@ GET     /admin/:crud/edit/:id   										controllers.admin.GenericCRUDControlle
 GET     /admin/:crud/delete/:id    	 		    						controllers.admin.GenericCRUDController.delete(crud,id: Long)
 GET     /admin/:crud/:id	   											controllers.admin.GenericCRUDController.view(crud,id: Long)  
 
+# Generic Images
+GET     /admin/:crud/:id/image 											controllers.admin.GenericImagesController.image(crud,id: Long)  
+GET     /admin/:crud/:id/thumbnail										controllers.admin.GenericImagesController.thumbnail(crud,id: Long)  
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Common
 #--------------------------------------------------------------------------------------------------------------------------------------------------

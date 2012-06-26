@@ -1,0 +1,23 @@
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit handler: views.html.helper.FieldConstructor, lang: play.api.i18n.Lang)
+
+@import views.html.helper._ 
+
+@input(field, args:_*) { (id, name, value, htmlArgs) =>
+	@if(field("id").value.isDefined) {
+		<img id="@id" href="@id/thumbnail/@field("id")" alt="@field("label")" height="@field("thumbnailHeight")" width="@field("thumbnailWidth")" @toHtmlArgs(htmlArgs)/>
+	} else {
+	    <div></div>
+		<script type="text/javascript">
+			$('#fileupload').fileupload({
+		        dataType: 'json',
+		        url: 'server/php/',
+		        done: function (e, data) {
+		            $.each(data.result, function (index, file) {
+		                $('<p/>').text(file.name).appendTo(document.body);
+		            });
+		        }
+		    });		
+		</script>
+		No Image! -- TODO Upload
+	}
+}

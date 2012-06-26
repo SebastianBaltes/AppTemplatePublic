@@ -16,7 +16,7 @@ import models.CrudModel
 package object oc_helper {
 
   // FIXME bessere :? Syntax??
-  def elvis[T](obj: T, f: T => Any, ifNullValue: Any) = {
+  def elvis[T](obj: T, f: T => Any, ifNullValue: Any = "") = {
     if (obj==null) {
       ifNullValue
     } else {
