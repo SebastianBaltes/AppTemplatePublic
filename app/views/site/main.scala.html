@@ -50,6 +50,10 @@
     <script src="/assets/admin/bootstrap/js/bootstrap-collapse.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-carousel.js"></script>
     <script src="/assets/admin/bootstrap/js/bootstrap-typeahead.js"></script>
+    
+    @if(global.AppConfigResolver.getPlain(global.AppConfigResolver.PARA_MY_PROFILE_NAME) == "prod") {
+    	<script src="/assets/analytics/main.js"></script>
+    }
   </head>
 
   <body>
