@@ -78,14 +78,19 @@ create table user_account (
 ;
 
 create sequence db_image_seq;
+alter sequence db_image_seq owned by db_image.id;
 
 create sequence ding_seq;
+alter sequence ding_seq owned by ding.id;
 
 create sequence log_httpRequest_seq;
+alter sequence log_httpRequest_seq owned by log_httpRequest.id;
 
 create sequence unter_ding_seq;
+alter sequence unter_ding_seq owned by unter_ding.id;
 
 create sequence user_account_seq;
+alter sequence user_account_seq owned by user_account.id;
 
 alter table ding add constraint fk_ding_user_1 foreign key (user_id) references user_account (id);
 create index ix_ding_user_1 on ding (user_id);
@@ -95,6 +100,8 @@ alter table unter_ding add constraint fk_unter_ding_ding_3 foreign key (ding_id)
 create index ix_unter_ding_ding_3 on unter_ding (ding_id);
 alter table unter_ding add constraint fk_unter_ding_image_4 foreign key (image_id) references db_image (id);
 create index ix_unter_ding_image_4 on unter_ding (image_id);
+
+
 
 
 

@@ -22,4 +22,4 @@ CREATE SEQUENCE log_httprequest_seq
     CACHE 1;
 
 
-ALTER TABLE public.log_httprequest_seq OWNER TO test;
+ALTER SEQUENCE public.log_httprequest_seq owned by log_httprequest.id;
