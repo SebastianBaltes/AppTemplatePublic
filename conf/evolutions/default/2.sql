@@ -23,3 +23,4 @@ CREATE SEQUENCE log_httprequest_seq
 
 
 ALTER SEQUENCE public.log_httprequest_seq owned by log_httprequest.id;
+
