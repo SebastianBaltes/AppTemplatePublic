@@ -3,28 +3,33 @@
 @import views.html.helper._ 
 
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
-	@if(field("id").value.isDefined) {
-		<img id="@id" href="thumbnail/@id/@field("id").value.getOrElse(null)" alt="@field("label")" height="@field("thumbnailHeight")" width="@field("thumbnailWidth")" @toHtmlArgs(htmlArgs)/>
-	} else {
-		@if(args.exists(_._1 == 'disabled)) {
-			<span class="label">kein Bild</span> 
-		} else {
-		    <input id="@{id}-fileupload" type="file" name="@name" data-url="@baseUrl"/>
-		    <div id="@{id}-fileupload-preview"></div>
-			<script type="text/javascript">
-				$('#@{id}-fileupload').fileupload({
-			        dataType: 'json',
-					formData: { 
-			        	id: @field("id").value.getOrElse("null")
-			        },
-			        done: function (e, data) {
-			        	var img = data.result;
-			        	$('<img id="'+img.id+'" href="/admin/thumbnail/'+img.id+'" alt="'+img.label+'" height="'+img.height+'" width="'+img.width+'"/>').appendTo($('#@{id}-fileupload-preview'));
-			        }
-			    }).error(function (jqXHR, textStatus, errorThrown) {
-			    	console.log(jqXHR, textStatus, errorThrown);
-			    });		
-			</script>
-		}
+	@if(!args.exists(_._1 == 'disabled)) {
+	    <input id="@{id}-id" type="hidden" name="@{id}.id" value="@field("id").value.getOrElse(null)"/>
+	    <input id="@{id}-fileupload" type="file" name="@name" data-url="@baseUrl"/>
+		<script type="text/javascript">
+			$('#@{id}-fileupload').fileupload({
+		        dataType: 'json',
+				formData: { 
+		        	id: @field("id").value.getOrElse("null")
+		        },
+		        done: function (e, data) {
+		        	var img = data.result;
+		        	var previewArea = $('#@{id}-preview');
+		        	var imagePreview = $('<img id="'+img.id+'" src="/admin/image/'+img.thumbnail.id+'" alt="'+img.label+'" height="'+img.thumbnail.height+'" width="'+img.thumbnail.width+'"/>');
+		        	$('#@{id}-id').val(img.id);
+		        	previewArea.empty();
+		        	previewArea.append(imagePreview);
+		        }
+		    }).error(function (jqXHR, textStatus, errorThrown) {
+		    	console.log(jqXHR, textStatus, errorThrown);
+		    });		
+		</script>
 	}
+    <div id="@{id}-preview" class="image-preview">
+		@if(field("id").value.isDefined) {
+		    <img id="@id" src="/admin/image/@field("thumbnail.id").value.getOrElse(null)" alt="@field("label").value.getOrElse("")" height="@field("thumbnail.height").value.getOrElse(0)" width="@field("thumbnail.width").value.getOrElse(0)"/>
+		} else {
+			<span class="label">kein Bild vorhanden</span>
+		} 
+    </div>
 }

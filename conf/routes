@@ -40,7 +40,6 @@ POST	/profile/data													controllers.site.UserProfileController.changeData
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
 GET     /admin/	                   										controllers.admin.Application.index()
-GET     /admin/dummy													controllers.admin.Application.dummy()
 GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 GET		/admin/signout													controllers.admin.LoginController.signOut()
@@ -52,7 +51,6 @@ GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/publ
 
 # Generic Images
 GET     /admin/image/:id	 											controllers.admin.DbImageController.image(id: Long)  
-GET     /admin/thumbnail/:id											controllers.admin.DbImageController.thumbnail(id: Long)  
 POST    /admin/image		 											controllers.admin.DbImageController.upload()  
 
 # Generic CRUD
