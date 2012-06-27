@@ -12,6 +12,7 @@ GET     /	                         									controllers.site.Application.index()
 GET		/assets/site/bootstrap/img/*file								controllers.Assets.at(path="/public/site/bootstrap/img", file)
 GET		/assets/site/bootstrap/js/*file									controllers.Assets.at(path="/public/site/bootstrap/js", file)
 GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/site/bootstrap/less", file)
+GET		/assets/site/stylesheets/*file									controllers.Assets.at(path="/public/site/stylesheets", file)
 
 GET 	/login															controllers.site.LoginController.index()
 POST 	/login															controllers.site.LoginController.authenticate()
@@ -48,6 +49,7 @@ GET		/admin/signout													controllers.admin.LoginController.signOut()
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
 GET		/assets/admin/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
 GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
+GET		/assets/admin/stylesheets/*file									controllers.Assets.at(path="/public/site/stylesheets", file)
 
 # Generic Images
 GET     /admin/image/:id	 											controllers.admin.DbImageController.image(id: Long)  

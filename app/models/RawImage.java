@@ -49,6 +49,9 @@ public class RawImage extends Model {
 	public void setImage(byte[] bytes) {
 		try {
 			Image img = ImageIO.read(new ByteArrayInputStream(bytes));
+			if (img==null) {
+				throw new RuntimeException("unknown image format");
+			}
 			this.width = img.getWidth(null);
 			this.height = img.getHeight(null);
 			this.mimetype = mimetype(bytes);

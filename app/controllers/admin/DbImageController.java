@@ -1,6 +1,7 @@
 package controllers.admin;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,9 @@ public class DbImageController extends Controller {
 			File imgFile = filePart.getFile();
 			byte[] bytes = FileUtils.readFileToByteArray(imgFile);
 			setRawImage(image, bytes);
+			if (!isAllowedMimetype(image)) {
+				return status(400, "mimetype not allowed");
+			}
 			setRawThumbnail(image);
 			image.saveOrUpdate();
 			ObjectNode result = dbImageToJson(image);
@@ -57,6 +61,12 @@ public class DbImageController extends Controller {
 			Logger.warn(e.getMessage(),e);
 			return status(400, e.getMessage());
 		}
+	}
+
+	private static boolean isAllowedMimetype(DbImage image) {
+		Configuration config = Play.application().configuration();
+		int index = Arrays.binarySearch(config.getString("image.mimetypes.allowed").split(","),image.getImage().getMimetype());
+		return index>=0;
 	}
 
 	private static void setRawImage(DbImage image, byte[] bytes) {
