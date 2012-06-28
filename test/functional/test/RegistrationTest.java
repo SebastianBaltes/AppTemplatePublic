@@ -207,6 +207,9 @@ public class RegistrationTest extends FunctionalTest {
 		TestHelper.assertResultOk(r);
 		
 		final User reloadUser = assertUserValidated(u, true);
+		
+		//FIXME: does not work, why ? 
+		// assertTrue(EqualsBuilder.reflectionEquals(reloadUser, u, new String[] {"lastUpdate", "validated", "dings"}));
 		assertTrue(reloadUser.getLastUpdate().getTime() > u.getLastUpdate().getTime());
 	}
 	
@@ -222,7 +225,8 @@ public class RegistrationTest extends FunctionalTest {
 		assertActivationInvalid(r);
 		
 		final User reloadUser = assertUserValidated(u, true);
-		EqualsBuilder.reflectionEquals(reloadUser, u);
+		//FIXME: does not work, why ?
+//		assertTrue(EqualsBuilder.reflectionEquals(reloadUser, u));
 	}
 	
 	private Result callValidActivation(final User u) {
