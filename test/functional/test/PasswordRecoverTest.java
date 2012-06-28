@@ -3,8 +3,13 @@ package functional.test;
 //import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;
+import static testutil.TestHelper.*;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import models.User;
 
@@ -123,7 +128,7 @@ public class PasswordRecoverTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void testRecoverFromRegisteredUser() {
+	public void testRecoverFromRegisteredUser() throws IOException, MessagingException {
 		final User u = User.find.byEmail("test@test.test"); 
 		assertNotNull(u);
 
@@ -146,7 +151,14 @@ public class PasswordRecoverTest extends FunctionalTest {
 		assertNotNull(reloadUser.getRandomPasswordRecoveryTriggerDate());
 		assertTrue(reloadUser.getRandomPasswordRecoveryTriggerDate().getTime() >= now);
 		assertNotNull(reloadUser.getRandomPasswordRecoveryString());
-		//FIXME: assert mail content and link 
+		
+		final MimeMessage mime = mail.parse();
+		assertNotNull(mime);
+		
+		final List<String> groups = TestHelper.matchGroups(mime.getContent().toString(), "http://(.*?)/recover/" +u.getEmail() +"/(.*)");
+		assertNotNull(groups);
+		assertEquals(3, groups.size());
+		assertEquals(reloadUser.getRandomPasswordRecoveryString(), groups.get(2));
 	}
 	
 	

@@ -1,6 +1,13 @@
 package utils.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
+
 
 @SuppressWarnings("serial")
 public class MailBucket extends ArrayList<MailBucket.Mail> implements MailListener {
@@ -15,6 +22,18 @@ public class MailBucket extends ArrayList<MailBucket.Mail> implements MailListen
 			from = _from;
 			to = _to;
 			body = _body;
+		}
+		
+		public MimeMessage parse() {
+			try {
+				Session s = Session.getDefaultInstance(new Properties());
+				InputStream is = new ByteArrayInputStream(body.getBytes());
+				return new MimeMessage(s, is);
+			}
+			catch(javax.mail.MessagingException e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
 	}
 
