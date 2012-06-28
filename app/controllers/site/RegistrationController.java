@@ -96,7 +96,7 @@ public class RegistrationController extends Controller {
 			return ok(views.html.site.registration.render(requestForm));
 		}
 		
-		flash().put(FlashScope.SUCCESS, "Registrierung erflogreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
+		flash().put(FlashScope.SUCCESS, "Registrierung erfolgreich ! Bitte überprüfen Sie Ihr EMailpostfach.");
 		return ok(views.html.site.registration.render(requestForm));
 	}
 	

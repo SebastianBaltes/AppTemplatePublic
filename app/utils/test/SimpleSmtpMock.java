@@ -92,6 +92,11 @@ public class SimpleSmtpMock implements SmtpMock, Runnable {
 		thread.start();
 	}
 	
+	public void stop() throws IOException {
+		thread.interrupt();
+		serverSock.close();
+	}
+	
 	private static class Response {
 		Socket socket; 
 		OutputStream out;
