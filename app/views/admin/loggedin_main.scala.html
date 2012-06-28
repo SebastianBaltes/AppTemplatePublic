@@ -43,11 +43,13 @@
 	      </div>        
         </div><!--/span-->
     
-        <div class="span10">
-        	@flashmessages()
-        </div>
+    	@if(!flash().isEmpty()) {
+          <div class="span10 offset2">
+	       	@flashmessages()
+	      </div>
+    	}
      
-        <div class="span10">
+        <div class="span10 offset2">
        	  @content
         </div>
 		

@@ -2,16 +2,12 @@
 
 @import views.html.helper._ 
 
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
-
+@input(field, args++Seq('_inputClass -> "input-append"):_*) { (id, name, value, htmlArgs) =>
 	@if(args.exists(_._1 == 'disabled)) {
 		@** Webshims Lib unterstützt disabled nicht, daher hier ein etwas dreckiger Workaround **@
 	    <input type="text" id="@id" name="@name" value="@global.Html5DateFormatter.reformatLocale(value.getOrElse(null),lang.toLocale)" @toHtmlArgs(htmlArgs)>
 	} else {
-	    <div class="input-append">
-		    <input type="date" id="@id" name="@name" value="@value" @toHtmlArgs(htmlArgs)>
-        	<span class="add-on"><i class="icon-calendar"></i></span>
-        </div>
-	
+	    <input type="date" id="@id" name="@name" value="@value" @toHtmlArgs(htmlArgs)>
+       	<span class="add-on"><i class="icon-calendar"></i></span>
 	}
 }

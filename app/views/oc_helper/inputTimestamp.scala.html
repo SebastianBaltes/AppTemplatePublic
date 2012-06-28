@@ -2,9 +2,7 @@
 
 @import views.html.helper._ 
 
-@** see http://olav.dk/wf2/demo/datetime.asp *@
-
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
+@input(field, args++Seq('_noInputDiv -> true):_*) { (id, name, value, htmlArgs) =>
 
 	@if(args.exists(_._1 == 'disabled)) {
 	    <input type="text" id="@id" name="@name" value="@global.TimeStampFormatter.reformatLocale(value.getOrElse(null),lang.toLocale)" @toHtmlArgs(htmlArgs)>
