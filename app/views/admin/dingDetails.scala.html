@@ -18,9 +18,10 @@
     @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
     @singleselect( f("user.id"), options = User.find.all )('_label -> "User", disabledOrNot())
 
- 	@inputDate( f("someDate"), '_label -> "irgendein Datum", disabledOrNot())
- 	@inputDatetime( f("someTime"), '_label -> "irgendeine Zeit", disabledOrNot())
+ 	@inputDate2( f("someDate"), '_label -> "irgendein Datum", disabledOrNot())
+ 	@inputTimestamp( f("someTime"), '_label -> "irgendeine Zeit", disabledOrNot())
     @singleselect( f("dingEnum"), options = DingEnum.values())('_label -> "Programmiersprache", disabledOrNot())
+
 
 	@inputDbImage( f("image"), "/admin/image", '_label -> "Bild", disabledOrNot())
 

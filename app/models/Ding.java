@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -28,6 +29,7 @@ public class Ding extends CrudModel<Ding> {
     public String description;
     public boolean special;
     @Constraints.Required
+    @Column(precision=15, scale=2)    
     public BigDecimal price;
 	@ManyToOne(fetch=FetchType.EAGER)
 	public User user;

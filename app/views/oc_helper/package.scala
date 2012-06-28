@@ -9,12 +9,24 @@ import java.lang.Boolean
 import scala.xml._
 import views.html.helper._
 import models.CrudModel
+import play.data.format.Formatters
+import global.Html5DateFormatter
+import global.TimeStampFormatter
 
 /**
  * Contains template helpers, for example for generating HTML forms.
  */
 package object oc_helper {
 
+  def fmt(value: Any)(implicit lang: play.api.i18n.Lang): Html = {
+	 value match {
+	   case x:java.sql.Date => Html(Html5DateFormatter.formatLocale(x, lang.toLocale))
+	   case x:java.util.Date => Html(TimeStampFormatter.formatLocale(x, lang.toLocale))
+	   case x:Boolean => Html("<i class='"+(if (x) "icon-ok" else "icon-minus")+"' title='"+Formatters.print(value)+"'></i>")
+	   case _ => Html(Formatters.print(value)) 
+	 }
+  }
+  
   // FIXME bessere :? Syntax??
   def elvis[T](obj: T, f: T => Any, ifNullValue: Any = "") = {
     if (obj==null) {

@@ -1,0 +1,39 @@
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit handler: views.html.helper.FieldConstructor, lang: play.api.i18n.Lang)
+
+@import views.html.helper._ 
+
+@** see http://olav.dk/wf2/demo/datetime.asp *@
+
+@input(field, args:_*) { (id, name, value, htmlArgs) =>
+
+	@if(args.exists(_._1 == 'disabled)) {
+	    <input type="text" id="@id" name="@name" value="@global.TimeStampFormatter.reformatLocale(value.getOrElse(null),lang.toLocale)" @toHtmlArgs(htmlArgs)>
+	} else {
+	    <input type="text" id="@id" name="@name" value="@value" @toHtmlArgs(htmlArgs) style="display: none;">
+	    <span class="input-append">
+		    <input type="date" id="@id-date" value="@global.TimeStampFormatter.getDatePart(value.getOrElse(null))" class="input-medium" style="width:86px" @toHtmlArgs(htmlArgs)>
+        	<span class="add-on"><i class="icon-calendar"></i></span>
+        </span>
+	    <div class="input-append">
+		    <input type="time" id="@id-time" value="@global.TimeStampFormatter.getTimePart(value.getOrElse(null))" class="input-mini" @toHtmlArgs(htmlArgs)>
+        	<span class="add-on"><i class="icon-time"></i></span>
+        </div>
+		<script type="text/javascript">
+			function @{id}onChange() {
+				var date = $('#@id-date').val();
+				var time = $('#@id-time').val();
+				if (time=="") {
+					time="00:00";
+				}
+				if (time.length==5) {
+					time+=":00"
+				}
+				$('#@id').val(date+" "+time);
+			}
+			$('#@id-date').change(@{id}onChange);
+			$('#@id-time').change(@{id}onChange);
+		</script>
+        
+	}
+    
+}

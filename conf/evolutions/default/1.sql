@@ -18,7 +18,7 @@ create table ding (
   name                      varchar(255),
   description               varchar(255),
   special                   boolean,
-  price                     decimal(38),
+  price                     decimal(15,2),
   user_id                   bigint,
   some_date                 date,
   some_time                 timestamp,

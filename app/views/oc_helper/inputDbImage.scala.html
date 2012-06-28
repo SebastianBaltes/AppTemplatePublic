@@ -24,10 +24,10 @@
             <p>
 				@if(!args.exists(_._1 == 'disabled)) {
 		           	<span id="@id-add" class="btn btn-success fileinput-button">
-					  <i class="icon-plus icon-white"></i>
-					  <input id="@id-fileupload" type="file" name="@name" data-url="@baseUrl"/>
+					  <i class="icon-upload icon-white"></i>
+					  <input id="@id-fileupload" type="file" name="@name" data-url="@baseUrl" title="Bild hochladen / austauschen"/>
 				    </span>
-				    <button id="@id-delete" type="button" class="btn btn-danger delete">
+				    <button id="@id-delete" type="button" class="btn btn-danger delete" title="Bild löschen">
 				      <i class="icon-trash icon-white"></i>
 				    </button>
 				}
