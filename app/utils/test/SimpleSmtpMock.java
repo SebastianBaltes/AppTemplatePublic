@@ -26,6 +26,7 @@ public class SimpleSmtpMock implements SmtpMock, Runnable {
 	
 	private String mailFrom;
 	private String mailTo; 
+	private boolean mockError; 
 	
 	private Map<Command, CmdConfig> cmds = new HashMap<Command, CmdConfig>();
 	
@@ -127,6 +128,13 @@ public class SimpleSmtpMock implements SmtpMock, Runnable {
 				isDataMode = false;
 				wasDataMode = false;
 				
+				if (mockError) {
+					// simply close socket
+					setMockError(false);
+					response.close();
+					continue; 
+				}
+				
 				// hello world ;-)
 				response.put(SMTP_CODES.get(220));
 				
@@ -202,6 +210,14 @@ public class SimpleSmtpMock implements SmtpMock, Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setMockError(boolean mockError) {
+		this.mockError = mockError;
+	}
+
+	public boolean isMockError() {
+		return mockError;
 	}
 
 }

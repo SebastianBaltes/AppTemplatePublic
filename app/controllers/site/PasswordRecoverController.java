@@ -48,7 +48,7 @@ public class PasswordRecoverController extends Controller {
 
 		if (user == null) {
 			Logger.info("PasswordRecoverController: recovery attempt for unknown email address=" + myForm);
-			flash().put(FlashScope.SUCCESS, "Bitte überprüfen Sie Ihr Emailpostfach !");
+			flash().put(FlashScope.SUCCESS, "Eine Bestätigungsmail wurde an Sie versandt, bitte überprüfen Sie Ihr Postfach !");
 			return redirect(routes.PasswordRecoverController.index(myForm.getEmail()));
 		}
 
