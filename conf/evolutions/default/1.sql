@@ -5,16 +5,10 @@
 
 create table db_image (
   id                        bigint not null,
-  filename                  varchar(255),
   label                     varchar(255),
-  image                     blob,
-  width                     integer,
-  height                    integer,
-  mimetype                  varchar(255),
-  thumbnail                 blob,
-  thumbnail_width           integer,
-  thumbnail_height          integer,
-  thumbnail_mimetype        varchar(255),
+  filename                  varchar(255),
+  image_id                  bigint,
+  thumbnail_id              bigint,
   last_update               timestamp not null,
   constraint pk_db_image primary key (id))
 ;
@@ -24,7 +18,7 @@ create table ding (
   name                      varchar(255),
   description               varchar(255),
   special                   boolean,
-  price                     decimal(38),
+  price                     decimal(15,2),
   user_id                   bigint,
   some_date                 date,
   some_time                 timestamp,
@@ -47,6 +41,16 @@ create table log_httpRequest (
   end_time                  bigint,
   from_ip                   varchar(255),
   constraint pk_log_httpRequest primary key (id))
+;
+
+create table raw_image (
+  id                        bigint not null,
+  image                     blob,
+  width                     integer,
+  height                    integer,
+  mimetype                  varchar(255),
+  last_update               timestamp not null,
+  constraint pk_raw_image primary key (id))
 ;
 
 create table unter_ding (
@@ -83,18 +87,24 @@ create sequence ding_seq;
 
 create sequence log_httpRequest_seq;
 
+create sequence raw_image_seq;
+
 create sequence unter_ding_seq;
 
 create sequence user_account_seq;
 
-alter table ding add constraint fk_ding_user_1 foreign key (user_id) references user_account (id) on delete restrict on update restrict;
-create index ix_ding_user_1 on ding (user_id);
-alter table ding add constraint fk_ding_image_2 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
-create index ix_ding_image_2 on ding (image_id);
-alter table unter_ding add constraint fk_unter_ding_ding_3 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
-create index ix_unter_ding_ding_3 on unter_ding (ding_id);
-alter table unter_ding add constraint fk_unter_ding_image_4 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
-create index ix_unter_ding_image_4 on unter_ding (image_id);
+alter table db_image add constraint fk_db_image_image_1 foreign key (image_id) references raw_image (id) on delete restrict on update restrict;
+create index ix_db_image_image_1 on db_image (image_id);
+alter table db_image add constraint fk_db_image_thumbnail_2 foreign key (thumbnail_id) references raw_image (id) on delete restrict on update restrict;
+create index ix_db_image_thumbnail_2 on db_image (thumbnail_id);
+alter table ding add constraint fk_ding_user_3 foreign key (user_id) references user_account (id) on delete restrict on update restrict;
+create index ix_ding_user_3 on ding (user_id);
+alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
+create index ix_ding_image_4 on ding (image_id);
+alter table unter_ding add constraint fk_unter_ding_ding_5 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
+create index ix_unter_ding_ding_5 on unter_ding (ding_id);
+alter table unter_ding add constraint fk_unter_ding_image_6 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
+create index ix_unter_ding_image_6 on unter_ding (image_id);
 
 
 
@@ -108,6 +118,8 @@ drop table if exists ding;
 
 drop table if exists log_httpRequest;
 
+drop table if exists raw_image;
+
 drop table if exists unter_ding;
 
 drop table if exists user_account;
@@ -119,6 +131,8 @@ drop sequence if exists db_image_seq;
 drop sequence if exists ding_seq;
 
 drop sequence if exists log_httpRequest_seq;
+
+drop sequence if exists raw_image_seq;
 
 drop sequence if exists unter_ding_seq;
 

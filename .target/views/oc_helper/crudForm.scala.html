@@ -1,0 +1,23 @@
+@()(content: Html)(implicit cDetails: CrudDetailsState, viewType: controllers.ViewType, f: Form[_ <: Any])
+
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
+@import views.html.helper._
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+ 
+<div class="row-fluid">
+  <div class="span12">
+    @crudHeadline(cDetails.crudEntityLabel)
+    <form class="form-horizontal" action="@crudFormTarget(cDetails.crudBaseUrl)" method="post">
+      <fieldset>
+	    @hiddenField( f("id") ) 
+	    @hiddenField( f("lastUpdate") ) 
+        @content
+        <div class="form-actions">
+          @crudFormActions(cDetails.crudBaseUrl,f)
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

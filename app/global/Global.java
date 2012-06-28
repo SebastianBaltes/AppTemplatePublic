@@ -2,6 +2,7 @@ package global;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -10,24 +11,25 @@ import models.logevents.LogHttpRequest;
 
 import org.apache.commons.io.FileUtils;
 
-import com.avaje.ebean.Ebean;
-
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
 import play.data.format.Formatters;
 import play.mvc.Action;
-import play.mvc.Result;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
+import play.mvc.Result;
+
+import com.avaje.ebean.Ebean;
 
 public class Global extends GlobalSettings {
 
     public final static String APP_NAME = "AppTemplate"; 
 
     //FIXME: add remote IP (from header and response code)
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public Action onRequest(final Request _request, final Method _actionMethod) {
         return new Action.Simple() {
             public Result call(Context ctx) throws Throwable {
@@ -56,11 +58,13 @@ public class Global extends GlobalSettings {
 		setupLogging(app);
 		createInitialDatabase(app);
 		Formatters.register(Timestamp.class, new TimeStampFormatter());
+		Formatters.register(java.sql.Date.class, new Html5DateFormatter());
+		Formatters.register(BigDecimal.class, new BigDecimalFormatter());
 	}
 
 	private void setupLogging(final Application app) {
 		if (Play.isDev() || Play.isTest()) {
-			Ebean.getServer(null).getAdminLogging().setDebugGeneratedSql(true);
+			Ebean.getServer(null).getAdminLogging().setDebugGeneratedSql(false);
 		}
 	}
 	

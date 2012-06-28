@@ -12,6 +12,7 @@ GET     /	                         									controllers.site.Application.index()
 GET		/assets/site/bootstrap/img/*file								controllers.Assets.at(path="/public/site/bootstrap/img", file)
 GET		/assets/site/bootstrap/js/*file									controllers.Assets.at(path="/public/site/bootstrap/js", file)
 GET		/assets/site/bootstrap/less/*file								controllers.Assets.at(path="/public/site/bootstrap/less", file)
+GET		/assets/site/stylesheets/*file									controllers.Assets.at(path="/public/site/stylesheets", file)
 
 GET 	/login															controllers.site.LoginController.index()
 POST 	/login															controllers.site.LoginController.authenticate()
@@ -40,7 +41,6 @@ POST	/profile/data													controllers.site.UserProfileController.changeData
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 GET     /admin                         									controllers.admin.Application.index()
 GET     /admin/	                   										controllers.admin.Application.index()
-GET     /admin/dummy													controllers.admin.Application.dummy()
 GET     /admin/login													controllers.admin.LoginController.index()
 POST    /admin/login													controllers.admin.LoginController.authenticate()
 GET		/admin/signout													controllers.admin.LoginController.signOut()
@@ -49,6 +49,11 @@ GET		/admin/signout													controllers.admin.LoginController.signOut()
 GET		/assets/admin/bootstrap/img/*file								controllers.Assets.at(path="/public/admin/bootstrap/img", file)
 GET		/assets/admin/bootstrap/js/*file								controllers.Assets.at(path="/public/admin/bootstrap/js", file)
 GET		/assets/admin/bootstrap/less/*file								controllers.Assets.at(path="/public/admin/bootstrap/less", file)
+GET		/assets/admin/stylesheets/*file									controllers.Assets.at(path="/public/site/stylesheets", file)
+
+# Generic Images
+GET     /admin/image/:id	 											controllers.admin.DbImageController.image(id: Long)  
+POST    /admin/image		 											controllers.admin.DbImageController.upload()  
 
 # Generic CRUD
 GET     /admin/:crud/listAll											controllers.admin.GenericCRUDController.listAll(crud)
@@ -60,10 +65,6 @@ GET     /admin/:crud/edit/:id   										controllers.admin.GenericCRUDControlle
 GET     /admin/:crud/delete/:id    	 		    						controllers.admin.GenericCRUDController.delete(crud,id: Long)
 GET     /admin/:crud/:id	   											controllers.admin.GenericCRUDController.view(crud,id: Long)  
 
-# Generic Images
-GET     /admin/:crud/:id/image 											controllers.admin.GenericImagesController.image(crud,id: Long)  
-GET     /admin/:crud/:id/thumbnail										controllers.admin.GenericImagesController.thumbnail(crud,id: Long)  
-
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Common
 #--------------------------------------------------------------------------------------------------------------------------------------------------
@@ -72,3 +73,5 @@ GET		/assets/javascripts/*file										controllers.Assets.at(path="/public/java
 GET     /assets/images/*file           									controllers.Assets.at(path="/public/images", file)
 GET     /assets/stylesheets/*file				      					controllers.Assets.at(path="/public/stylesheets", file)
 GET     /assets/DataTable/*file				      						controllers.Assets.at(path="/public/DataTable", file)
+GET     /assets/blueimp-jQuery-File-Upload/*file				      	controllers.Assets.at(path="/public/blueimp-jQuery-File-Upload", file)
+GET     /assets/aFarkas-webshim/*file				      				controllers.Assets.at(path="/public/aFarkas-webshim", file)

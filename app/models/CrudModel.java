@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import play.db.ebean.Model;
 
 @SuppressWarnings("serial")

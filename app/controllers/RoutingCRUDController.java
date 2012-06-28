@@ -57,11 +57,9 @@ public class RoutingCRUDController implements ICRUDController {
 		return routeController().delete(id);
 	}
 
-
 	public Result listAll() {
 		return routeController().listAll();
 	}
-
 
 	@Override
 	public String getCrudBaseUrl() {
