@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.Assert;
+
 import models.User;
 
 import play.mvc.Http.Flash;
@@ -92,5 +94,14 @@ public class TestHelper {
 
 	public static void log(final String msg) {
 		System.err.println("_______________________" + msg);
+	}
+	
+	public static void sleep(final long ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 }

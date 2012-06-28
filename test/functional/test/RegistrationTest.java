@@ -2,32 +2,57 @@ package functional.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+
+import static play.mvc.Http.Status.BAD_REQUEST;
+import static play.test.Helpers.contentType;
+import static play.test.Helpers.status;
+import static play.test.Helpers.contentAsString;
+import play.mvc.Result;
+
+import testutil.TestHelper;
+import static testutil.TestHelper.assertPasswordHash;
 import static testutil.TestHelper.log;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
+import models.Role;
 import models.User;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import play.mvc.Result;
-import testutil.TestHelper;
+
+import authenticate.Authenticated;
+
+
 import utils.CountryHelper;
 import utils.test.MailBucket;
 import utils.test.SimpleSmtpMock;
+
 import functional.page.RegistrationPage;
 import funcy.FunctionalTest;
 import funcy.Page;
+import global.AppConfigResolver;
 
 public class RegistrationTest extends FunctionalTest {
 
 	private RegistrationPage page;
 	private int currentRowCount;
+	private long now; 
 	
 	private static SimpleSmtpMock smtpMock;
 	private static MailBucket mailBucket;
+	
 	
 	@BeforeClass
 	public static void setupSmtpMock() throws Exception {
@@ -47,6 +72,7 @@ public class RegistrationTest extends FunctionalTest {
 	public void setupTest() {
 		page = new RegistrationPage(Page.get("/register"));
 		currentRowCount = TestHelper.getRowCount(User.class);
+		now = System.currentTimeMillis();
 	}
 	
 	@After
@@ -71,10 +97,9 @@ public class RegistrationTest extends FunctionalTest {
 		final User u = TestHelper.findLast(User.class);
 		log("found user=" + ReflectionToStringBuilder.toString(u));
 		
-		assertNotNull(u);
+		assertNewUser(u);
 		assertEquals("test1@test.test", u.getEmail());
-		TestHelper.assertPasswordHash("xxxx", u);
-		
+		assertPasswordHash("xxxx", u);
 		assertRegistrationMail(u.getEmail());
 	}
 	
@@ -111,9 +136,9 @@ public class RegistrationTest extends FunctionalTest {
 		final User u = TestHelper.findLast(User.class);
 		log("found user=" + ReflectionToStringBuilder.toString(u));
 		
-		assertNotNull(u);
-		TestHelper.assertPasswordHash("yyyy", u);
+		assertNewUser(u);
 		assertEquals("test2@test.test", u.getEmail());
+		assertPasswordHash("yyyy", u);
 		assertEquals("Hans", u.getFirstname());
 		assertEquals("Wurst", u.getSurname());
 		assertEquals("address", u.getAddress());
@@ -150,19 +175,88 @@ public class RegistrationTest extends FunctionalTest {
 	
 	@Test
 	public void testActivationInvalidUser() {
-		
+		log("testActivationInvalidUser");
+		for (final String user : Arrays.asList("UNKNOWN_STRING", "UNKNOWN_EMAIL@test.test")) {
+			final Result r = RegistrationPage.doActivate(user, "this_is_an_invalid_hash_code");
+			assertActivationInvalid(r);
+			assertNull(User.find.byEmail(user));
+		}
 	}
-
+	
 	@Test
 	public void testActivationInvalidCode() {
+		log("testActivationInvalidCode");
+		final User u = User.find.byEmail("test1@test.test");
+		assertNotNull(u);
+		assertFalse(u.isValidated());
 		
+		final Result r = RegistrationPage.doActivate("test1@test.test", "this_is_an_invalid_hash_code");
+		assertActivationInvalid(r);
+		assertUserValidated(u, false);
 	}
 	
 	@Test
 	public void testActivationSuccess() {
+		log("testActivationSuccess");
+		final User u = User.find.byEmail("test1@test.test");
+		assertNotNull(u);
+		assertFalse(u.isValidated());
+
+		TestHelper.sleep(10);
+		final Result r = callValidActivation(u);
+		TestHelper.assertResultOk(r);
 		
-	}	
+		final User reloadUser = assertUserValidated(u, true);
+		assertTrue(reloadUser.getLastUpdate().getTime() > u.getLastUpdate().getTime());
+	}
 	
+	@Test
+	public void testActivationAlreadyDone() {
+		log("testActivationAlreadyDone");
+		final User u = User.find.byEmail("test1@test.test");
+		assertNotNull(u);
+		assertTrue(u.isValidated());
+		
+		TestHelper.sleep(10);
+		final Result r = callValidActivation(u);
+		assertActivationInvalid(r);
+		
+		final User reloadUser = assertUserValidated(u, true);
+		EqualsBuilder.reflectionEquals(reloadUser, u);
+	}
+	
+	private Result callValidActivation(final User u) {
+		return RegistrationPage.doActivate(
+				u.getEmail(),
+				Authenticated.createHash(u.getEmail()
+						+ AppConfigResolver.getPlain(AppConfigResolver.ACTIVATE_ACCOUNT_SECRET_SALT)));
+	}
+	
+	private User assertUserValidated(final User orgUser, final boolean shouldBeValidated) {
+		assertNotNull(orgUser);
+		final User u = User.find.byId(orgUser.getId());
+		assertNotNull(u);
+		assertNotSame(orgUser, u);
+		assertEquals(shouldBeValidated, u.isValidated());
+		return u; 
+	}
+	
+	private void assertActivationInvalid(final Result r) {
+		assertNotNull(r);
+		assertEquals(BAD_REQUEST, status(r));
+		assertEquals("text/plain", contentType(r));
+		assertEquals("invalid link", contentAsString(r));
+	}
+	
+	private void assertNewUser(final User u) {
+		assertNotNull(u);
+		assertEquals(false, u.isValidated());
+		assertEquals(Role.user, u.getRole());
+		assertEquals("Europe/Berlin", u.getTimezone());
+		
+		assertNotNull(u.getLastUpdate());
+		assertTrue(u.getLastUpdate().getTime() >= now);
+	}	
 	
 	private void testInvalids(String email, String pw1, String pw2, String errMsg) {
 		final Result r = page.doRegisterMinimal(email, pw1, pw2);
