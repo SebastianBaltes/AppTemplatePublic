@@ -2,15 +2,26 @@
 
 @import views.html.helper._ 
 
+@hasImage() = @{ !org.apache.commons.lang.StringUtils.isEmpty(field("id").value.getOrElse(null)) }
+
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
+    @** only the @{id}.id changes the model! **@
     <input id="@id-id" type="hidden" name="@{id}.id" value="@field("id").value.getOrElse(null)"/>
+    @** the other hidden fields are only for the validation error case (otherwise no image would be shown) **@
+    <input id="@id-label" type="hidden" name="@{id}.label" value="@field("label").value.getOrElse(null)"/>
+    <input id="@id-image-id" type="hidden" name="@{id}.image.id" value="@field("image.id").value.getOrElse(null)"/>
+    <input id="@id-image-height" type="hidden" name="@{id}.image.height" value="@field("image.height").value.getOrElse(null)"/>
+    <input id="@id-image-width" type="hidden" name="@{id}.image.width" value="@field("image.width").value.getOrElse(null)"/>
+    <input id="@id-thumbnail-id" type="hidden" name="@{id}.thumbnail.id" value="@field("thumbnail.id").value.getOrElse(null)"/>
+    <input id="@id-thumbnail-height" type="hidden" name="@{id}.thumbnail.height" value="@field("thumbnail.height").value.getOrElse(null)"/>
+    <input id="@id-thumbnail-width" type="hidden" name="@{id}.thumbnail.width" value="@field("thumbnail.width").value.getOrElse(null)"/>
 
 	<ul class="thumbnails">
       <li class="span3">
         <div class="thumbnail">
 		    <a id="@id-preview" class="image-preview" href="/admin/image/@field("image.id").value.getOrElse(null)">
 			    <img id="@id-thumbnail" 
-			    	@if(field("id").value.isDefined) {
+			    	@if(hasImage()) {
 			    		src="/admin/image/@field("thumbnail.id").value.getOrElse(null)"
 			    		alt="@field("label").value.getOrElse("")" 
 			    		height="@field("thumbnail.height").value.getOrElse(0)" 
@@ -22,15 +33,15 @@
 		    </a>
           <div class="caption">
             <p>
-				@if(!args.exists(_._1 == 'disabled)) {
-		           	<span id="@id-add" class="btn btn-success fileinput-button">
-					  <i class="icon-upload icon-white"></i>
-					  <input id="@id-fileupload" type="file" name="@name" data-url="@baseUrl" title="Bild hochladen / austauschen"/>
-				    </span>
-				    <button id="@id-delete" type="button" class="btn btn-danger delete" title="Bild löschen">
-				      <i class="icon-trash icon-white"></i>
-				    </button>
-				}
+              @if(!args.exists(_._1 == 'disabled)) {
+	           	<span id="@id-add" class="btn btn-success fileinput-button">
+				  <i class="icon-upload icon-white"></i>
+				  <input id="@id-fileupload" type="file" name="@name" data-url="@baseUrl" title="Bild hochladen / austauschen"/>
+			    </span>
+			    <button id="@id-delete" type="button" class="btn btn-danger delete" title="Bild löschen">
+			      <i class="icon-trash icon-white"></i>
+			    </button>
+	           }
             </p>
           </div>
         </div>
@@ -44,7 +55,7 @@
 	  </div>
 	  <div class="modal-body">
 	    <img id="@id-image" 
-	    	@if(field("id").value.isDefined) {
+	    	@if(hasImage()) {
 	    		src="/admin/image/@field("image.id").value.getOrElse(null)"
 	    		alt="@field("label").value.getOrElse("")" 
 	    		height="@field("image.height").value.getOrElse(0)" 
@@ -79,6 +90,14 @@
 		        	$('#@id-preview-label').text(img.label);
 		        	$('#@id-preview').attr('href','/admin/image/'+img.image.id);
 		           	$('#@id-delete').css({'visibility': 'visible'});
+		           	
+		        	$('#@id-label').val(img.label);
+		        	$('#@id-image-id').val(img.image.id);
+		        	$('#@id-image-height').val(img.image.height);
+		        	$('#@id-image-width').val(img.image.width);
+		        	$('#@id-thumbnail-id').val(img.thumbnail.id);
+		        	$('#@id-thumbnail-height').val(img.thumbnail.height);
+		        	$('#@id-thumbnail-width').val(img.thumbnail.width);
 		        }
 		    }).error(function (jqXHR, textStatus, errorThrown) {
 		    	console.log(jqXHR, textStatus, errorThrown);
@@ -98,6 +117,14 @@
 	        	$('#@id-preview-label').text("");
 	        	$('#@id-preview').attr('href','/assets/images/no_photo.jpg');
 	           	$('#@id-delete').css({'visibility': 'hidden'});
+	           	
+	        	$('#@id-label').val("");
+	        	$('#@id-image-id').val("");
+	        	$('#@id-image-height').val("");
+	        	$('#@id-image-width').val("");
+	        	$('#@id-thumbnail-id').val("");
+	        	$('#@id-thumbnail-height').val("");
+	        	$('#@id-thumbnail-width').val("");
 		    });
 		</script>
 	}
@@ -129,8 +156,8 @@
 		    });
 		    return false;
 		});
-	    @if(!field("id").value.isDefined) {
-       	$('#@id-delete').css({'visibility': 'hidden'});
+	    @if(!hasImage()) {
+       		$('#@id-delete').css({'visibility': 'hidden'});
 	    }
 	</script>
 	

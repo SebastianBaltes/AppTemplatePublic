@@ -55,7 +55,9 @@ public class TimeStampFormatter extends Formatters.SimpleFormatter<Timestamp> {
 			return "";
 		}
 		String value = StringUtils.substringBefore(StringUtils.substringAfter(input, " "),".");
-		value = value.substring(0,5);
+		if (value.length()>5) {
+			value = value.substring(0,5);
+		}
 		return value;
 	}
 	

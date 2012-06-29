@@ -1,0 +1,22 @@
+/** BOOTSTRAP FIX MODAL HEIGHT */
+.modal-body {
+	max-height: none !important;
+}
+
+.thumbnails .span3 {
+	width:270px !important;
+}
+
+.thumbnails {
+    text-align:center;
+}
+
+.thumbnails .caption {
+    text-align:left;
+}
+
+.thumbnails > li {
+    display: inline-block;
+    *display:inline; /* ie7 fix */
+    float: none; /* this is the part that makes it work */
+}

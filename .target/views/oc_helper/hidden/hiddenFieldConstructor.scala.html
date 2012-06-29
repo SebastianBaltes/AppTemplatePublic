@@ -1,9 +1,0 @@
-@(elements: views.html.helper.FieldElements)
-
-@import play.api.i18n._
-@import views.html.helper._
-
-@elements.input
-@if(!elements.errors(elements.lang).isEmpty) {
-    <div style="color: red;padding: 1em;">internal error, hidden field @elements.label(elements.lang) with value: "@elements.field.value" has errors: @elements.errors(elements.lang).mkString(", ")</div>
-}
