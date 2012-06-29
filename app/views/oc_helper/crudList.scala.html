@@ -23,8 +23,11 @@
   <div class="span6">
     <div class="btn-toolbar">
       <form class="form-search" action="@link(0, null)" method="GET" style="float: right">
-        <input type="search" id="searchbox" name="filter" value="@clist.currentFilter" placeholder="Suchtext"> 
-        <input type="submit" id="searchsubmit" value="Suchen" class="btn">
+        <div class="controls">
+          <div class="input-append">
+            <input type="search" id="searchbox" name="filter" value="@clist.currentFilter" placeholder="Suchtext"><input type="submit" id="searchsubmit" class="btn" value="Suchen" class="btn">
+          </div>
+        </div>
       </form>
     </div>
   </div>
