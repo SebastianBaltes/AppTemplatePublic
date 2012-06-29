@@ -8,9 +8,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import static play.mvc.Http.Status.BAD_REQUEST;
-import static play.test.Helpers.contentType;
-import static play.test.Helpers.status;
-import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.*;
+
+import play.api.test.Helpers;
 import play.mvc.Result;
 
 import testutil.TestHelper;
@@ -26,7 +26,6 @@ import javax.mail.MessagingException;
 import models.Role;
 import models.User;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -40,6 +39,7 @@ import authenticate.Authenticated;
 import utils.CountryHelper;
 import utils.test.MailBucket;
 import utils.test.SimpleSmtpMock;
+import views.html.oc_helper.flashmessages;
 
 import functional.page.RegistrationPage;
 import funcy.FunctionalTest;
