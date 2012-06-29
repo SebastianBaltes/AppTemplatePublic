@@ -148,7 +148,7 @@ public class PasswordRecoverController extends Controller {
 			Logger.info("PasswordRecoverController:invalid user for mail=" + _email);
 			return null;
 		}
-		if (!user.getRandomPasswordRecoveryString().equals(_randomPasswordRecoveryString)) {
+		if (!_randomPasswordRecoveryString.equals(user.getRandomPasswordRecoveryString())) {
 			Logger.info("PasswordRecoverController: invalid uuid for user=" + user);
 			return null;
 		}

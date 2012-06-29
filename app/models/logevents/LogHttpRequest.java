@@ -1,5 +1,6 @@
 package models.logevents;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,11 +16,15 @@ public class LogHttpRequest extends Model {
 
 	@Id
 	private Long id;
+	@Column(columnDefinition = "varchar(16)")
 	private String method;
+	@Column(columnDefinition = "text")
 	private String url;
 	private String host;
 	private Integer responseCode;
+	@Column(columnDefinition = "text")
 	private String userAgent;
+	@Column(columnDefinition = "text")
 	private String referer;
 	private Long startTime;
 	private Long endTime;
