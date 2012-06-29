@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import models.Role;
 import models.User;
 
@@ -82,13 +84,12 @@ public class RegistrationTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void testPositiveMinimalData() {
+	public void testPositiveMinimalData() throws IOException, MessagingException {
 		log("testPositiveMinimalData");
 
 		final Result r = page.doRegisterMinimal("test1@test.test", "xxxx", "xxxx");
 		log("result=" + r);
 
-		page = new RegistrationPage(r);
 		TestHelper.assertResultOk(r);
 		TestHelper.assertFlashSuccess(r, "Registrierung erfolgreich");
 
@@ -104,7 +105,7 @@ public class RegistrationTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void testDuplicateRegistration() {
+	public void testDuplicateRegistration() throws IOException, MessagingException {
 		log("testDuplicateRegistration");
 		
 		final Result r = page.doRegisterMinimal("test1@test.test", "xxxx", "xxxx");
@@ -119,7 +120,7 @@ public class RegistrationTest extends FunctionalTest {
 	}	
 
 	@Test
-	public void testPositiveMaximalData() {
+	public void testPositiveMaximalData() throws IOException, MessagingException {
 		log("testPositiveMaximalData");
 
 		final Result r = page.doRegisterOptional("test2@test.test", "yyyy", "yyyy", "Hans", "Wurst", "address", "2",
@@ -280,21 +281,23 @@ public class RegistrationTest extends FunctionalTest {
 		assertEquals(currentRowCount + count, TestHelper.getRowCount(User.class));
 	}
 	
-	private void assertRegistrationMail(final String userEmail) {
+	private void assertRegistrationMail(final String userEmail) throws IOException, MessagingException {
 		assertEquals(1, mailBucket.size());
 		final MailBucket.Mail mail = mailBucket.get(0);
+		final String mailContent = mail.parse().getContent().toString();
 		
-		final List<String> groups = TestHelper.matchGroups(mail.body, "http://(.*?)/register/activate/(.*?)/[a-z0-9]*");
+		final List<String> groups = TestHelper.matchGroups(mailContent, "http://(.*?)/register/activate/(.*?)/[a-z0-9]*");
 		assertNotNull(groups);
 		assertEquals(3, groups.size());
 		assertEquals(userEmail, groups.get(2));
 	}	
 	
-	private void assertDuplicateRegisterMail(final String userEmail) {
+	private void assertDuplicateRegisterMail(final String userEmail) throws IOException, MessagingException {
 		assertEquals(1, mailBucket.size());
 		final MailBucket.Mail mail = mailBucket.get(0);
+		final String mailContent = mail.parse().getContent().toString();
 		
-		final List<String> groups = TestHelper.matchGroups(mail.body, "http://(.*?)/recover/(.*?)/");
+		final List<String> groups = TestHelper.matchGroups(mailContent, "http://(.*?)/recover/(.*?)/");
 		assertNotNull(groups);
 		assertEquals(3, groups.size());
 		assertEquals(userEmail, groups.get(2));
