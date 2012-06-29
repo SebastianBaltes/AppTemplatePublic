@@ -7,6 +7,9 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.mail.Email;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.TxRunnable;
+
 import authenticate.Authenticated;
 
 import models.User;
@@ -59,21 +62,31 @@ public class PasswordRecoverController extends Controller {
 
 		user.setRandomPasswordRecoveryString(randUUID);
 		user.setRandomPasswordRecoveryTriggerDate(new Timestamp(System.currentTimeMillis()));
-		user.save();
-
+		
 		final Html mailTemplate = views.html.email.recoverPassword_text.render(user);
 
-		// FIXME: where to configure stuff ?
 		try {
-			final Email mail = MailHelper.createSimpleMail();
-			mail.addTo(user.getEmail());
-			mail.setSubject("Password wiederhestellen");
-			mail.setMsg(mailTemplate.toString());
+			Ebean.execute(new TxRunnable() {
+				
+				@Override
+				public void run() {
+					user.save();
+					
+					try {
+						final Email mail = MailHelper.createSimpleMail();
+						mail.addTo(user.getEmail());
+						mail.setSubject("Password wiederhestellen");
+						mail.setMsg(mailTemplate.toString());
 
-			Logger.info("About to send mail=" + ReflectionToStringBuilder.toString(mail));
-			mail.send();
+						Logger.info("About to send mail=" + ReflectionToStringBuilder.toString(mail));
+						mail.send();
 
-		} catch (final org.apache.commons.mail.EmailException e) {
+					} catch (final org.apache.commons.mail.EmailException e) {
+						throw new RuntimeException("Could not send registration confirmation mail due to =" + e, e);
+					}
+				}
+			});
+		} catch (final RuntimeException e) {
 			Logger.error("PasswordRecoverController:: could not send password recovery mail due to =" + e, e);
 			flash().put(FlashScope.ERROR,
 					"Es ist ein Fehler beim Mailversand aufgetreten, bitte versuchen Sie es später erneut !");

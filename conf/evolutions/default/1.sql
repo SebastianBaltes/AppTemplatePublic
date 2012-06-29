@@ -45,7 +45,7 @@ create table log_httpRequest (
 
 create table raw_image (
   id                        bigint not null,
-  image                     bytea,
+  image                     blob,
   width                     integer,
   height                    integer,
   mimetype                  varchar(255),
@@ -93,34 +93,38 @@ create sequence unter_ding_seq;
 
 create sequence user_account_seq;
 
-alter table db_image add constraint fk_db_image_image_1 foreign key (image_id) references raw_image (id);
+alter table db_image add constraint fk_db_image_image_1 foreign key (image_id) references raw_image (id) on delete restrict on update restrict;
 create index ix_db_image_image_1 on db_image (image_id);
-alter table db_image add constraint fk_db_image_thumbnail_2 foreign key (thumbnail_id) references raw_image (id);
+alter table db_image add constraint fk_db_image_thumbnail_2 foreign key (thumbnail_id) references raw_image (id) on delete restrict on update restrict;
 create index ix_db_image_thumbnail_2 on db_image (thumbnail_id);
-alter table ding add constraint fk_ding_user_3 foreign key (user_id) references user_account (id);
+alter table ding add constraint fk_ding_user_3 foreign key (user_id) references user_account (id) on delete restrict on update restrict;
 create index ix_ding_user_3 on ding (user_id);
-alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id);
+alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
 create index ix_ding_image_4 on ding (image_id);
-alter table unter_ding add constraint fk_unter_ding_ding_5 foreign key (ding_id) references ding (id);
+alter table unter_ding add constraint fk_unter_ding_ding_5 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
 create index ix_unter_ding_ding_5 on unter_ding (ding_id);
-alter table unter_ding add constraint fk_unter_ding_image_6 foreign key (image_id) references db_image (id);
+alter table unter_ding add constraint fk_unter_ding_image_6 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
 create index ix_unter_ding_image_6 on unter_ding (image_id);
 
 
 
 # --- !Downs
 
-drop table if exists db_image cascade;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists ding cascade;
+drop table if exists db_image;
 
-drop table if exists log_httpRequest cascade;
+drop table if exists ding;
 
-drop table if exists raw_image cascade;
+drop table if exists log_httpRequest;
 
-drop table if exists unter_ding cascade;
+drop table if exists raw_image;
 
-drop table if exists user_account cascade;
+drop table if exists unter_ding;
+
+drop table if exists user_account;
+
+SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists db_image_seq;
 

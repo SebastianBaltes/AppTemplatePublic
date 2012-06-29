@@ -182,5 +182,53 @@ public class User extends CrudModel<User> {
 			return byLabel(email);
 		}
 	}
+
+	public boolean equalsUser(User other) {
+		if (this == other) return true;
+		if (address == null) {
+			if (other.address != null) return false;
+		} else if (!address.equals(other.address)) return false;
+		if (city == null) {
+			if (other.city != null) return false;
+		} else if (!city.equals(other.city)) return false;
+		if (country == null) {
+			if (other.country != null) return false;
+		} else if (!country.equals(other.country)) return false;
+		if (dings == null) {
+			if (other.dings != null) return false;
+		} else if (!dings.equals(other.dings)) return false;
+		if (email == null) {
+			if (other.email != null) return false;
+		} else if (!email.equals(other.email)) return false;
+		if (firstname == null) {
+			if (other.firstname != null) return false;
+		} else if (!firstname.equals(other.firstname)) return false;
+		if (passwordHash == null) {
+			if (other.passwordHash != null) return false;
+		} else if (!passwordHash.equals(other.passwordHash)) return false;
+		if (randomPasswordRecoveryString == null) {
+			if (other.randomPasswordRecoveryString != null) return false;
+		} else if (!randomPasswordRecoveryString.equals(other.randomPasswordRecoveryString)) return false;
+		if (randomPasswordRecoveryTriggerDate == null) {
+			if (other.randomPasswordRecoveryTriggerDate != null) return false;
+		} else if (!randomPasswordRecoveryTriggerDate.equals(other.randomPasswordRecoveryTriggerDate)) return false;
+		if (role == null) {
+			if (other.role != null) return false;
+		} else if (!role.equals(other.role)) return false;
+		if (surname == null) {
+			if (other.surname != null) return false;
+		} else if (!surname.equals(other.surname)) return false;
+		if (timezone == null) {
+			if (other.timezone != null) return false;
+		} else if (!timezone.equals(other.timezone)) return false;
+		if (validated != other.validated) return false;
+		if (zipCode == null) {
+			if (other.zipCode != null) return false;
+		} else if (!zipCode.equals(other.zipCode)) return false;
+		return true;
+	}
+	
+	
+	
 	
 }
