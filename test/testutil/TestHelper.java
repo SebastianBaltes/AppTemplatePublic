@@ -63,6 +63,15 @@ public class TestHelper {
 		assertNull(f.get(FlashScope.SUCCESS));
 		assertTrue(f.get(FlashScope.ERROR).contains(containsMessage));
 	}
+	
+	public static void assertFlashWarning(final Result r, final String containsMessage) {
+		final Flash f = flash(r);
+		assertFalse(f.isEmpty());
+		assertNull(f.get(FlashScope.ERROR));
+		assertNotNull(f.get(FlashScope.WARN));
+		assertNull(f.get(FlashScope.SUCCESS));
+		assertTrue(f.get(FlashScope.WARN).contains(containsMessage));
+	}	
 
 	public static void assertFlashEmpty(final Result r) {
 		final Flash f = flash(r);
@@ -142,6 +151,7 @@ public class TestHelper {
 		assertResultRedirect(r);
 		callback.call(r);
 		final String location = redirectLocation(r);
+		if (location == null) return r; 
 		final Result redirResult = routeAndCall(fakeRequest(GET, location));
 		return redirResult;
 	}

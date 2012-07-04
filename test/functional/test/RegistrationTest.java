@@ -8,9 +8,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import static play.mvc.Http.Status.BAD_REQUEST;
-import static play.test.Helpers.contentType;
-import static play.test.Helpers.status;
-import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.*;
+
+import play.api.test.Helpers;
 import play.mvc.Result;
 
 import testutil.TestHelper;
@@ -21,10 +21,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import models.Role;
 import models.User;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -38,6 +39,7 @@ import authenticate.Authenticated;
 import utils.CountryHelper;
 import utils.test.MailBucket;
 import utils.test.SimpleSmtpMock;
+import views.html.oc_helper.flashmessages;
 
 import functional.page.RegistrationPage;
 import funcy.FunctionalTest;
@@ -82,13 +84,12 @@ public class RegistrationTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void testPositiveMinimalData() {
+	public void testPositiveMinimalData() throws IOException, MessagingException {
 		log("testPositiveMinimalData");
 
 		final Result r = page.doRegisterMinimal("test1@test.test", "xxxx", "xxxx");
 		log("result=" + r);
 
-		page = new RegistrationPage(r);
 		TestHelper.assertResultOk(r);
 		TestHelper.assertFlashSuccess(r, "Registrierung erfolgreich");
 
@@ -104,7 +105,7 @@ public class RegistrationTest extends FunctionalTest {
 	}
 	
 	@Test
-	public void testDuplicateRegistration() {
+	public void testDuplicateRegistration() throws IOException, MessagingException {
 		log("testDuplicateRegistration");
 		
 		final Result r = page.doRegisterMinimal("test1@test.test", "xxxx", "xxxx");
@@ -119,7 +120,7 @@ public class RegistrationTest extends FunctionalTest {
 	}	
 
 	@Test
-	public void testPositiveMaximalData() {
+	public void testPositiveMaximalData() throws IOException, MessagingException {
 		log("testPositiveMaximalData");
 
 		final Result r = page.doRegisterOptional("test2@test.test", "yyyy", "yyyy", "Hans", "Wurst", "address", "2",
@@ -207,10 +208,12 @@ public class RegistrationTest extends FunctionalTest {
 		TestHelper.assertResultOk(r);
 		
 		final User reloadUser = assertUserValidated(u, true);
-		
-		//FIXME: does not work, why ? 
-		// assertTrue(EqualsBuilder.reflectionEquals(reloadUser, u, new String[] {"lastUpdate", "validated", "dings"}));
 		assertTrue(reloadUser.getLastUpdate().getTime() > u.getLastUpdate().getTime());
+		
+		// "exclude" fields
+		reloadUser.setLastUpdate(u.getLastUpdate());
+		reloadUser.setValidated(u.isValidated());
+		assertTrue(u.equalsUser(reloadUser));
 	}
 	
 	@Test
@@ -225,8 +228,7 @@ public class RegistrationTest extends FunctionalTest {
 		assertActivationInvalid(r);
 		
 		final User reloadUser = assertUserValidated(u, true);
-		//FIXME: does not work, why ?
-//		assertTrue(EqualsBuilder.reflectionEquals(reloadUser, u));
+		assertTrue(u.equalsUser(reloadUser));
 	}
 	
 	private Result callValidActivation(final User u) {
@@ -280,21 +282,23 @@ public class RegistrationTest extends FunctionalTest {
 		assertEquals(currentRowCount + count, TestHelper.getRowCount(User.class));
 	}
 	
-	private void assertRegistrationMail(final String userEmail) {
+	private void assertRegistrationMail(final String userEmail) throws IOException, MessagingException {
 		assertEquals(1, mailBucket.size());
 		final MailBucket.Mail mail = mailBucket.get(0);
+		final String mailContent = mail.parse().getContent().toString();
 		
-		final List<String> groups = TestHelper.matchGroups(mail.body, "http://(.*?)/register/activate/(.*?)/[a-z0-9]*");
+		final List<String> groups = TestHelper.matchGroups(mailContent, "http://(.*?)/register/activate/(.*?)/[a-z0-9]*");
 		assertNotNull(groups);
 		assertEquals(3, groups.size());
 		assertEquals(userEmail, groups.get(2));
 	}	
 	
-	private void assertDuplicateRegisterMail(final String userEmail) {
+	private void assertDuplicateRegisterMail(final String userEmail) throws IOException, MessagingException {
 		assertEquals(1, mailBucket.size());
 		final MailBucket.Mail mail = mailBucket.get(0);
+		final String mailContent = mail.parse().getContent().toString();
 		
-		final List<String> groups = TestHelper.matchGroups(mail.body, "http://(.*?)/recover/(.*?)/");
+		final List<String> groups = TestHelper.matchGroups(mailContent, "http://(.*?)/recover/(.*?)/");
 		assertNotNull(groups);
 		assertEquals(3, groups.size());
 		assertEquals(userEmail, groups.get(2));
