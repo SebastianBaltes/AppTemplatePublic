@@ -12,12 +12,22 @@ import models.CrudModel
 import play.data.format.Formatters
 import global.Html5DateFormatter
 import global.TimeStampFormatter
+import org.apache.commons.lang.StringUtils
 
 /**
  * Contains template helpers, for example for generating HTML forms.
  */
 package object oc_helper {
 
+  def notEmptyOrElse(field: play.api.data.Field, defaultValue: String) = {
+    val v = field.value.getOrElse(null)
+    if (StringUtils.isEmpty(v)) {
+      defaultValue
+    } else {
+      v
+    }
+  }
+  
   def fmt(value: Any)(implicit lang: play.api.i18n.Lang): Html = {
 	 value match {
 	   case x:java.sql.Date => Html(Html5DateFormatter.formatLocale(x, lang.toLocale))
@@ -154,53 +164,61 @@ package object oc_helper {
     optionText: T => String = selectDefaultOptionText,
     fieldValue: play.api.data.Field => Option[String] = selectDefaultValue)(args: (Symbol, Any)*)(implicit handler: FieldConstructor, lang: play.api.i18n.Lang) = {
     
+    Logger.info("~~~~~~ "+field);
+    
+    field.indexes.foreach( x => { Logger.info("######## "+x) } );
+    
     val values = field.indexes.map { v => fieldValue(field("[" + v + "]")).get }
     val disabled = args.exists(_._1 == 'disabled)
     input(field, args: _*) {
       (id, name, value, htmlArgs) =>
-        Html(
-          (
-            <div>
-              {
-                if (!disabled) {
-                  <input type="button" class="select-all" id={ id + "-select-all" } value="alle"/>
-                  <input type="button" class="select-none" id={ id + "-select-none" } value="keinen"/>
-                  <br/>
+        val mid = id + "-multiselect"
+        if (disabled) {
+          Html(
+            (
+	        addAttributes(
+	          <select id={ id } name={ name } multiple="multiple">
+                {
+                  options.filter(values contains optionValue(_)).map { v => <option value={ optionValue(v) }>{ optionText(v) }</option> } 
                 }
-              }
-              {
-                addAttributes(
-                  <select id={ id } name={ name } multiple="multiple">
-                    {
-                      options.map { v =>
-                        val value = optionValue(v)
-                        val z: Option[String] = if (values contains value) Some("selected") else None
-                        <option value={ value } selected={ z map Text }>{ optionText(v) }</option>
-                      }
-                    }
-                  </select>,
-                  htmlArgs)
-              }
-              {
-                if (!disabled) {
-                  <script type="text/javascript">
-                    $('#{ id }-select-all').click(function() {{
-        	    	 	$('#{ id } option').each(function(){{
-        	    	 		$(this).attr('selected', true);
-        	    	 	}});
-        	    	 }});
-        	    	 $('#{ id }-select-none').click(function() {{
-        	    	 	$('#{ id } option').each(function(){{
-        	    	 		$(this).removeAttr('selected');
-        	    	 		// twice => workaround for strange bug in chrome?
-        	    	 		$(this).removeAttr('selected');
-        	    	 	}});
-        	    	 }});
-                  </script>
-                }
-              }
-            </div>).toString)
-
+              </select>,
+            htmlArgs)          
+          ).toString)
+        } else {
+          Html(
+            (
+              <div>
+        		  <div id={mid} style="width:400px">
+        		  </div>
+        		  <script type="text/javascript">
+        		  $(function() {{
+        		    var t = $('#{mid}').bootstrapTransfer({{
+        		      'target_name': '{ name }[#].id',
+        		      'height': '12em',
+        		      'hilite_selection': false
+        		    }});
+        		    t.populate([
+        		      {
+        		        options.map { v =>
+	                        "{value:'"+optionValue(v)+"', content:'"+optionText(v)+"'},"
+        		        } 
+        		      }
+        		    ]);
+        		    // { field.indexes }
+        		    t.set_values([
+        		      {
+        		        options.filter(values contains optionValue(_)).map { v =>
+	                        "'"+optionValue(v)+"',"
+        		        } 
+        		      }
+        		    ]);
+          		    //t.set_values(["2", "4"]);
+        		    //console.log(t.get_values());
+        		  }});
+        		  </script>
+              </div>
+             ).toString)
+        }
     }
   }
 

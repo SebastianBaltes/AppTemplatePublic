@@ -81,6 +81,12 @@ create table user_account (
   constraint pk_user_account primary key (id))
 ;
 
+
+create table ding_user_account (
+  ding_id                        bigint not null,
+  user_account_id                bigint not null,
+  constraint pk_ding_user_account primary key (ding_id, user_account_id))
+;
 create sequence db_image_seq;
 
 create sequence ding_seq;
@@ -108,11 +114,17 @@ create index ix_unter_ding_image_6 on unter_ding (image_id);
 
 
 
+alter table ding_user_account add constraint fk_ding_user_account_ding_01 foreign key (ding_id) references ding (id);
+
+alter table ding_user_account add constraint fk_ding_user_account_user_acc_02 foreign key (user_account_id) references user_account (id);
+
 # --- !Downs
 
 drop table if exists db_image cascade;
 
 drop table if exists ding cascade;
+
+drop table if exists ding_user_account cascade;
 
 drop table if exists log_httpRequest cascade;
 

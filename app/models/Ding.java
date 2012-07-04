@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -39,17 +40,22 @@ public class Ding extends CrudModel<Ding> {
 	@ManyToOne(fetch=FetchType.EAGER)
 	public DbImage image;
 	
+	// Springs formbinding does not permit Set (which would be semantically correct), the collection must be indexed, so using List!
+	@ManyToMany(fetch=FetchType.EAGER)
+	public List<User> watchedBy;
+	
+	@PrivateOwned
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ding")
+	public List<UnterDing> unterDinge;
+
 	// Currently not supported by eBean!
 	//  	@ElementCollection(targetClass=DingEnum.class)
 	//    @Enumerated(EnumType.STRING)
 	//    @CollectionTable(name="ding_dingenums")
 	//    @Column(name="dingenum")
-	//    public Collection<DingEnum> dingEnumSet;	
-
-	@PrivateOwned
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ding")
-	public List<UnterDing> unterDinge;
-
+	//    public Collection<DingEnum> dingEnumSet;
+	// workaround: use a one-to-many entity wich only contains the string 
+	
     @Override
     public String label() {
     	return name;
@@ -133,6 +139,14 @@ public class Ding extends CrudModel<Ding> {
 
 	public void setImage(DbImage image) {
 		this.image = image;
+	}
+	
+	public List<User> getWatchedBy() {
+		return watchedBy;
+	}
+
+	public void setWatchedBy(List<User> watchedBy) {
+		this.watchedBy = watchedBy;
 	}
 
 	@Override

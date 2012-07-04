@@ -11,6 +11,7 @@ object ApplicationBuild extends Build {
         "postgresql" % "postgresql" % "9.1-901.jdbc4",
         "commons-lang" % "commons-lang" % "2.6",
         "commons-collections" % "commons-collections" % "3.2.1",
+        "commons-codec" % "commons-codec" % "1.4",
         "commons-io" % "commons-io" % "2.3", 
         "org.apache.commons" % "commons-email" % "1.1",
         "funcy" % "funcy_2.9.1" % "0.1" % "test",

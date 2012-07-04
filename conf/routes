@@ -75,3 +75,4 @@ GET     /assets/stylesheets/*file				      					controllers.Assets.at(path="/pub
 GET     /assets/DataTable/*file				      						controllers.Assets.at(path="/public/DataTable", file)
 GET     /assets/blueimp-jQuery-File-Upload/*file				      	controllers.Assets.at(path="/public/blueimp-jQuery-File-Upload", file)
 GET     /assets/aFarkas-webshim/*file				      				controllers.Assets.at(path="/public/aFarkas-webshim", file)
+GET     /assets/rabihkodeih-bootstrap-transfer-modified/*file		    controllers.Assets.at(path="/public/rabihkodeih-bootstrap-transfer-modified", file)

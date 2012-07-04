@@ -24,6 +24,8 @@
     @singleselect( f("dingEnum"), options = DingEnum.values())('_label -> "Programmiersprache", disabledOrNot())
 
 	@inputDbImage( f("image"), "/admin/image", '_label -> "Bild", disabledOrNot())
+  
+    @multiselect( f("watchedBy"), options = User.find.all)('_label -> "beobachted von", disabledOrNot()) 
 
   }
 }

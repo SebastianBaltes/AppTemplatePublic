@@ -28,14 +28,6 @@ public class DbImage extends CrudModel<DbImage> {
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	public RawImage thumbnail;
 
-	public void saveOrUpdate() {
-		if (id == null) {
-			save();
-		} else {
-			update();
-		}
-	}
-
 	public String getFilename() {
 		return filename;
 	}

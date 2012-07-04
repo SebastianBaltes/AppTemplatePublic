@@ -1,9 +1,14 @@
 package controllers;
 
+import java.util.Map;
+
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 import com.avaje.ebean.Page;
 
 import models.CrudFinder;
 import models.CrudModel;
+import models.Ding;
 import play.Logger;
 import play.api.templates.Html;
 import play.data.Form;
@@ -14,14 +19,14 @@ import play.mvc.Results.Status;
 
 public abstract class AbstractCRUDController<T extends CrudModel<T>> implements ICRUDController<T> {
 
+	protected Class<T> entityClass;
 	protected String crudBaseUrl;
 	protected String entityLabel;
 	protected Form<T> form;
 	protected CrudFinder<T> crudFinder;
 	
-	public AbstractCRUDController(String crudBaseUrl, String entityLabel,
-			CrudFinder<T> crudFinder, Form<T> form) {
-		
+	public AbstractCRUDController(Class<T> entityClass, String crudBaseUrl, String entityLabel, CrudFinder<T> crudFinder, Form<T> form) {
+		this.entityClass = entityClass;
 		this.crudBaseUrl = crudBaseUrl;
 		this.entityLabel = entityLabel;
 		this.form = form;
@@ -81,22 +86,32 @@ public abstract class AbstractCRUDController<T extends CrudModel<T>> implements 
 	private Result show(final Long id, final ViewType viewType) {
 		Logger.info("show(" + id + ")");
 		final T entity = crudFinder.byId(id);
+		Logger.info(ReflectionToStringBuilder.toString(entity));
 		if (entity == null) {
 			return notFoundResult();
 		}
+		Object o = entity;
+		Ding ding = (Ding)o;
+		Logger.info("++++++++++++ watched by "+ding.getWatchedBy());
+		ding.getWatchedBy();
 		final Form<T> filledForm = form.fill(entity);
+		Logger.info("++++++++++++ form watchedBy "+filledForm.field("watchedBy").value());
+		Logger.info("++++++++++++ form watchedBy.id "+filledForm.field("watchedBy.id").value());
         return Results.ok(renderDetailsShortcut(viewType, filledForm));
 	}
 
 	private Result save(final ViewType viewType) {
         Logger.info("save(" + viewType + ")");
-        final Form<T> filledForm = form.bind(ControllerHelper.getRequestMapWithMultiSelectSupport());
+        final Form<T> filledForm = form.bindFromRequest();
         if (filledForm.hasErrors()) {
             Controller.flash("error", "Fehler beim Ausfüllen des Formulars!");
             return Results.badRequest(renderDetailsShortcut(viewType, filledForm));
         }
         final T entity = filledForm.get();
+		Logger.info("ENTITY 1 --------- "+ReflectionToStringBuilder.toString(entity));
         entity.saveOrUpdate();
+		final T entity2 = crudFinder.byId(entity.getId());
+		Logger.info("ENTITY 2 --------- "+ReflectionToStringBuilder.toString(entity2));
         Controller.flash("success", entityLabel + " " + entity.label() + " " + viewType + " erfolgreich");
         return listAll();
 	}

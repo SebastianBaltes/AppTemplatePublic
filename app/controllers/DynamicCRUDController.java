@@ -9,22 +9,19 @@ import models.CrudModel;
 import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.Controller;
-import play.mvc.Result;
 
 import com.avaje.ebean.Page;
 
 
 public class DynamicCRUDController<T extends CrudModel<T>> extends AbstractCRUDController<T> {
 
-	private Class<T> entityClass;
 	private Method renderListMethod;
 	private Method renderDetailsMethod;
 	
 	@SuppressWarnings("unchecked")
 	public DynamicCRUDController(String crudBaseUrl, Class<T> entityClass, String entityLabel) {
 		
-		super(crudBaseUrl, entityLabel, (CrudFinder<T>)getCrudFinder(entityClass), Controller.form(entityClass));
-		this.entityClass = entityClass;
+		super(entityClass, crudBaseUrl, entityLabel, (CrudFinder<T>)getCrudFinder(entityClass), Controller.form(entityClass));
 		this.renderListMethod = getRenderMethod("List", new Class[] {Page.class, CrudListState.class});
 		this.renderDetailsMethod = getRenderMethod("Details", new Class[] {CrudDetailsState.class, Form.class, ViewType.class});
 	}

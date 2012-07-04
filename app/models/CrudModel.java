@@ -1,18 +1,21 @@
 package models;
 
+import global.Class2ManyToManyFieldRegistry;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Version;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import play.db.ebean.Model;
+
+import com.avaje.ebean.Ebean;
 
 @SuppressWarnings("serial")
 @javax.persistence.MappedSuperclass
 public abstract class CrudModel<T extends CrudModel<T>> extends Model {
-
+	
     @Id
     public Long id;
     @Version
@@ -28,9 +31,18 @@ public abstract class CrudModel<T extends CrudModel<T>> extends Model {
         } else {
             update();
         }
+        workaroundForManyToManyAssociations();
     }
 
-    public Long getId() {
+    private void workaroundForManyToManyAssociations() {
+    	List<String> manyToManyFieldNames = Class2ManyToManyFieldRegistry.get().get(this.getClass());
+    	for (String fieldName : manyToManyFieldNames) {
+    		Ebean.deleteManyToManyAssociations(this,fieldName);
+    		Ebean.saveManyToManyAssociations(this,fieldName);
+		}
+	}
+
+	public Long getId() {
 		return id;
 	}
 
