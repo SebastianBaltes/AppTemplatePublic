@@ -10,6 +10,7 @@ import models.User;
 import models.logevents.LogHttpRequest;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 import play.Application;
 import play.GlobalSettings;
@@ -64,34 +65,32 @@ public class Global extends GlobalSettings {
 
 	private void setupLogging(final Application app) {
 		if (Play.isDev() || Play.isTest()) {
-			Ebean.getServer(null).getAdminLogging().setDebugGeneratedSql(false);
+//			Ebean.getServer(null).getAdminLogging().setDebugGeneratedSql(false);
 		}
 	}
 	
 	private void createInitialDatabase(final Application app)  {
-		
 		if (Ebean.find(User.class).findRowCount() != 0) {
 			Logger.info("found entries in user table, skipping creation of initial database");
 			return;
 		}
-		try {
-			final File sqlFile = app.getFile("conf/database/" + getDatabaseFile(app));
-			final StringBuilder query = new StringBuilder();
-			
-			final List<String> readLines = FileUtils.readLines(sqlFile);
-			for (final String row : readLines) {
-				if (row.startsWith("--")) continue;
-				query.append(row);
-				query.append("\n");
-			}
-			
-			Logger.info("about to apply sql for database file=" + sqlFile.getAbsolutePath());
-			Logger.info(" => " + query.toString());
-			
-			Ebean.createSqlUpdate(query.toString()).execute();
+		final File sqlFile = app.getFile("conf/database/" + getDatabaseFile(app));
+		if (!sqlFile.canRead()) {
+			Logger.error("File not found: " + sqlFile.getAbsolutePath());
+			return;
 		}
-		catch(final IOException e) {
-			Logger.error(getClass().getSimpleName() + ": could not create database due to " +e,e);
+		List<String> lines;
+		try {
+			lines = FileUtils.readLines(sqlFile, "UTF-8");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		for (String row : lines) {
+			if (row.startsWith("--") || StringUtils.isBlank(row)) {
+				continue;
+			}
+			Logger.info("init sql statement: " + row);
+			Ebean.createSqlUpdate(row).execute();
 		}
 	}
 
