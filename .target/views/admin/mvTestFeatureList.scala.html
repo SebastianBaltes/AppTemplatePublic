@@ -1,0 +1,25 @@
+@(implicit currentPage: com.avaje.ebean.Page[MvTestFeature], clist: CrudListState)
+
+@import controllers.admin.routes 
+@import views.html.oc_helper.bootstrap2._
+@import views.html.oc_helper._ 
+
+@loggedin_main() {
+
+  @crudList() {
+      @header("name", "Name")
+      @header("description", "Beschreibung")
+      @header("start", "Start")
+      @header("end", "Ende")
+  } { 
+      @for(feature <- currentPage.getList) {
+        <tr>
+	      <td><a href="@clist.crudBaseUrl/@feature.id">@feature.name</a></td>
+	      <td>@feature.description</td>
+	      <td>@fmt(feature.startTime)</td> 
+	      <td>@fmt(feature.endTime)</td> 
+        </tr>
+      }
+  }
+}  
+

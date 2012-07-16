@@ -15,7 +15,7 @@
     @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
     @textarea( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
     @checkboxField( f("special"), '_label -> "Spezial", disabledOrNot() )  
-    @inputText( f("price"), '_label -> "Preis", disabledOrNot() )
+    @inputNumber( f("price"), '_label -> "Preis", disabledOrNot() )
     @singleselect( f("user.id"), options = User.find.all )('_label -> "User", disabledOrNot())
 
  	@inputDate2( f("someDate"), '_label -> "irgendein Datum", disabledOrNot())

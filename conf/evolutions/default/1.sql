@@ -43,6 +43,26 @@ create table log_httpRequest (
   constraint pk_log_httpRequest primary key (id))
 ;
 
+create table mv_test_feature (
+  id                        bigint not null,
+  name                      varchar(255),
+  start_time                timestamp,
+  end_time                  timestamp,
+  description               varchar(1024),
+  last_update               timestamp not null,
+  constraint pk_mv_test_feature primary key (id))
+;
+
+create table mv_test_variant (
+  id                        bigint not null,
+  index                     integer,
+  name                      varchar(255),
+  percent                   double,
+  feature_id                bigint,
+  last_update               timestamp not null,
+  constraint pk_mv_test_variant primary key (id))
+;
+
 create table raw_image (
   id                        bigint not null,
   image                     blob,
@@ -64,6 +84,7 @@ create table unter_ding (
 
 create table user_account (
   id                        bigint not null,
+  fix_random_number         double,
   email                     varchar(255),
   password_hash             varchar(255),
   role                      varchar(255),
@@ -93,6 +114,10 @@ create sequence ding_seq;
 
 create sequence log_httpRequest_seq;
 
+create sequence mv_test_feature_seq;
+
+create sequence mv_test_variant_seq;
+
 create sequence raw_image_seq;
 
 create sequence unter_ding_seq;
@@ -107,16 +132,18 @@ alter table ding add constraint fk_ding_user_3 foreign key (user_id) references 
 create index ix_ding_user_3 on ding (user_id);
 alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
 create index ix_ding_image_4 on ding (image_id);
-alter table unter_ding add constraint fk_unter_ding_ding_5 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
-create index ix_unter_ding_ding_5 on unter_ding (ding_id);
-alter table unter_ding add constraint fk_unter_ding_image_6 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
-create index ix_unter_ding_image_6 on unter_ding (image_id);
+alter table mv_test_variant add constraint fk_mv_test_variant_feature_5 foreign key (feature_id) references mv_test_feature (id) on delete restrict on update restrict;
+create index ix_mv_test_variant_feature_5 on mv_test_variant (feature_id);
+alter table unter_ding add constraint fk_unter_ding_ding_6 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
+create index ix_unter_ding_ding_6 on unter_ding (ding_id);
+alter table unter_ding add constraint fk_unter_ding_image_7 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
+create index ix_unter_ding_image_7 on unter_ding (image_id);
 
 
 
-alter table ding_user_account add constraint fk_ding_user_account_ding_01 foreign key (ding_id) references ding (id);
+alter table ding_user_account add constraint fk_ding_user_account_ding_01 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
 
-alter table ding_user_account add constraint fk_ding_user_account_user_acc_02 foreign key (user_account_id) references user_account (id);
+alter table ding_user_account add constraint fk_ding_user_account_user_acc_02 foreign key (user_account_id) references user_account (id) on delete restrict on update restrict;
 
 # --- !Downs
 
@@ -124,13 +151,15 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists db_image;
 
-drop table if exists ding_user_account cascade;
-
-drop table if exists log_httpRequest cascade;
-
 drop table if exists ding;
 
+drop table if exists ding_user_account;
+
 drop table if exists log_httpRequest;
+
+drop table if exists mv_test_feature;
+
+drop table if exists mv_test_variant;
 
 drop table if exists raw_image;
 
@@ -145,6 +174,10 @@ drop sequence if exists db_image_seq;
 drop sequence if exists ding_seq;
 
 drop sequence if exists log_httpRequest_seq;
+
+drop sequence if exists mv_test_feature_seq;
+
+drop sequence if exists mv_test_variant_seq;
 
 drop sequence if exists raw_image_seq;
 

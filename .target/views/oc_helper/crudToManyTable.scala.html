@@ -1,0 +1,98 @@
+@(title: String, fieldName: String)(headers: Html)(row: Field => Html)(implicit cDetails: CrudDetailsState, viewType: controllers.ViewType, f: Form[_ <: Any])
+
+@import scala.collection.JavaConversions._ 
+@import views.html.helper._ 
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.noLabels._
+
+@printRow(x: Field, visible: Boolean) = {
+    <tr class="@{fieldName}Row @if(!visible) {hidden}">
+      @hiddenField(x("id"))
+      @hiddenField(x("lastUpdate"))
+      @hiddenField(x("index"))
+      @row(x)
+      @if(viewType!=ViewType.view) {
+      <td>
+        <span class="btn btn-small btn-danger @{fieldName}RemoveRow" @if(viewType==ViewType.view) {disabled="disabled"}>
+          <i class="icon-trash icon-white"></i>
+          Löschen
+        </span>
+      </td>
+      }
+    </tr>
+}
+
+<div class="control-group @if(!f(fieldName).errors.isEmpty) {error}" id="@{fieldName}Control">
+  <label class="control-label"></label>
+  <div class="controls">
+    <p></p>
+    <h2>@title</h2>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <t>
+          @headers
+          @if(viewType!=ViewType.view) {<th><a>Aktion</a></th>}
+        </tr>
+      </thead>
+      <tbody>
+        @repeat(f(fieldName)) { field =>
+          @printRow(field, true)
+        }
+        @printRow(f(fieldName+"[x]"), false)
+      </tbody>
+    </table>
+    @if(viewType!=ViewType.view) {
+      <span class="btn btn-success btn-small @{fieldName}AddRow">
+        <i class="icon-plus icon-white"></i>
+        weiteren Eintrag hinzufügen
+      </span>
+    } 
+    <p></p>
+  </div>
+</div>
+
+        
+<script type="text/javascript" charset="utf-8">
+    // -- renumber fields
+    (function() {
+        var renumber = function() {
+            $('.@{fieldName}Row:not(.hidden)').each(function(i) {
+                $('*[name]', this).each(function() {
+                	var $this = $(this); 
+                	var name = $this.attr('name');
+                	if (name.match(/@{fieldName}\[.+?\]\.index/g)) {
+                		$this.val(i);
+                	}
+                	var newName = name.replace(/@{fieldName}\[.+?\]/g, '@{fieldName}[' + i + ']');
+                    $this.attr('name', newName);
+                });
+            });
+            $('.@{fieldName}Row.hidden').each(function(i) {
+                $('*[name]', this).each(function() {
+                	
+                    $(this).attr('name', $(this).attr('name').replace(/variants\[.+?\]/g, '@{fieldName}[' + i + ']'))
+                });
+            });
+        };
+        
+        $('.@{fieldName}RemoveRow').live('click', function(e) {
+          if (confirmDelete()) {
+              $(this).parents('tr').remove();
+              renumber();
+          }
+        });
+        
+        $('.@{fieldName}AddRow').live('click', function(e) {
+            var template = $('.@{fieldName}Row.hidden');
+            var clone = template.clone();
+            clone.removeClass('hidden');
+            template.before(clone);
+            renumber();
+        });
+
+        $('#@{fieldName}Control').parents('form').submit(function() {
+            $('.@{fieldName}Row.hidden').remove();
+            return true;
+        });
+    })();
+</script>

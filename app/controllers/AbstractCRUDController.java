@@ -91,12 +91,7 @@ public abstract class AbstractCRUDController<T extends CrudModel<T>> implements 
 			return notFoundResult();
 		}
 		Object o = entity;
-		Ding ding = (Ding)o;
-		Logger.info("++++++++++++ watched by "+ding.getWatchedBy());
-		ding.getWatchedBy();
 		final Form<T> filledForm = form.fill(entity);
-		Logger.info("++++++++++++ form watchedBy "+filledForm.field("watchedBy").value());
-		Logger.info("++++++++++++ form watchedBy.id "+filledForm.field("watchedBy.id").value());
         return Results.ok(renderDetailsShortcut(viewType, filledForm));
 	}
 
@@ -104,14 +99,11 @@ public abstract class AbstractCRUDController<T extends CrudModel<T>> implements 
         Logger.info("save(" + viewType + ")");
         final Form<T> filledForm = form.bindFromRequest();
         if (filledForm.hasErrors()) {
-            Controller.flash("error", "Fehler beim Ausfüllen des Formulars!");
+        	Controller.flash("error", filledForm.hasGlobalErrors()?filledForm.globalError().message():"Fehler beim Ausfüllen des Formulars!");
             return Results.badRequest(renderDetailsShortcut(viewType, filledForm));
         }
         final T entity = filledForm.get();
-		Logger.info("ENTITY 1 --------- "+ReflectionToStringBuilder.toString(entity));
         entity.saveOrUpdate();
-		final T entity2 = crudFinder.byId(entity.getId());
-		Logger.info("ENTITY 2 --------- "+ReflectionToStringBuilder.toString(entity2));
         Controller.flash("success", entityLabel + " " + entity.label() + " " + viewType + " erfolgreich");
         return listAll();
 	}

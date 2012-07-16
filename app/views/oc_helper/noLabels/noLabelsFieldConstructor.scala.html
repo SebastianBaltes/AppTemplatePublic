@@ -7,7 +7,9 @@
 * Generate naked input without labels             *
 **************************************************@
 
-@elements.input
-@if(!elements.errors(elements.lang).isEmpty) {
-	<span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
-}
+<div class="control-group @elements.args.get('_class) @if(elements.hasErrors) {error}" id="@elements.args.get('_id).getOrElse(elements.id + "_field")" style="margin-bottom:0px;display:inline-block;">
+      @elements.input
+      @if(!elements.errors(elements.lang).isEmpty) {
+      	<span class="help-inline error">@elements.errors(elements.lang).mkString(", ")</span>
+      }
+</div>    

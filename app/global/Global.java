@@ -61,6 +61,7 @@ public class Global extends GlobalSettings {
 		Formatters.register(Timestamp.class, new TimeStampFormatter());
 		Formatters.register(java.sql.Date.class, new Html5DateFormatter());
 		Formatters.register(BigDecimal.class, new BigDecimalFormatter());
+		MvTest.get().startAutoUpdate();
 	}
 
 	private void setupLogging(final Application app) {

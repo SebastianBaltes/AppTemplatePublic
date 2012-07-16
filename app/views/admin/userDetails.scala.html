@@ -10,6 +10,7 @@
 
   @crudForm() {
   
+    @hiddenField( f("fixRandomNumber") ) 
     @inputText( f("email"), '_label -> "E-Mail", disabledOrNot() ) 
     @singleselect( f("timezone"), options = java.util.TimeZone.getAvailableIDs())('_label -> "Zeitzone", disabledOrNot())
     @checkboxField( f("validated"), '_label -> "E-Mail validiert", disabledOrNot() ) 

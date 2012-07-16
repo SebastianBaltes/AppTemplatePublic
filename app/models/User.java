@@ -1,5 +1,7 @@
 package models;
 
+import global.MvTest;
+
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -19,6 +21,7 @@ public class User extends CrudModel<User> {
 
     public static final ModelFinder find = new ModelFinder();
 
+	public double fixRandomNumber = Math.random();
 	public String email;
 	public String passwordHash;
 	public String role;
@@ -37,11 +40,15 @@ public class User extends CrudModel<User> {
 	public String randomPasswordRecoveryString;
 	@Column(name="pwrecover_triggered")
 	public Timestamp randomPasswordRecoveryTriggerDate;
-	
+
 	@PrivateOwned
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<Ding> dings; 
 
+	public String variant(String featureName) {
+		return MvTest.get().variant(getFixRandomNumber(), featureName);
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -162,6 +169,14 @@ public class User extends CrudModel<User> {
 		this.dings = dings;
 	}
 
+	public double getFixRandomNumber() {
+		return fixRandomNumber;
+	}
+	
+	public void setFixRandomNumber(double fixRandomNumber) {
+		this.fixRandomNumber = fixRandomNumber;
+	}
+	
 	@Override
     public String label() {
         return email;

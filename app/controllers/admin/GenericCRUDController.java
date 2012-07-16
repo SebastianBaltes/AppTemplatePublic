@@ -1,6 +1,7 @@
 package controllers.admin;
 
 import models.Ding;
+import models.MvTestFeature;
 import models.User;
 import play.db.ebean.Transactional;
 import play.mvc.Controller;
@@ -13,8 +14,9 @@ public class GenericCRUDController extends Controller {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static RoutingCRUDController crudController = new RoutingCRUDController(
-			new DynamicCRUDController("/admin/ding", Ding.class, "Ding"),
-			new DynamicCRUDController("/admin/user", User.class, "Benutzer")
+			new DynamicCRUDController("/admin/user", User.class, "Benutzer"),
+			new DynamicCRUDController("/admin/mvTestFeature", MvTestFeature.class, "Multivarianten-Test-Feature"),
+			new DynamicCRUDController("/admin/ding", Ding.class, "Ding")
 	);
 
 	public static Result listAll(String crud) {
