@@ -3,6 +3,7 @@ package models;
 import global.MvTest;
 
 import java.sql.Timestamp;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,9 +20,11 @@ import com.avaje.ebean.annotation.PrivateOwned;
 @Table(name = "user_account")
 public class User extends CrudModel<User> {
 
+	private final static Random rnd = new Random(); 
+
     public static final ModelFinder find = new ModelFinder();
 
-	public double fixRandomNumber = Math.random();
+	public long fixRandomNumber = rnd.nextLong();
 	public String email;
 	public String passwordHash;
 	public String role;
@@ -169,11 +172,11 @@ public class User extends CrudModel<User> {
 		this.dings = dings;
 	}
 
-	public double getFixRandomNumber() {
+	public long getFixRandomNumber() {
 		return fixRandomNumber;
 	}
 	
-	public void setFixRandomNumber(double fixRandomNumber) {
+	public void setFixRandomNumber(long fixRandomNumber) {
 		this.fixRandomNumber = fixRandomNumber;
 	}
 	

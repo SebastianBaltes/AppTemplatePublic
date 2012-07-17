@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,8 @@ import com.avaje.ebean.annotation.PrivateOwned;
 @Entity
 public class MvTestFeature extends CrudModel<MvTestFeature> {
 
+	private final static Random rnd = new Random(); 
+	
 	public static final ModelFinder find = new ModelFinder();
 
 	@Constraints.Required
@@ -36,6 +39,8 @@ public class MvTestFeature extends CrudModel<MvTestFeature> {
 	@Column(length=1024) 
 	public String description;
 
+	public long fixRandomMask = rnd.nextLong();	
+	
 	@PrivateOwned
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "feature")
 	@OrderBy("index ASC")
@@ -60,6 +65,14 @@ public class MvTestFeature extends CrudModel<MvTestFeature> {
 		return getStartTime().compareTo(now)<=0 && now.compareTo(getEndTime())<=0; 
 	}
 	
+	public long getFixRandomMask() {
+		return fixRandomMask;
+	}
+
+	public void setFixRandomMask(long fixRandomMask) {
+		this.fixRandomMask = fixRandomMask;
+	}
+
 	@Override
 	public String label() {
 		return name;
@@ -122,19 +135,34 @@ public class MvTestFeature extends CrudModel<MvTestFeature> {
 		}
 	}
 
-	public MvTestVariant getVariantFor(double fixRandomNumber) {
-		if (fixRandomNumber<-0.0000000001d || fixRandomNumber>100.0000000001d ) {
-			throw new IllegalArgumentException("fixRandomNumber must be between 0 and 100 but is "+fixRandomNumber);
-		}
+	public MvTestVariant getVariantFor(long originalRandomNumber) {
+		double randomNumber = pseudoRandomNumber(originalRandomNumber);
 		double sumUntilNow = 0;
 		for (Iterator<MvTestVariant> i = variants.iterator(); i.hasNext();) {
 			MvTestVariant variant = i.next();
 			sumUntilNow+=variant.getPercent()/100.0d;
-			if (fixRandomNumber<=sumUntilNow || !i.hasNext()) {
+			if (randomNumber<=sumUntilNow || !i.hasNext()) {
 				return variant;
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Erzeugt eine neue "Pseudo-Zufallszahl" im Intervall [0.0,1.0[, die fest von randomNumber und fixRandomMask abhängt 
+	 * und die gleichverteilt ist, da randNumber und fixRandomMask gleichverteilt sind.
+	 * Im Prinzip wird randomNumber bezüglich fixRandomMask gehashed.
+	 * Wozu das ganze? Um auszuschließen, dass die Varianten unterschiedlicher Features zu den Usern korreliert sind  
+	 */
+	private double pseudoRandomNumber(long randomNumber) {
+		return Math.abs(randomNumber ^ fixRandomMask)/((double)Long.MAX_VALUE);
+	}
+	
+	/**
+	 * usefull for tests
+	 */
+	public long getFakeRandomNumberMatchingGivenPercentageFactor(double percentageFactor) {
+		return (long)(percentageFactor*Long.MAX_VALUE) ^ fixRandomMask;
 	}
 
 }

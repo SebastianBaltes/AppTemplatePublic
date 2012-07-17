@@ -13,6 +13,7 @@
 
   @crudForm() {
 
+    @hiddenField( f("fixRandomNumber") ) 
     @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
     @textarea( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
  	@inputTimestamp( f("startTime"), '_label -> "Start", disabledOrNot())
@@ -26,7 +27,7 @@
         @inputText(x("name"),disabledOrNot())(noLabels.noLabelsField,lang)
       </td>
       <td>
-        @inputNumber(x("percent"),disabledOrNot(), 'min->"0.0", 'max->"100.0", 'step->"0.1")(noLabels.noLabelsField,lang)
+        @inputNumber(x("percent"),disabledOrNot(), 'min->"0.0", 'max->"100.0", 'step->"0.001")(noLabels.noLabelsField,lang)
       </td>
     }
         

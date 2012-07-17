@@ -49,6 +49,7 @@ create table mv_test_feature (
   start_time                timestamp,
   end_time                  timestamp,
   description               varchar(1024),
+  fix_random_mask           bigint,
   last_update               timestamp not null,
   constraint pk_mv_test_feature primary key (id))
 ;
@@ -84,7 +85,7 @@ create table unter_ding (
 
 create table user_account (
   id                        bigint not null,
-  fix_random_number         double,
+  fix_random_number         bigint,
   email                     varchar(255),
   password_hash             varchar(255),
   role                      varchar(255),

@@ -33,7 +33,7 @@ public class MvTest {
 		return feature.isCurrentlyActive(); 
 	}
 	
-	public String variant(double fixRandomNumber, String featureName) {
+	public String variant(long fixRandomNumber, String featureName) {
 		MvTestFeature feature = features.get().get(featureName);
 		if (feature==null) {
 			return null;
