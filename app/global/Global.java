@@ -22,6 +22,8 @@ import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
+import authenticate.Authenticated;
+
 import com.avaje.ebean.Ebean;
 
 public class Global extends GlobalSettings {
@@ -34,7 +36,6 @@ public class Global extends GlobalSettings {
     public Action onRequest(final Request _request, final Method _actionMethod) {
         return new Action.Simple() {
             public Result call(Context ctx) throws Throwable {
-
             	final LogHttpRequest log = new LogHttpRequest();
             	log.setStartTime(System.currentTimeMillis());
             	log.setFromIP(null);
@@ -46,6 +47,7 @@ public class Global extends GlobalSettings {
             	
                 final Result result = delegate.call(ctx);
                 
+            	log.setUserId(ctx.session().get(Authenticated.SESSION_KEY_UUID));
             	log.setEndTime(System.currentTimeMillis());
             	log.save();
                 return result; 

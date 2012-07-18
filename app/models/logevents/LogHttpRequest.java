@@ -29,12 +29,14 @@ public class LogHttpRequest extends Model {
 	private Long startTime;
 	private Long endTime;
 	private String fromIP;
-
+	private String sessionID; 
+	private String userId;
+	
 	public LogHttpRequest() {
 	}
 
 	public LogHttpRequest(String _method, String _url, String _host, Integer _responseCode, String _userAgent,
-			String _referer, Long _startTime, Long _endTime, String _fromIP) {
+			String _referer, Long _startTime, Long _endTime, String _fromIP, String _sessionID, String _userId) {
 		method = _method;
 		url = _url;
 		host = _host;
@@ -44,6 +46,8 @@ public class LogHttpRequest extends Model {
 		startTime = _startTime;
 		endTime = _endTime;
 		fromIP = _fromIP;
+		sessionID = _sessionID;
+		userId = _userId;
 	}
 
 	public void setId(Long id) {
@@ -125,6 +129,22 @@ public class LogHttpRequest extends Model {
 	public void setFromIP(String _fromIP) {
 		fromIP = _fromIP;
 	}
+	
+	public String getSessionID() {
+		return sessionID;
+	}
+
+	public void setSessionID(String _sessionID) {
+		sessionID = _sessionID;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String _userId) {
+		userId = _userId;
+	}	
 
 	@Override
 	public String toString() {
