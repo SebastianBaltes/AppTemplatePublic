@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 import models.User;
 
 import org.junit.Assert;
@@ -118,6 +120,10 @@ public class TestHelper {
 
 	public static void log(final String msg) {
 		System.err.println("_______________________" + msg);
+	}
+	
+	public static void __debug(final String msg) {
+		JOptionPane.showMessageDialog(null, msg);
 	}
 
 	public static void sleep(final long ms) {

@@ -58,7 +58,7 @@ create table mv_test_variant (
   id                        bigint not null,
   index                     integer,
   name                      varchar(255),
-  percent                   float,
+  percent                   double,
   feature_id                bigint,
   last_update               timestamp not null,
   constraint pk_mv_test_variant primary key (id))
@@ -66,7 +66,7 @@ create table mv_test_variant (
 
 create table raw_image (
   id                        bigint not null,
-  image                     bytea,
+  image                     blob,
   width                     integer,
   height                    integer,
   mimetype                  varchar(255),
@@ -125,46 +125,50 @@ create sequence unter_ding_seq;
 
 create sequence user_account_seq;
 
-alter table db_image add constraint fk_db_image_image_1 foreign key (image_id) references raw_image (id);
+alter table db_image add constraint fk_db_image_image_1 foreign key (image_id) references raw_image (id) on delete restrict on update restrict;
 create index ix_db_image_image_1 on db_image (image_id);
-alter table db_image add constraint fk_db_image_thumbnail_2 foreign key (thumbnail_id) references raw_image (id);
+alter table db_image add constraint fk_db_image_thumbnail_2 foreign key (thumbnail_id) references raw_image (id) on delete restrict on update restrict;
 create index ix_db_image_thumbnail_2 on db_image (thumbnail_id);
-alter table ding add constraint fk_ding_user_3 foreign key (user_id) references user_account (id);
+alter table ding add constraint fk_ding_user_3 foreign key (user_id) references user_account (id) on delete restrict on update restrict;
 create index ix_ding_user_3 on ding (user_id);
-alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id);
+alter table ding add constraint fk_ding_image_4 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
 create index ix_ding_image_4 on ding (image_id);
-alter table mv_test_variant add constraint fk_mv_test_variant_feature_5 foreign key (feature_id) references mv_test_feature (id);
+alter table mv_test_variant add constraint fk_mv_test_variant_feature_5 foreign key (feature_id) references mv_test_feature (id) on delete restrict on update restrict;
 create index ix_mv_test_variant_feature_5 on mv_test_variant (feature_id);
-alter table unter_ding add constraint fk_unter_ding_ding_6 foreign key (ding_id) references ding (id);
+alter table unter_ding add constraint fk_unter_ding_ding_6 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
 create index ix_unter_ding_ding_6 on unter_ding (ding_id);
-alter table unter_ding add constraint fk_unter_ding_image_7 foreign key (image_id) references db_image (id);
+alter table unter_ding add constraint fk_unter_ding_image_7 foreign key (image_id) references db_image (id) on delete restrict on update restrict;
 create index ix_unter_ding_image_7 on unter_ding (image_id);
 
 
 
-alter table ding_user_account add constraint fk_ding_user_account_ding_01 foreign key (ding_id) references ding (id);
+alter table ding_user_account add constraint fk_ding_user_account_ding_01 foreign key (ding_id) references ding (id) on delete restrict on update restrict;
 
-alter table ding_user_account add constraint fk_ding_user_account_user_acc_02 foreign key (user_account_id) references user_account (id);
+alter table ding_user_account add constraint fk_ding_user_account_user_acc_02 foreign key (user_account_id) references user_account (id) on delete restrict on update restrict;
 
 # --- !Downs
 
-drop table if exists db_image cascade;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists ding cascade;
+drop table if exists db_image;
 
-drop table if exists ding_user_account cascade;
+drop table if exists ding;
 
-drop table if exists log_httpRequest cascade;
+drop table if exists ding_user_account;
 
-drop table if exists mv_test_feature cascade;
+drop table if exists log_httpRequest;
 
-drop table if exists mv_test_variant cascade;
+drop table if exists mv_test_feature;
 
-drop table if exists raw_image cascade;
+drop table if exists mv_test_variant;
 
-drop table if exists unter_ding cascade;
+drop table if exists raw_image;
 
-drop table if exists user_account cascade;
+drop table if exists unter_ding;
+
+drop table if exists user_account;
+
+SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists db_image_seq;
 

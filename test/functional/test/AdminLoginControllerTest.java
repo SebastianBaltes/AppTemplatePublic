@@ -1,25 +1,22 @@
 package functional.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import models.Role;
 import models.User;
 
 import org.junit.Test;
 
-
-
-public class SiteLoginControllerTest extends AbstractLoginControllerTest {
+public class AdminLoginControllerTest extends AbstractLoginControllerTest {
 
 	@Override
 	public String getControllerPath() {
-		return "/";
+		return "/admin/";
 	}
 	
 	@Override
 	public String getRedirPathOnLogout() {
-		return "/";
+		return "/admin";
 	}	
 	
 	@Test
@@ -27,8 +24,7 @@ public class SiteLoginControllerTest extends AbstractLoginControllerTest {
 		final User u = User.find.byEmail("test@test.test");
 		assertNotNull(u);
 		assertEquals(Role.user, u.getRole());
-		testValidLogin(u, "test");
+		assertInvalidPost(u.getEmail(), "test");
 	}
-
-
+	
 }
