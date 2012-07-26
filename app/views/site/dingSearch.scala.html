@@ -1,0 +1,77 @@
+@(searchForm : Form[search.DefaultSearchController.SearchForm], results : List[models.Ding], took: Float)
+
+@import controllers.site.routes 
+@import views.html.helper._ 
+@import scala.collection.JavaConversions._ 
+@import views.html.oc_helper._ 
+
+@import views.html.oc_helper.bootstrap2._ 
+
+
+@main() {
+<div class="container">
+  <div class="row">
+    <div class="span6 offset3">
+      <form class="form-horizontal" action="@routes.DingSearchController.search()" method="post">
+        <div class="page-header">
+          <div class="container">
+            <h1>
+              @global.Global.APP_NAME<small> Suche Ding</small>
+            </h1>
+          </div>
+        </div>
+        @flashmessages()
+        <fieldset>
+        
+            @inputText(
+    			searchForm("query"), 
+    			'_label -> "Suche", 
+    			'_help -> "",
+    			'_showConstraints -> false, 
+    			'placeholder -> "Ding", 
+    			'_icon -> "icon-search",
+    			'class -> "span2"
+    		)
+    		
+    		<div class="form-actions">
+    			<input class="btn btn-primary btn-large" type="submit" value="Suchen" />
+    		</div>
+        </fieldset>
+      </form>
+      @if(results != null) {
+      	@results.size() Ergebnisse @if(took != null) { in @took Sekunden }
+      	
+      	<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable" id="ding-search-result-table">
+	      	<thead>
+    		    <tr>
+      				<th class='sorting'>Name</th>
+				      <th class='sorting'>Beschreibung</th>
+				      <th class='sorting'>Special</th>
+				      <th class='sorting'>Preis</th>
+				      <th class='sorting'>Benutzer</th>
+				      <th class='sorting'>Datum</th>
+				      <th class='sorting'>Zeitpunkt</th>
+		        </tr>
+      		</thead>
+	      @for(ding <- results) {
+	        <tr>
+		      <td><a href="#">@ding.name</a></td>
+		      <td>@ding.description</td>
+		      <td>@fmt(ding.special)</td>
+		      <td>@fmt(ding.price)</td> 
+		      <td>@elvis[User](ding.user,_.getEmail())</td>
+		      <td>@fmt(ding.someDate)</td> 
+		      <td>@fmt(ding.someTime)</td> 
+	        </tr>
+	      }
+	      </table>
+	  }
+    </div>
+    <script>
+		$(document).ready(function() {
+			$("#query").focus();
+		});
+	</script>
+  </div>
+</div>
+}

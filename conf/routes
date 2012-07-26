@@ -76,3 +76,9 @@ GET     /assets/DataTable/*file				      						controllers.Assets.at(path="/publ
 GET     /assets/blueimp-jQuery-File-Upload/*file				      	controllers.Assets.at(path="/public/blueimp-jQuery-File-Upload", file)
 GET     /assets/aFarkas-webshim/*file				      				controllers.Assets.at(path="/public/aFarkas-webshim", file)
 GET     /assets/rabihkodeih-bootstrap-transfer-modified/*file		    controllers.Assets.at(path="/public/rabihkodeih-bootstrap-transfer-modified", file)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+# Searching
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+GET     /search/ding													controllers.site.DingSearchController.index()
+POST    /search/ding													controllers.site.DingSearchController.search()
