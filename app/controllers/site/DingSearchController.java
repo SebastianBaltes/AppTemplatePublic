@@ -28,6 +28,8 @@ import search.entities.DingListener;
 
 public class DingSearchController extends DefaultSearchController {
 
+	public static final int MAX_RESULTS = 200;
+	
 	public static Result index() {
 		return ok(views.html.site.dingSearch.render(form, null, null));
 	}
@@ -41,23 +43,25 @@ public class DingSearchController extends DefaultSearchController {
 		}
 
 		final SearchForm myForm = bindForm.get();
-		final long t1 = System.currentTimeMillis();
+		if (myForm.maxRows != null && myForm.maxRows > MAX_RESULTS) {
+			myForm.maxRows = MAX_RESULTS;
+		}
 		
+		final long t1 = System.currentTimeMillis();
 		final List<Long> idList = find(myForm.query, myForm.maxRows == null ? DEFAULT_MAX_ROWS : myForm.maxRows,
 				DingListener.INSTANCE, DingListener.INSTANCE.fieldNames());
 		
 		final long t2 = System.currentTimeMillis();
 		Logger.info("Found " + idList.size() + " entries for query=" + myForm.query);
 		
-		//FIXME: add find(id ...) method
+		final Float took = (t2 - t1) / 1000F;
+		
 		final List<Ding> dingList = new ArrayList<Ding>(idList.size());
-		for(Long id : idList) {
+		for (final Long id : idList) {
 			final Ding ding = Ding.find.byId(id);
-			if(ding == null) continue;
+			if (ding == null) continue;
 			dingList.add(ding);
 		}
-		
-		final Float took = (t2 - t1) / 1000F;
 		return ok(views.html.site.dingSearch.render(bindForm, dingList, took));
 	}
 }

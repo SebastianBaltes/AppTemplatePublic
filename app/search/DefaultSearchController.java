@@ -8,6 +8,10 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryParser.QueryParser.Operator;
+import org.apache.lucene.search.DocIdSet;
+import org.apache.lucene.search.DocIdSetIterator;
+import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -45,6 +49,7 @@ public class DefaultSearchController extends Controller {
 					entityConfig.getAnalyser());
 
 			parser.setAllowLeadingWildcard(true);
+			parser.setDefaultOperator(Operator.AND);
 
 			final Query query = parser.parse(q);
 			final TopDocs top = searcher.search(query, null, maxRows);

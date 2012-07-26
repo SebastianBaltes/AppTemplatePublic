@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Collection;
 import java.util.List;
 
 import play.db.ebean.Model.Finder;
@@ -34,6 +35,11 @@ public class CrudFinder<T extends CrudModel<T>> {
     public T byId(final Long id) {
         return finder.byId(id);
     }
+    
+    public List<T> byIds(final Collection<Long> ids) {
+        return finder.where().in("id", ids).findList();
+    }
+    
 
     public T byLabel(final String label) {
         return finder.where().eq(labelDbFieldName, label).findUnique();

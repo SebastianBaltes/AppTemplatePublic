@@ -5,13 +5,10 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-
 import models.User;
 import models.logevents.LogHttpRequest;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -21,9 +18,7 @@ import play.mvc.Action;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
 import play.mvc.Result;
-
 import authenticate.Authenticated;
-
 import com.avaje.ebean.Ebean;
 
 public class Global extends GlobalSettings {

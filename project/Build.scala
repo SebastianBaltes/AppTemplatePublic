@@ -15,7 +15,10 @@ object ApplicationBuild extends Build {
         "commons-io" % "commons-io" % "2.3", 
         "org.apache.commons" % "commons-email" % "1.1",
         "funcy" % "funcy_2.9.1" % "0.1" % "test",
-        "org.jsoup" % "jsoup" % "1.6.2" % "test"
+        "org.jsoup" % "jsoup" % "1.6.2" % "test", 
+        
+        // modules
+        "search" % "search_2.9.1" % "1.0-SNAPSHOT"
     )
 
     // Only compile the bootstrap bootstrap.less file and any other *.less file in the stylesheets directory 
