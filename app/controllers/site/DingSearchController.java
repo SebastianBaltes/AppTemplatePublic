@@ -16,6 +16,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 
+import authenticate.Authenticated;
+
 import de.objectcode.play2.plugin.search.EntityConfig;
 import de.objectcode.play2.plugin.search.SearchPlugin;
 
