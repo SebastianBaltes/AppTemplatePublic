@@ -42,7 +42,7 @@ public class LogVariantEvent extends CrudModel<LogVariantEvent> {
 	
 	@Override
 	public String label() {
-		return String.valueOf(id);
+		return "info";
 	}
 	@Override
 	public CrudFinder<LogVariantEvent> getCrudFinder() {
@@ -83,7 +83,7 @@ public class LogVariantEvent extends CrudModel<LogVariantEvent> {
 
 	public static class ModelFinder extends CrudFinder<LogVariantEvent> {
 		public ModelFinder() {
-			super(new Finder<Long, LogVariantEvent>(Long.class, LogVariantEvent.class),"id");
+			super(new Finder<Long, LogVariantEvent>(Long.class, LogVariantEvent.class),"info");
 		}
 	}
 	

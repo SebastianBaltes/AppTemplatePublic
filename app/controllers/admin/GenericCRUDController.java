@@ -3,6 +3,7 @@ package controllers.admin;
 import models.Ding;
 import models.MvTestFeature;
 import models.User;
+import models.logevents.LogVariantEvent;
 import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,7 +17,8 @@ public class GenericCRUDController extends Controller {
 	private static RoutingCRUDController crudController = new RoutingCRUDController(
 			new DynamicCRUDController("/admin/user", User.class, "Benutzer"),
 			new DynamicCRUDController("/admin/mvTestFeature", MvTestFeature.class, "Multivarianten-Test-Feature"),
-			new DynamicCRUDController("/admin/ding", Ding.class, "Ding")
+			new DynamicCRUDController("/admin/ding", Ding.class, "Ding"),
+			new DynamicCRUDController("/admin/logVariantEvent", LogVariantEvent.class, "Varianten Logs")
 	);
 
 	public static Result listAll(String crud) {

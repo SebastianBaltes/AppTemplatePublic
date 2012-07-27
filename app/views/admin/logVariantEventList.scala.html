@@ -1,0 +1,27 @@
+@(implicit currentPage: com.avaje.ebean.Page[models.logevents.LogVariantEvent], clist: CrudListState)
+
+@import controllers.admin.routes 
+@import views.html.oc_helper.bootstrap2._
+@import views.html.oc_helper._ 
+
+@loggedin_main() {
+
+  @crudList() {
+      @header("user.name", "Benutzer")
+      @header("mvTestVariant.feature.name", "Feature")
+      @header("mvTestVariant.name", "Variante")
+      @header("info", "Info")
+      @header("date", "Datum")
+  } { 
+      @for(v <- currentPage.getList) {
+        <tr>
+	      <td>@{if (v.getUser != null) v.getUser.getEmail else ""}</td>
+	      <td>@v.getMvTestVariant.getFeature.getName</td>
+	      <td>@v.getMvTestVariant.getName</td>
+	      <td>@v.getInfo</td>
+	      <td>@v.getDate</td>	      
+        </tr>
+      }
+  }
+}  
+
