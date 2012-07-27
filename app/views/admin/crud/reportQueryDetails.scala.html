@@ -1,0 +1,31 @@
+@(implicit cDetails: CrudDetailsState, f: Form[ReportQuery], viewType: controllers.ViewType)
+
+@import play.libs.Scala._ 
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
+@import views.html.helper._
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+@import models._
+
+@views.html.admin.loggedin_main() {
+
+  @crudForm() {
+
+    @inputText( f("name"), '_label -> "Name", disabledOrNot() ) 
+    @textarea( f("description"), '_label -> "Beschreibung", disabledOrNot() ) 
+    @textarea( f("query"), '_label -> "Abfrage", disabledOrNot() ) 
+  
+    @crudToManyTable("Parameter","queryParameters") {
+      <th>Name</th>
+      <th>% Beschreibung </th>
+    } { x: Field =>
+      <td>
+        @inputText(x("name"),disabledOrNot())(noLabels.noLabelsField,lang)
+      </td>
+      <td>
+        @textarea(x("description"),disabledOrNot())(noLabels.noLabelsField,lang)
+      </td>
+    }
+  }
+}

@@ -56,14 +56,20 @@ GET     /admin/image/:id	 											controllers.admin.DbImageController.image(i
 POST    /admin/image		 											controllers.admin.DbImageController.upload()  
 
 # Generic CRUD
-GET     /admin/:crud/listAll											controllers.admin.GenericCRUDController.listAll(crud)
-GET     /admin/:crud/list   											controllers.admin.GenericCRUDController.list(crud,newPage:Int ?= 0, rowsToShow:Int ?= 20, sortBy ?= null, order ?= "asc", filter ?= "")
-GET     /admin/:crud/create										    	controllers.admin.GenericCRUDController.create(crud)
-POST    /admin/:crud/update   											controllers.admin.GenericCRUDController.update(crud)  
-POST    /admin/:crud/save    											controllers.admin.GenericCRUDController.save(crud)  
-GET     /admin/:crud/edit/:id   										controllers.admin.GenericCRUDController.edit(crud,id: Long)  
-GET     /admin/:crud/delete/:id    	 		    						controllers.admin.GenericCRUDController.delete(crud,id: Long)
-GET     /admin/:crud/:id	   											controllers.admin.GenericCRUDController.view(crud,id: Long)  
+GET     /admin/crud/:crud/listAll										controllers.admin.GenericCRUDController.listAll(crud)
+GET     /admin/crud/:crud/list   										controllers.admin.GenericCRUDController.list(crud,newPage:Int ?= 0, rowsToShow:Int ?= 20, sortBy ?= null, order ?= "asc", filter ?= "")
+GET     /admin/crud/:crud/create								    	controllers.admin.GenericCRUDController.create(crud)
+POST    /admin/crud/:crud/update   										controllers.admin.GenericCRUDController.update(crud)  
+POST    /admin/crud/:crud/save    										controllers.admin.GenericCRUDController.save(crud)  
+GET     /admin/crud/:crud/edit/:id   									controllers.admin.GenericCRUDController.edit(crud,id: Long)  
+GET     /admin/crud/:crud/delete/:id    	    						controllers.admin.GenericCRUDController.delete(crud,id: Long)
+GET     /admin/crud/:crud/:id	   										controllers.admin.GenericCRUDController.view(crud,id: Long)  
+
+
+#Reporting
+GET		/admin/reports													controllers.admin.ReportingController.index()
+GET		/admin/reports/info/:id											controllers.admin.ReportingController.info(id: Long)
+GET 	/admin/reports/query											controllers.admin.ReportingController.report()
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Common

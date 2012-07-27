@@ -1,0 +1,70 @@
+@(reportList: List[models.ReportQuery], f: Form[ReportQuery])
+
+@import play.libs.Scala._ 
+@import scala.collection.JavaConversions._ 
+@import controllers.admin.routes 
+@import views.html.helper._
+@import views.html.oc_helper._ 
+@import views.html.oc_helper.bootstrap2._ 
+@import models._
+
+
+@loggedin_main() {
+
+
+	<form method="get" action="@routes.ReportingController.report()">
+		<select id="chooseReport" name="banane">
+			<option value="">Bitte Report wählen</option>
+			@for(r <- ReportQuery.find.all()) {
+				<option value="@r.getId">@r.getName</option>
+			}
+		</select>
+		
+		<div id="reportDescId"></div>
+		
+		<div id="parameterDiv">
+		</div>
+		
+		<input id="submitButton" type="submit" value="generieren" />
+	</form>		
+}
+
+	<script>
+		$(document).ready(function() {
+			doHide();
+			$("#chooseReport").change(function() {
+				var id = $('#chooseReport').val();
+				if (typeof id === 'undefined' || id === '') {
+					doHide();
+					return;
+				}
+				
+				$.ajax({
+					type: "GET", 
+					url: "/admin/reports/info/" + id,
+					success: function(data) {
+						buildInfo(data);
+						buildParameter(data);
+					}
+				});
+			});
+		});
+
+		function doHide()  {
+			$('#submitButton').hide();
+			$('#reportDescId').hide();
+			$('#parameterDiv').hide();
+		}
+		
+		function buildInfo(data) {
+			// FIXME: render Report info elements
+			$('#reportDescId').html(data.description);
+			$('#reportDescId').show();
+			$('#submitButton').show();
+		}
+		
+		
+		function buildParameter(data) {
+		}
+
+	</script>

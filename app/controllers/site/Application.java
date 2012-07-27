@@ -1,5 +1,10 @@
 package controllers.site;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import models.ReportQuery;
+import models.ReportQueryParameter;
 import authenticate.site.SiteSecured;
 import play.mvc.Controller;
 import play.mvc.Result;

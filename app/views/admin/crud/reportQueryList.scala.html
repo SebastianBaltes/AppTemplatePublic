@@ -1,0 +1,22 @@
+@(implicit currentPage: com.avaje.ebean.Page[ReportQuery], clist: CrudListState)
+
+@import controllers.admin.routes 
+@import views.html.oc_helper.bootstrap2._
+@import views.html.oc_helper._
+
+@views.html.admin.loggedin_main() {
+
+  @crudList() {
+      @header("name", "Name")
+      @header("description", "Beschreibung")
+      @header("query", "Abfrage")
+  } { 
+      @for(q <- currentPage.getList) {
+        <tr>
+          <td><a href="@clist.crudBaseUrl/@q.id">@q.getName</a></td>
+	      <td>@q.getDescription</td>
+	      <td>@q.getQuery</td>
+        </tr>
+      }
+  }
+}  
