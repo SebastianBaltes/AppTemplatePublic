@@ -15,7 +15,7 @@
   } { 
       @for(v <- currentPage.getList) {
         <tr>
-	      <td>@{if (v.getUser != null) v.getUser.getEmail else ""}</td>
+	      <td>@{if (v.getUserId != null) User.find.byId(v.getUserId).email else ""}</td>
 	      <td>@v.getMvTestVariant.getFeature.getName</td>
 	      <td>@v.getMvTestVariant.getName</td>
 	      <td>@v.getInfo</td>

@@ -69,7 +69,7 @@ GET     /admin/crud/:crud/:id	   										controllers.admin.GenericCRUDControll
 #Reporting
 GET		/admin/reports													controllers.admin.ReportingController.index()
 GET		/admin/reports/info/:id											controllers.admin.ReportingController.info(id: Long)
-GET 	/admin/reports/query											controllers.admin.ReportingController.report()
+GET 	/admin/reports/query/											controllers.admin.ReportingController.report()
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # Common

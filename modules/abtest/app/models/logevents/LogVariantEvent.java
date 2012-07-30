@@ -11,7 +11,6 @@ import play.data.validation.Constraints;
 import models.CrudFinder;
 import models.CrudModel;
 import models.MvTestVariant;
-import models.User;
 
 @SuppressWarnings("serial")
 @Entity
@@ -20,8 +19,7 @@ public class LogVariantEvent extends CrudModel<LogVariantEvent> {
 	
 	public static final ModelFinder find = new ModelFinder();
 	
-	@ManyToOne
-	private User user; 
+	private Long userId;
 	@Constraints.Required
 	@ManyToOne
 	private MvTestVariant mvTestVariant;
@@ -33,8 +31,8 @@ public class LogVariantEvent extends CrudModel<LogVariantEvent> {
 	public LogVariantEvent() {
 	}
 
-	public LogVariantEvent(final User user, final MvTestVariant mvTestVariant, final String info) {
-		this.user = user; 
+	public LogVariantEvent(final Long userId, final MvTestVariant mvTestVariant, final String info) {
+		this.userId = userId; 
 		this.mvTestVariant = mvTestVariant;
 		this.info = info;
 		date = new Timestamp(System.currentTimeMillis());
@@ -49,12 +47,12 @@ public class LogVariantEvent extends CrudModel<LogVariantEvent> {
 		return find;
 	} 
 	
-	public User getUser() {
-		return user;
+	public Long getUserId() {
+		return userId;
 	}
 	
-	public void setUser(User _user) {
-		user = _user;
+	public void setUserId(Long _userId) {
+		userId = _userId;
 	}
 
 	public MvTestVariant getMvTestVariant() {

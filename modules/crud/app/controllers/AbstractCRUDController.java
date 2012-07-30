@@ -1,14 +1,11 @@
 package controllers;
 
-import java.util.Map;
-
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 import com.avaje.ebean.Page;
 
 import models.CrudFinder;
 import models.CrudModel;
-import models.Ding;
 import play.Logger;
 import play.api.templates.Html;
 import play.data.Form;
