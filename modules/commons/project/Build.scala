@@ -4,11 +4,11 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-    val appName         = "crud-view"
+    val appName         = "commons"
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "crud" % "crud_2.9.1" % "1.0-SNAPSHOT"
+      // Add your project dependencies here,
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

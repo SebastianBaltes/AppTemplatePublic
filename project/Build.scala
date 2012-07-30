@@ -19,7 +19,6 @@ object ApplicationBuild extends Build {
         
         // modules
         "search" % "search_2.9.1" % "1.0-SNAPSHOT",
-        "crud" % "crud_2.9.1" % "1.0-SNAPSHOT",
         "crud-view" % "crud-view_2.9.1" % "1.0-SNAPSHOT",
         "abtest" % "abtest_2.9.1" % "1.0-SNAPSHOT"
     )
