@@ -8,7 +8,7 @@ import java.util.Random;
 
 import models.MvTestFeature;
 import models.MvTestVariant;
-import models.User;
+//import models.User;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import org.junit.Test;
 //import funcy.FunctionalTest;
 import global.MvTest;
 
-public class MvTestTest extends FunctionalTest {
+public class MvTestTest { // extends FunctionalTest {
 
 	public static MvTestFeature feature0;
 	
@@ -79,18 +79,18 @@ public class MvTestTest extends FunctionalTest {
 		return feature0.getFakeRandomNumberMatchingGivenPercentageFactor(percentFactor);
 	}
 
-	@Test
-	public void testUser() throws Exception {
-		User u1 = new User();
-		User u2 = new User();
-		assertTrue(u1.getFixRandomNumber()!=u2.getFixRandomNumber());
-		u1.setFixRandomNumber(fake(0.143473));
-		assertEquals(null,u1.variant("feature1"));
-		assertEquals("feature0Variant0",u1.variant("feature0"));
-		assertEquals("feature0Variant0",u1.variant("feature0"));
-		u1.setFixRandomNumber(fake(0.343473));
-		assertEquals("feature0Variant1",u1.variant("feature0"));
-	}
+//	@Test
+//	public void testUser() throws Exception {
+//		User u1 = new User();
+//		User u2 = new User();
+//		assertTrue(u1.getFixRandomNumber()!=u2.getFixRandomNumber());
+//		u1.setFixRandomNumber(fake(0.143473));
+//		assertEquals(null,u1.variant("feature1"));
+//		assertEquals("feature0Variant0",u1.variant("feature0"));
+//		assertEquals("feature0Variant0",u1.variant("feature0"));
+//		u1.setFixRandomNumber(fake(0.343473));
+//		assertEquals("feature0Variant1",u1.variant("feature0"));
+//	}
 
 	@Test
 	public void testActive() throws Exception {
