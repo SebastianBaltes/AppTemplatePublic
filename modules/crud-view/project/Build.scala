@@ -8,6 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
+      "commons" % "commons_2.9.1" % "1.0-SNAPSHOT",
       "crud" % "crud_2.9.1" % "1.0-SNAPSHOT"
     )
 

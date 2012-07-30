@@ -18,6 +18,7 @@ object ApplicationBuild extends Build {
         "org.jsoup" % "jsoup" % "1.6.2" % "test", 
         
         // modules
+        "commons" % "commons_2.9.1" % "1.0-SNAPSHOT",
         "search" % "search_2.9.1" % "1.0-SNAPSHOT",
         "crud-view" % "crud-view_2.9.1" % "1.0-SNAPSHOT",
         "abtest" % "abtest_2.9.1" % "1.0-SNAPSHOT"
