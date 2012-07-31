@@ -40,9 +40,8 @@ public class DefaultSearchController extends Controller {
 	protected static List<Long> find(final String q, final int maxRows, final EntityConfig entityConfig,
 		final String[] searchFields) throws IOException, ParseException {
 		
-		IndexReader reader = null;
+		IndexReader reader = IndexReader.open(SearchPlugin.Search.get().getDirectory());
 		try {
-			reader = IndexReader.open(SearchPlugin.Search.get().getDirectory());
 			final IndexSearcher searcher = new IndexSearcher(reader);
 
 			final QueryParser parser = new MultiFieldQueryParser(entityConfig.getVersion(), searchFields,
