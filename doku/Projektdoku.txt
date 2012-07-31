@@ -2,3 +2,24 @@ Heroku URL: http://radiant-dawn-1264.herokuapp.com/
 
 Github URL: https://github.com/SebastianBaltesObjectCode/AppTemplatePublic.git
 
+Module übersetzen
+-----------------
+
+1. Zuvor in jedes Unterprojekt gehen (Ordner modules)
+
+play clean compile publish-local
+
+	Reihenfolge:
+
+	1. commons
+	2. crud
+	3. crud-view
+	4. abtest
+	5. search
+	
+Dann das Hauptprojekt mittels
+
+play ~run
+
+	
+	
